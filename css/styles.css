@@ -1,15 +1,19 @@
-body{margin:0;font-family:system-ui;background:#fff;color:#0b2a58}
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Baloo+2:wght@400;700&display=swap');
+
+body{margin:0;font-family:'Baloo 2',system-ui;background:#fff;color:#0b2a58}
 
 .topbar{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;padding:14px 20px;background:white;z-index:10;border-bottom:3px solid #ffd21f}
-.brand{font-weight:900;font-size:24px;color:#0077b6}
+.logo-wordmark{font-family:'Lobster',cursive;font-size:32px;color:#0077b6}
+.logo-wordmark span:first-child{color:#ffd21f}
+
 .navlinks a{margin-left:18px;font-weight:700}
 
-.hero{height:100vh;background:url("../assets/images/Tropical beach with palm trees and ship.png") center/cover no-repeat;display:flex;align-items:center;position:relative}
-.hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,255,255,.85),rgba(255,255,255,.3))}
-.hero-content{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:30px;max-width:1100px;margin:auto;padding:120px 20px}
-.banner-card{background:url("../assets/images/Youtube banner.png") center/contain no-repeat;height:260px}
-.hero-text h1{font-size:42px;margin:10px 0}
-.hero-buttons{margin-top:15px}
+.hero{height:90vh;background:url("../assets/images/Tropical beach with palm trees and ship.png") center/cover no-repeat;display:flex;align-items:center;position:relative}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,255,255,.85),rgba(255,255,255,.2))}
+.hero-content{position:relative;max-width:900px;margin:auto;padding:120px 20px}
+.hero-text h1{font-family:'Lobster';font-size:48px;line-height:1.1}
+.hero-text h1 span{display:block}
+
 .button{padding:12px 20px;border-radius:25px;margin-right:10px;font-weight:700}
 .primary{background:#ffd21f}
 .secondary{background:#0077b6;color:white}
@@ -17,20 +21,18 @@ body{margin:0;font-family:system-ui;background:#fff;color:#0b2a58}
 .section{padding:80px 20px}
 .wrap{max-width:1100px;margin:auto}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:40px}
-.yellow-section{background:#fff4c9}
+.vibe-section{background:url("https://source.unsplash.com/1200x800/?cruise,deck") center/cover no-repeat;color:white}
 .section-kicker{font-weight:900;color:#ff7a18;text-transform:uppercase}
 
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.flavor-card{background:white;padding:20px;border-radius:20px;box-shadow:0 10px 20px rgba(0,0,0,.1)}
+.flavor-card{border-radius:20px;color:white;min-height:220px;display:flex;align-items:end;padding:20px;background-size:cover;background-position:center}
+.ship-card{background-image:url('https://source.unsplash.com/800x600/?cruise,ship')}
+.gear-card{background-image:url('https://source.unsplash.com/800x600/?camera,travel')}
+.casino-card{background-image:url('https://source.unsplash.com/800x600/?casino,ship')}
 
 .mark-section{background:#f0fbff}
 .mark-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
-.bio-photo{background:url("../assets/images/Bio shot.JPG") center/cover no-repeat;height:420px;border-radius:20px}
-.tagline{font-weight:900;margin-top:10px}
-
-.youtube-section{background:#fff}
-.video-placeholder{background:#eef7ff;padding:40px;border-radius:20px;text-align:center}
-.video-placeholder i{font-size:50px;color:red}
+.bio-img{width:100%;border-radius:20px;object-fit:contain}
 
 .report-section{background:url("../assets/images/Tropical beach with palm trees and ship.png") center/cover no-repeat}
 .report-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
