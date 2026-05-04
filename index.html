@@ -3,79 +3,173 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Still Afloat Cruising | Your Cruise News & Tips</title>
+  <meta name="description" content="Still Afloat Cruising helps travelers plan better cruises with practical tips, honest planning advice, and cruise-day stories.">
+  <title>Still Afloat Cruising | Cruise Smarter. Laugh More. Stay Afloat.</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="./css/styles.css">
 </head>
-<body class="bg-blue-50 text-gray-800">
+<body class="bg-slate-950 text-white">
 
-  <!-- NAV -->
-  <nav class="bg-white shadow-md sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <img src="./assets/images/still_afloat_transparent.png" alt="Still Afloat Logo" class="h-12">
-        <div>
-          <span class="text-3xl font-bold text-yellow-500">Still</span>
-          <span class="text-3xl font-bold text-blue-600">Afloat</span>
+  <nav class="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-slate-950/75 backdrop-blur-xl">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-3">
+      <a href="#top" class="flex items-center gap-3">
+        <img src="./assets/images/still_afloat_transparent.png" alt="Still Afloat logo" class="h-14 w-auto drop-shadow-xl">
+        <div class="leading-tight">
+          <p class="text-lg font-black tracking-wide text-white">Still Afloat</p>
+          <p class="text-xs uppercase tracking-[0.35em] text-cyan-200">Cruising</p>
         </div>
+      </a>
+      <div class="hidden items-center gap-8 text-sm font-semibold text-slate-200 md:flex">
+        <a href="#plan" class="hover:text-amber-300">Plan</a>
+        <a href="#watch" class="hover:text-amber-300">Watch</a>
+        <a href="#report" class="hover:text-amber-300">Cruise Report</a>
+        <a href="#about" class="hover:text-amber-300">About</a>
       </div>
-      <div class="flex gap-8 text-lg">
-        <a href="#news" class="hover:text-yellow-500">Cruise News</a>
-        <a href="#weather" class="hover:text-yellow-500">Weather</a>
-        <a href="#youtube" class="hover:text-yellow-500">Videos</a>
-        <a href="#" class="hover:text-yellow-500">Tips & Blog</a>
-      </div>
+      <a href="#report" class="rounded-full bg-amber-300 px-5 py-2 text-sm font-black text-slate-950 shadow-lg shadow-amber-500/20 hover:bg-amber-200">Get Updates</a>
     </div>
   </nav>
 
-  <!-- HERO -->
-  <header class="hero-bg h-screen flex items-center text-white">
-    <div class="max-w-4xl mx-auto text-center px-6">
-      <img src="./assets/images/still_afloat_transparent.png" alt="Logo" class="mx-auto h-48 mb-8">
-      <h1 class="text-6xl font-bold mb-4">Still Afloat Cruising</h1>
-      <p class="text-2xl mb-8">Fun, knowledgeable cruise news, weather, and tips for your next adventure!</p>
-      <a href="#news" class="bg-yellow-500 hover:bg-yellow-600 text-black px-10 py-4 rounded-full text-xl font-semibold inline-block">Latest Cruise News</a>
-    </div>
-  </header>
+  <main id="top">
+    <section class="hero-shell relative isolate flex min-h-screen items-center overflow-hidden px-5 pt-28">
+      <div class="absolute inset-0 -z-20 bg-[radial-gradient(circle_at_20%_10%,rgba(34,211,238,.35),transparent_28%),radial-gradient(circle_at_80%_30%,rgba(251,191,36,.25),transparent_25%),linear-gradient(135deg,#061826_0%,#0f3b4f_45%,#082f49_100%)]"></div>
+      <div class="wave-glow absolute bottom-0 left-0 right-0 -z-10 h-48"></div>
+      <div class="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.1fr_.9fr]">
+        <div>
+          <div class="mb-6 inline-flex items-center gap-3 rounded-full border border-cyan-200/25 bg-white/10 px-4 py-2 text-sm font-semibold text-cyan-100 shadow-2xl backdrop-blur">
+            <i class="fa-solid fa-anchor text-amber-300"></i>
+            Cruise planning, ship life, and real-world lessons from the waterline.
+          </div>
+          <h1 class="max-w-4xl text-5xl font-black leading-[0.95] tracking-tight md:text-7xl lg:text-8xl">
+            Cruise smarter.<br>
+            Laugh more.<br>
+            <span class="text-amber-300">Stay Afloat.</span>
+          </h1>
+          <p class="mt-7 max-w-2xl text-xl leading-8 text-cyan-50/85">
+            Still Afloat is a cruise-planning and travel brand built for people who want the honest version: what to book, what to skip, what to pack, and how to enjoy the ride without getting buried in the details.
+          </p>
+          <div class="mt-9 flex flex-col gap-4 sm:flex-row">
+            <a href="#plan" class="rounded-full bg-amber-300 px-8 py-4 text-center text-base font-black text-slate-950 shadow-xl shadow-amber-500/25 hover:bg-amber-200">Start Planning</a>
+            <a href="#watch" class="rounded-full border border-white/25 bg-white/10 px-8 py-4 text-center text-base font-bold text-white backdrop-blur hover:bg-white/20">See What’s Coming</a>
+          </div>
+          <div class="mt-10 grid max-w-2xl grid-cols-3 gap-3 text-center">
+            <div class="rounded-3xl border border-white/10 bg-white/10 p-4 backdrop-blur">
+              <p class="text-3xl font-black text-amber-300">20+</p>
+              <p class="text-xs uppercase tracking-widest text-cyan-100">Years Cruising</p>
+            </div>
+            <div class="rounded-3xl border border-white/10 bg-white/10 p-4 backdrop-blur">
+              <p class="text-3xl font-black text-amber-300">12</p>
+              <p class="text-xs uppercase tracking-widest text-cyan-100">Years Aboard</p>
+            </div>
+            <div class="rounded-3xl border border-white/10 bg-white/10 p-4 backdrop-blur">
+              <p class="text-3xl font-black text-amber-300">1</p>
+              <p class="text-xs uppercase tracking-widest text-cyan-100">Honest Voice</p>
+            </div>
+          </div>
+        </div>
 
-  <!-- CRUISE NEWS SECTION -->
-  <section id="news" class="max-w-7xl mx-auto px-6 py-16">
-    <h2 class="text-5xl font-bold text-center mb-4 text-blue-600">Cruise News</h2>
-    <p class="text-center text-xl mb-12 text-gray-600">Last 7 days — straight from the best sources & cruise lines</p>
-    
-    <div id="news-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-      <p class="col-span-full text-center text-gray-500">Loading latest cruise news...</p>
-    </div>
-  </section>
-
-  <!-- WEATHER SECTION -->
-  <section id="weather" class="bg-blue-600 text-white py-16">
-    <div class="max-w-7xl mx-auto px-6">
-      <h2 class="text-5xl font-bold text-center mb-12">Current Cruise Port Weather</h2>
-      <div id="weather-container" class="grid md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
-    </div>
-  </section>
-
-  <!-- YOUTUBE SECTION -->
-  <section id="youtube" class="max-w-7xl mx-auto px-6 py-16">
-    <h2 class="text-5xl font-bold text-center mb-4 text-blue-600">Latest from Still Afloat</h2>
-    <p class="text-center text-xl mb-12">Watch our cruise adventures</p>
-    
-    <div id="youtube-container" class="grid md:grid-cols-2 gap-8">
-      <div class="text-center py-12 border-2 border-dashed border-gray-300 rounded-2xl">
-        <i class="fa-brands fa-youtube text-6xl text-red-500 mb-4"></i>
-        <p class="text-xl">No videos yet — check back soon!</p>
-        <p class="text-sm text-gray-500 mt-2">Channel: Still Afloat (@StillAfloat-c4h)</p>
+        <div class="relative mx-auto w-full max-w-md">
+          <div class="absolute -inset-8 rounded-full bg-cyan-300/20 blur-3xl"></div>
+          <div class="brand-card relative overflow-hidden rounded-[2rem] border border-white/15 bg-white/10 p-8 text-center shadow-2xl backdrop-blur-xl">
+            <div class="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-amber-300/30 blur-2xl"></div>
+            <img src="./assets/images/still_afloat_transparent.png" alt="Still Afloat brand mark" class="relative mx-auto mb-6 h-56 w-auto drop-shadow-2xl">
+            <p class="relative text-sm uppercase tracking-[0.45em] text-cyan-100">The cruise desk</p>
+            <h2 class="relative mt-3 text-3xl font-black text-white">Real tips before you step on the ship.</h2>
+            <p class="relative mt-4 text-slate-100/80">Ship choices, cabin decisions, port-day tradeoffs, casino offers, gear, and practical cruise-day thinking.</p>
+          </div>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <footer class="bg-gray-900 text-white py-12">
-    <div class="max-w-7xl mx-auto px-6 text-center">
-      <img src="./assets/images/still_afloat_transparent.png" alt="Logo" class="h-16 mx-auto mb-6 opacity-75">
-      <p>&copy; 2026 Still Afloat Cruising. All Rights Reserved.</p>
-    </div>
+    <section id="plan" class="relative bg-slate-950 px-5 py-24">
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-12 max-w-3xl">
+          <p class="mb-3 text-sm font-black uppercase tracking-[0.35em] text-amber-300">Plan without panic</p>
+          <h2 class="text-4xl font-black md:text-6xl">Cruise help that feels like talking to someone who has actually been there.</h2>
+          <p class="mt-5 text-lg leading-8 text-slate-300">Not polished brochure talk. Practical, consultative guidance for people choosing ships, watching prices, comparing cabins, packing gear, and figuring out the little things that make a trip better.</p>
+        </div>
+        <div class="grid gap-6 md:grid-cols-3">
+          <article class="feature-card">
+            <i class="fa-solid fa-ship"></i>
+            <h3>Ship & itinerary choices</h3>
+            <p>Understand the tradeoffs between ship size, ports, crowd flow, onboard vibe, and total trip cost.</p>
+          </article>
+          <article class="feature-card">
+            <i class="fa-solid fa-suitcase-rolling"></i>
+            <h3>Gear that earns its space</h3>
+            <p>Cameras, bags, chargers, cruise accessories, and travel tools that make sense for real travelers.</p>
+          </article>
+          <article class="feature-card">
+            <i class="fa-solid fa-map-location-dot"></i>
+            <h3>Port-day reality checks</h3>
+            <p>Weather, walking distance, tenders, terminals, transfers, and decisions that can make or break the day.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="watch" class="relative overflow-hidden bg-cyan-950 px-5 py-24">
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_85%_20%,rgba(251,191,36,.22),transparent_30%),linear-gradient(180deg,rgba(8,47,73,.4),rgba(2,6,23,.9))]"></div>
+      <div class="relative mx-auto grid max-w-7xl gap-10 lg:grid-cols-[.9fr_1.1fr] lg:items-center">
+        <div>
+          <p class="mb-3 text-sm font-black uppercase tracking-[0.35em] text-amber-300">Still Afloat on YouTube</p>
+          <h2 class="text-4xl font-black md:text-6xl">The channel is getting ready to sail.</h2>
+          <p class="mt-5 text-lg leading-8 text-cyan-50/85">The first videos are coming. Expect cruise planning, ship selection, travel-day decisions, cabin talk, casino offer lessons, and honest post-cruise takeaways.</p>
+        </div>
+        <div class="rounded-[2rem] border border-white/10 bg-slate-950/70 p-6 shadow-2xl backdrop-blur">
+          <div class="aspect-video rounded-[1.5rem] border border-white/10 bg-gradient-to-br from-slate-900 to-cyan-900 p-8 text-center flex flex-col items-center justify-center">
+            <i class="fa-brands fa-youtube mb-5 text-7xl text-red-500"></i>
+            <h3 class="text-3xl font-black">First episode coming soon</h3>
+            <p class="mt-3 max-w-md text-slate-300">Once the first video is posted, this section will feature it directly on the homepage.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="report" class="bg-slate-100 px-5 py-24 text-slate-950">
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-12 text-center">
+          <p class="mb-3 text-sm font-black uppercase tracking-[0.35em] text-cyan-700">Cruise report</p>
+          <h2 class="text-4xl font-black md:text-6xl">News and weather will live here.</h2>
+          <p class="mx-auto mt-5 max-w-3xl text-lg leading-8 text-slate-600">The backend will eventually feed this area with cruise headlines and port weather. For now, it is designed to look intentional instead of broken.</p>
+        </div>
+        <div class="grid gap-6 lg:grid-cols-2">
+          <div class="rounded-[2rem] bg-white p-6 shadow-xl">
+            <div class="mb-5 flex items-center justify-between">
+              <h3 class="text-2xl font-black">Cruise News</h3>
+              <span class="rounded-full bg-amber-100 px-3 py-1 text-xs font-black uppercase tracking-widest text-amber-700">Soon</span>
+            </div>
+            <div id="news-container" class="space-y-4"></div>
+          </div>
+          <div class="rounded-[2rem] bg-white p-6 shadow-xl">
+            <div class="mb-5 flex items-center justify-between">
+              <h3 class="text-2xl font-black">Port Weather</h3>
+              <span class="rounded-full bg-cyan-100 px-3 py-1 text-xs font-black uppercase tracking-widest text-cyan-700">Backend Ready</span>
+            </div>
+            <div id="weather-container" class="grid gap-4 sm:grid-cols-2"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="bg-slate-950 px-5 py-24">
+      <div class="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[.8fr_1.2fr] lg:items-center">
+        <div class="rounded-[2rem] border border-white/10 bg-white/10 p-8 text-center backdrop-blur">
+          <img src="./assets/images/still_afloat_transparent.png" alt="Still Afloat logo" class="mx-auto h-44 w-auto">
+          <p class="mt-5 text-sm uppercase tracking-[0.35em] text-cyan-200">Veteran • IT Leader • Cruiser</p>
+        </div>
+        <div>
+          <p class="mb-3 text-sm font-black uppercase tracking-[0.35em] text-amber-300">Why Still Afloat?</p>
+          <h2 class="text-4xl font-black md:text-6xl">A practical cruise voice with some saltwater behind it.</h2>
+          <p class="mt-5 text-lg leading-8 text-slate-300">Still Afloat is built around experience: years in IT leadership, military service, life aboard a sailboat, and two decades of cruising. The goal is simple — help people make better travel decisions without drowning in options.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-white/10 bg-slate-950 px-5 py-10 text-center text-slate-400">
+    <img src="./assets/images/still_afloat_transparent.png" alt="Still Afloat logo" class="mx-auto mb-4 h-16 w-auto opacity-80">
+    <p>&copy; 2026 Still Afloat Cruising. Cruise smarter. Laugh more. Stay Afloat.</p>
   </footer>
 
   <script src="./js/app.js"></script>
