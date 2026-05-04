@@ -1,4 +1,0 @@
-body { font-family: system-ui, -apple-system, sans-serif; }
-.hero-bg { background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://source.unsplash.com/random/1920x1080/?cruise-ship') center/cover; }
-.news-card { transition: all 0.3s; }
-.news-card:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1); }
