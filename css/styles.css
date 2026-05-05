@@ -1,50 +1,35 @@
-/* ADDITIONS ONLY - SAFE PATCH */
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Baloo+2:wght@400;600;700;800&display=swap');
 
-/* soften header to hero transition */
-.hero::before{
-  content:"";
-  position:absolute;
-  top:-60px;
-  left:0;
-  right:0;
-  height:80px;
-  background:linear-gradient(to bottom, rgba(255,255,255,0.9), rgba(255,255,255,0));
-  z-index:2;
+:root{
+  --navy:#07183f;
+  --blue:#0077b6;
+  --sun:#ffd21f;
+  --orange:#ff7a18;
 }
 
-/* card background images */
-.flavor-card:nth-child(1){
-  background-image:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e');
-  background-size:cover;
-  background-position:center;
+body{
+  margin:0;
+  font-family:'Baloo 2', system-ui, sans-serif;
+  color:var(--navy);
+  background:#ffffff;
+  line-height:1.4;
 }
 
-.flavor-card:nth-child(2){
-  background-image:url('https://images.unsplash.com/photo-1519183071298-a2962be96c3a');
-  background-size:cover;
-  background-position:center;
+h1,h2,h3{
+  font-family:'Lobster', cursive;
+  margin:0 0 10px;
 }
 
-.flavor-card:nth-child(3){
-  background-image:url('https://images.unsplash.com/photo-1549921296-3a6b9e7b7b4b');
-  background-size:cover;
-  background-position:center;
+a{
+  text-decoration:none;
+  color:inherit;
 }
 
-/* ensure text remains readable */
-.flavor-card{
-  position:relative;
+.section{
+  padding:80px 20px;
 }
 
-.flavor-card::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:rgba(0,0,0,0.35);
-  border-radius:30px;
-}
-
-.flavor-card > div{
-  position:relative;
-  z-index:2;
+.wrap{
+  max-width:1200px;
+  margin:0 auto;
 }
