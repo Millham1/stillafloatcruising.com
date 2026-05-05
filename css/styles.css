@@ -1,6 +1,6 @@
 /* TEST PUSH SUCCESS */
 .banner-nav a:hover {
-  color: red !important;
+  color: lime !important;
 }
 @import url('https://fonts.googleapis.com/css2?family=Lobster&family=Baloo+2:wght@400;600;700;800&display=swap');
 
