@@ -1,34 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Lobster&family=Baloo+2:wght@400;600;700;800&display=swap');
-
 :root{--navy:#07183f;--blue:#0077b6;--sun:#ffd21f;--orange:#ff7a18;--water:#e8f8ff}
 *{box-sizing:border-box}
 body{margin:0;font-family:'Baloo 2',system-ui;background:#fff;color:#0b2a58;font-size:20px;overflow-x:hidden}
 a{text-decoration:none;color:inherit}
-
 .banner-header{position:relative;width:100%;height:auto;overflow:visible;background:#fff;z-index:5;line-height:0}
-.banner-image{display:block;width:100%;height:auto;object-fit:unset;object-position:initial}
-.banner-header:after{display:none}
-.banner-nav{position:absolute;right:24px;bottom:24px;display:flex;gap:22px;background:rgba(5,25,55,.46);padding:10px 18px;border-radius:999px;backdrop-filter:blur(5px);z-index:4;box-shadow:0 10px 26px rgba(0,0,0,.22);line-height:normal}
+.banner-image{display:block;width:100%;height:auto}
+.banner-nav{position:absolute;right:24px;bottom:10px;display:flex;gap:22px;background:rgba(5,25,55,.42);padding:10px 18px;border-radius:999px;backdrop-filter:blur(5px);z-index:4;box-shadow:0 10px 26px rgba(0,0,0,.22);line-height:normal}
 .banner-nav a{color:white;font-size:20px;font-weight:900;text-shadow:0 3px 8px rgba(0,0,0,.85)}
-
-.hero{margin-top:0;height:72vh;background:url("../assets/images/Tropical beach with palm trees and ship.png") center/cover no-repeat;display:flex;align-items:center;position:relative;z-index:1}
-.hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,255,255,.78),rgba(255,255,255,.18))}
-.hero-content{position:relative;max-width:980px;margin:auto;padding:76px 24px 42px}
-.hero-text h1{font-family:'Lobster';font-size:62px;line-height:1.05;margin:16px 0;color:var(--navy);text-shadow:0 3px 0 rgba(255,255,255,.7)}
-.hero-text h1 span{display:block}
-.hero-text p{font-size:23px;line-height:1.45;font-weight:700;max-width:880px}
-.eyebrow{font-size:22px;font-weight:800}
-.button{display:inline-block;padding:14px 24px;border-radius:28px;margin-right:12px;font-size:20px;font-weight:900;text-decoration:none}.primary{background:var(--sun);color:var(--navy)}.secondary{background:var(--blue);color:white}
-
-.section{padding:82px 24px}.wrap{max-width:1180px;margin:auto}.two-col{display:grid;grid-template-columns:1fr 1fr;gap:42px}h2{font-family:'Lobster';font-size:52px;line-height:1.05;margin:0 0 20px;color:var(--navy)}.section-kicker{font-size:18px;font-weight:900;color:var(--orange);text-transform:uppercase;letter-spacing:.04em}
-
-.report-section{background:url("../assets/images/Tropical beach with palm trees and ship.png") center/cover no-repeat;position:relative}.report-section:before{content:"";position:absolute;inset:0;background:rgba(255,255,255,.55)}.report-section .wrap{position:relative;z-index:1}.report-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}.report-box{background:rgba(255,255,255,.9);padding:26px;border-radius:24px;box-shadow:0 18px 40px rgba(0,45,80,.15)}.report-box h3{font-family:'Lobster';font-size:34px;margin:0 0 10px}
-
-.vibe-section{background:url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e") center/cover no-repeat;padding:110px 24px;color:white}.vibe-panel{background:rgba(0,36,62,.34);padding:48px;border-radius:26px;box-shadow:0 22px 50px rgba(0,0,0,.22);backdrop-filter:blur(2px)}.vibe-panel h2{color:white;font-size:48px;text-shadow:0 2px 8px rgba(0,0,0,.45)}.vibe-panel p{font-size:24px;line-height:1.45;font-weight:700;text-shadow:0 2px 8px rgba(0,0,0,.5)}
-
-.card-section{position:relative;background:url("../assets/images/Tropical beach with palm trees and ship.png") center/cover no-repeat;padding:140px 24px;overflow:hidden}.card-section:before{content:"";position:absolute;inset:0;background:rgba(255,255,255,.18)}.card-section:after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 90px 50px rgba(255,255,255,.78);pointer-events:none}.cards{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,1fr);gap:26px}.flavor-card{border-radius:28px;color:white;min-height:330px;display:flex;align-items:end;padding:26px;background:rgba(3,25,55,.42);border:2px solid rgba(255,255,255,.65);box-shadow:0 26px 55px rgba(0,45,80,.22);backdrop-filter:blur(5px)}.flavor-card div{background:rgba(4,22,48,.46);padding:20px;border-radius:22px}.flavor-card i{font-size:30px;color:var(--sun);margin-bottom:12px}.flavor-card h3{font-family:'Lobster';font-size:34px;line-height:1;margin:0 0 12px;text-shadow:0 3px 8px rgba(0,0,0,.5)}.flavor-card p{font-size:22px;line-height:1.35;font-weight:700;margin:0;text-shadow:0 2px 6px rgba(0,0,0,.45)}
-
-.mark-section{background:#f0fbff}.mark-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px;align-items:center}.bio-stack{position:relative}.bio-img{width:100%;border-radius:24px;object-fit:contain;box-shadow:0 24px 50px rgba(0,40,80,.18)}.parrot-img{position:absolute;bottom:-24px;right:-24px;width:46%;border-radius:18px;box-shadow:0 16px 36px rgba(0,0,0,.32);border:5px solid white;transform:rotate(3deg)}.bio-copy p{font-size:23px;line-height:1.42;font-weight:650}.tagline{font-size:26px;font-weight:900;color:var(--blue)}
-.youtube-section{background:#fff}.video-placeholder{background:#eef7ff;padding:40px;border-radius:20px;text-align:center}.video-placeholder i{font-size:56px;color:red}footer{text-align:center;padding:34px;background:var(--navy);color:white}
-
-@media(max-width:900px){.banner-nav{left:10px;right:10px;justify-content:center;gap:10px;bottom:14px;padding:8px 10px}.banner-nav a{font-size:14px}.hero{height:auto;min-height:70vh}.hero-content,.two-col,.cards,.mark-grid,.report-grid{grid-template-columns:1fr}.hero-text h1{font-size:46px}.hero-text p,.vibe-panel p,.flavor-card p,.bio-copy p{font-size:19px}.parrot-img{position:static;width:100%;margin-top:14px;transform:none}}
+.report-box{background:rgba(255,255,255,.65);backdrop-filter:blur(4px)}
+.bio-copy-with-photo{display:flex;align-items:center;gap:24px}
+.parrot-side-img{width:180px;border-radius:16px;box-shadow:0 10px 25px rgba(0,0,0,.3)}
+@media(max-width:900px){.bio-copy-with-photo{flex-direction:column}.parrot-side-img{width:100%}}
