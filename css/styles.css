@@ -61,6 +61,7 @@ a{
   grid-template-columns: 420px 1fr;
   gap:50px;
   align-items:center;
+  position:relative;
 }
 
 .meet-mark img{
@@ -74,14 +75,26 @@ a{
   max-width:600px;
 }
 
-/* parrots accent */
+/* refined parrots accent */
 .parrots-accent{
   position:absolute;
-  right:40px;
-  top:40px;
-  width:140px;
+  right:30px;
+  top:30px;
+  width:110px;
+  max-width:110px;
   border-radius:14px;
-  box-shadow:0 10px 25px rgba(0,0,0,.2);
+  padding:6px;
+  background:rgba(255,255,255,0.75);
+  backdrop-filter:blur(6px);
+  box-shadow:0 12px 30px rgba(0,0,0,0.25);
+  transform:rotate(4deg);
+  opacity:0.95;
+  z-index:3;
+}
+
+.parrots-accent:hover{
+  transform:rotate(0deg) scale(1.05);
+  opacity:1;
 }
 
 /* REPORT */
