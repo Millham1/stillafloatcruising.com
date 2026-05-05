@@ -1,50 +1,31 @@
-/* ADDITIONS ONLY - SAFE PATCH */
+/* REMOVE BROKEN IMAGE OVERRIDES AND RESTORE STYLE */
 
-/* soften header to hero transition */
-.hero::before{
-  content:"";
-  position:absolute;
-  top:-60px;
-  left:0;
-  right:0;
-  height:80px;
-  background:linear-gradient(to bottom, rgba(255,255,255,0.9), rgba(255,255,255,0));
-  z-index:2;
-}
-
-/* card background images */
-.flavor-card:nth-child(1){
-  background-image:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e');
-  background-size:cover;
-  background-position:center;
-}
-
-.flavor-card:nth-child(2){
-  background-image:url('https://images.unsplash.com/photo-1519183071298-a2962be96c3a');
-  background-size:cover;
-  background-position:center;
-}
-
-.flavor-card:nth-child(3){
-  background-image:url('https://images.unsplash.com/photo-1549921296-3a6b9e7b7b4b');
-  background-size:cover;
-  background-position:center;
-}
-
-/* ensure text remains readable */
 .flavor-card{
-  position:relative;
+  border-radius:30px;
+  color:white;
+  min-height:350px;
+  display:flex;
+  align-items:end;
+  padding:26px;
+  background:rgba(3,25,55,.40);
+  border:2px solid rgba(255,255,255,.62);
+  box-shadow:0 28px 60px rgba(0,45,80,.24);
+  backdrop-filter:blur(5px);
+  transition:transform .2s ease,background .2s ease;
+}
+
+.flavor-card:hover{
+  transform:translateY(-5px);
+  background:rgba(3,25,55,.48);
 }
 
 .flavor-card::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:rgba(0,0,0,0.35);
-  border-radius:30px;
+  content:none;
 }
 
-.flavor-card > div{
-  position:relative;
-  z-index:2;
+/* remove forced background images */
+.flavor-card:nth-child(1),
+.flavor-card:nth-child(2),
+.flavor-card:nth-child(3){
+  background-image:none;
 }
