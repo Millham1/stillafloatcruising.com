@@ -33,3 +33,57 @@ a{
   max-width:1200px;
   margin:0 auto;
 }
+
+/* NAV */
+.banner-header{
+  position:relative;
+}
+
+.banner-image{
+  width:100%;
+  display:block;
+}
+
+.banner-nav{
+  position:absolute;
+  right:30px;
+  bottom:20px;
+  background:rgba(0,0,0,.35);
+  backdrop-filter:blur(8px);
+  padding:10px 18px;
+  border-radius:30px;
+}
+
+.banner-nav a{
+  color:white;
+  margin:0 10px;
+  font-weight:700;
+}
+
+.banner-nav a:hover{
+  color:var(--sun);
+}
+
+/* HERO */
+.hero{
+  position:relative;
+  background:url('../assets/images/Tropical beach with palm trees and ship.png') center/cover no-repeat;
+  padding:100px 20px;
+}
+
+.hero-text{
+  max-width:800px;
+  background:rgba(255,255,255,.65);
+  backdrop-filter:blur(10px);
+  padding:30px;
+  border-radius:20px;
+}
+
+.hero h1{
+  font-size:60px;
+  margin-bottom:10px;
+}
+
+.hero p{
+  font-size:22px;
+}
