@@ -28,7 +28,6 @@ a{
 .section{padding:80px 20px;}
 .wrap{max-width:1200px;margin:0 auto;}
 
-/* NAV */
 .banner-header{position:relative;}
 .banner-image{width:100%;display:block;}
 .banner-nav{
@@ -40,7 +39,6 @@ a{
 .banner-nav a{color:white;margin:0 10px;font-weight:700;}
 .banner-nav a:hover{color:var(--sun);}
 
-/* HERO */
 .hero{
   position:relative;
   background:url('../assets/images/Tropical beach with palm trees and ship.png') center/cover no-repeat;
@@ -55,7 +53,6 @@ a{
 .hero h1{font-size:60px;margin-bottom:10px;}
 .hero p{font-size:22px;}
 
-/* MEET MARK FIX */
 .meet-mark{
   display:grid;
   grid-template-columns: 420px 1fr;
@@ -71,33 +68,36 @@ a{
   object-fit:cover;
 }
 
-.meet-mark-text{
-  max-width:600px;
-}
+.meet-mark-text{max-width:600px;}
 
-/* refined parrots accent */
+/* PREMIUM PARROTS */
 .parrots-accent{
   position:absolute;
-  right:30px;
-  top:30px;
-  width:140px;
-  max-width:140px;
-  border-radius:14px;
+  right:20px;
+  top:20px;
+
+  width:160px;
+  max-width:160px;
+
+  border-radius:16px;
   padding:6px;
-  background:rgba(255,255,255,0.75);
-  backdrop-filter:blur(6px);
-  box-shadow:0 12px 30px rgba(0,0,0,0.25);
-  transform:rotate(4deg);
-  opacity:0.95;
+
+  background:rgba(255,255,255,0.65);
+  backdrop-filter:blur(8px);
+
+  box-shadow:0 8px 20px rgba(0,0,0,0.18);
+
+  transform:rotate(3deg);
+  opacity:0.92;
+
   z-index:3;
 }
 
 .parrots-accent:hover{
-  transform:rotate(0deg) scale(1.05);
+  transform:rotate(0deg) scale(1.04);
   opacity:1;
 }
 
-/* REPORT */
 .report-section{
   background:url('../assets/images/Tropical beach with palm trees and ship.png') center/cover no-repeat;
   position:relative;
@@ -115,7 +115,6 @@ a{
   backdrop-filter:blur(5px);
 }
 
-/* VIBE */
 .vibe-section{
   background:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e') center/cover no-repeat;
   padding:100px 20px;color:white;
@@ -125,7 +124,6 @@ a{
   padding:40px;border-radius:25px;
 }
 
-/* CARDS */
 .cards{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
