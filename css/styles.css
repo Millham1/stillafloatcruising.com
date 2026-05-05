@@ -25,14 +25,8 @@ a{
   color:inherit;
 }
 
-.section{
-  padding:80px 20px;
-}
-
-.wrap{
-  max-width:1200px;
-  margin:0 auto;
-}
+.section{padding:80px 20px;}
+.wrap{max-width:1200px;margin:0 auto;}
 
 /* NAV */
 .banner-header{position:relative;}
@@ -60,6 +54,35 @@ a{
 }
 .hero h1{font-size:60px;margin-bottom:10px;}
 .hero p{font-size:22px;}
+
+/* MEET MARK FIX */
+.meet-mark{
+  display:grid;
+  grid-template-columns: 420px 1fr;
+  gap:50px;
+  align-items:center;
+}
+
+.meet-mark img{
+  width:100%;
+  height:auto;
+  border-radius:20px;
+  object-fit:cover;
+}
+
+.meet-mark-text{
+  max-width:600px;
+}
+
+/* parrots accent */
+.parrots-accent{
+  position:absolute;
+  right:40px;
+  top:40px;
+  width:140px;
+  border-radius:14px;
+  box-shadow:0 10px 25px rgba(0,0,0,.2);
+}
 
 /* REPORT */
 .report-section{
