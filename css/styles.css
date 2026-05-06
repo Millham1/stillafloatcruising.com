@@ -28,7 +28,7 @@ p{font-size:20px;line-height:1.8;}
 
 a{text-decoration:none;color:inherit;}
 
-/* FLOW */
+/* RESTORED ATMOSPHERE */
 .section{
   padding:100px 20px;
   position:relative;
@@ -36,17 +36,15 @@ a{text-decoration:none;color:inherit;}
 }
 
 .section + .section{
-  margin-top:-80px;
+  margin-top:-20px;
 }
 
-.section .wrap{
-  background:rgba(255,255,255,0.92);
-  border-radius:24px;
-  padding:40px;
-  box-shadow:0 20px 60px rgba(0,0,0,0.15);
+.wrap{
+  max-width:1200px;
+  margin:0 auto;
+  position:relative;
+  z-index:2;
 }
-
-.wrap{max-width:1200px;margin:0 auto;}
 
 .banner-header{position:relative;z-index:5;}
 .banner-image{width:100%;display:block;}
@@ -111,43 +109,98 @@ a{text-decoration:none;color:inherit;}
   color:var(--sun);
 }
 
-.hero-text{max-width:800px;background:rgba(255,255,255,.7);backdrop-filter:blur(10px);padding:30px;border-radius:20px;position:relative;z-index:2;}
+.hero-text{
+  max-width:800px;
+  background:rgba(255,255,255,.72);
+  backdrop-filter:blur(10px);
+  padding:30px;
+  border-radius:20px;
+  position:relative;
+  z-index:2;
+}
+
 .hero h1{font-size:60px;margin-bottom:10px;}
 .hero p{font-size:26px;}
 
-.meet-mark{display:grid;grid-template-columns:420px 1fr;gap:50px;align-items:center;position:relative;}
-.meet-mark img{width:100%;height:auto;border-radius:20px;object-fit:cover;}
+.meet-mark{
+  display:grid;
+  grid-template-columns:420px 1fr;
+  gap:50px;
+  align-items:center;
+  position:relative;
+}
+
+.meet-mark img{
+  width:100%;
+  height:auto;
+  border-radius:20px;
+  object-fit:cover;
+  box-shadow:0 10px 30px rgba(0,0,0,0.12);
+}
 
 .meet-mark-text{max-width:650px;position:relative;z-index:2;}
 .meet-mark-text p{font-size:21px;}
 
-.section-kicker{display:inline-block;background:rgba(255,255,255,0.92);color:var(--orange);padding:10px 20px;border-radius:22px;font-size:18px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-bottom:18px;box-shadow:0 4px 12px rgba(0,0,0,0.18);} 
-
-/* FIXED PARROT */
-.parrots-accent{
-  position:absolute;
-  right:0;
-  top:10px;
-  width:140px;
-  border-radius:16px;
-  padding:6px;
-  background:rgba(255,255,255,0.75);
-  backdrop-filter:blur(6px);
-  box-shadow:0 6px 18px rgba(0,0,0,0.12);
-  transform:none;
-  opacity:0.95;
+.section-kicker{
+  display:inline-block;
+  background:rgba(255,255,255,0.92);
+  color:var(--orange);
+  padding:10px 20px;
+  border-radius:22px;
+  font-size:18px;
+  font-weight:800;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  margin-bottom:18px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.12);
 }
 
-.report-section{background:url('../assets/images/Tropical beach with palm trees and ship.png') center/cover no-repeat;position:relative;padding:80px 20px;}
-.report-section:before{content:"";position:absolute;inset:0;background:rgba(0,0,0,.55);} 
-.report-section .wrap{position:relative;z-index:2;background:rgba(255,255,255,0.95);} 
-.report-section h2{color:#07183f;text-shadow:none;} 
+.parrots-accent{
+  position:absolute;
+  right:30px;
+  top:40px;
+  width:135px;
+  border-radius:16px;
+  padding:5px;
+  background:rgba(255,255,255,0.7);
+  backdrop-filter:blur(6px);
+  box-shadow:0 6px 18px rgba(0,0,0,0.10);
+  opacity:0.92;
+}
 
-.report-box{background:rgba(255,255,255,.95);padding:30px;border-radius:20px;}
+.report-section{
+  background:url('../assets/images/Tropical beach with palm trees and ship.png') center/cover no-repeat;
+  position:relative;
+  padding:80px 20px;
+}
+
+.report-section:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.35);
+}
+
+.report-section h2{
+  color:#ffffff;
+  text-shadow:0 4px 16px rgba(0,0,0,0.7);
+}
+
+.report-box{
+  background:rgba(255,255,255,.88);
+  padding:30px;
+  border-radius:20px;
+  backdrop-filter:blur(6px);
+}
+
 .report-box p{font-size:20px;}
 
-/* FIXED VIBE */
-.vibe-section{background:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e') center/cover no-repeat;padding:100px 20px;color:white;position:relative;}
+.vibe-section{
+  background:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e') center/cover no-repeat;
+  padding:100px 20px;
+  color:white;
+  position:relative;
+}
 
 .vibe-section::before{
   content:"";
@@ -156,46 +209,53 @@ a{text-decoration:none;color:inherit;}
   background:linear-gradient(
     135deg,
     rgba(0,36,62,0.35) 0%,
-    rgba(0,36,62,0.25) 45%,
-    rgba(0,36,62,0.15) 75%,
-    rgba(0,36,62,0.05) 100%
+    rgba(0,36,62,0.22) 45%,
+    rgba(0,36,62,0.10) 75%,
+    rgba(0,36,62,0.02) 100%
   );
 }
 
 .vibe-panel{
   position:relative;
   z-index:2;
-  background:rgba(0,36,62,0.25);
+  background:rgba(0,36,62,0.18);
   padding:45px;
   border-radius:25px;
-  backdrop-filter:blur(6px);
+  backdrop-filter:blur(4px);
 }
 
 .vibe-panel h2,
 .vibe-panel p{
   color:#ffffff;
+  text-shadow:0 2px 10px rgba(0,0,0,0.35);
 }
 
 .vibe-panel p{font-size:22px;}
 
-/* DIALED BACK CARDS */
 .cards{
   gap:18px;
   padding:40px 20px;
 }
 
 .flavor-card{
-  border-radius:24px;
-  min-height:280px;
-  padding:24px;
+  border-radius:22px;
+  min-height:260px;
+  padding:22px;
   color:white;
   display:flex;
   align-items:end;
-  background:rgba(3,25,55,0.6);
-  box-shadow:0 10px 25px rgba(0,0,0,0.15);
+  background:rgba(3,25,55,0.45);
+  box-shadow:0 8px 18px rgba(0,0,0,0.10);
+  backdrop-filter:blur(4px);
 }
 
 .flavor-card h3{font-size:30px;} 
 .flavor-card p{font-size:20px;} 
 
-footer{text-align:center;padding:25px;background:var(--navy);color:white;font-size:18px;}
+footer{
+  text-align:center;
+  padding:25px;
+  background:var(--navy);
+  color:white;
+  font-size:18px;
+}
