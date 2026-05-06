@@ -87,6 +87,11 @@ a{text-decoration:none;color:inherit;}
 .nav-row a:hover{
   color:var(--sun);
   transform:translateY(-2px);
+  text-shadow:0 0 8px rgba(255,210,31,0.7);
+}
+
+.nav-row a.active{
+  color:var(--sun);
 }
 
 .hero-text{max-width:800px;background:rgba(255,255,255,.7);backdrop-filter:blur(10px);padding:30px;border-radius:20px;position:relative;z-index:2;}
