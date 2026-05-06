@@ -43,22 +43,19 @@ a{text-decoration:none;color:inherit;}
   padding:100px 20px;
 }
 
-/* HEADER TO HERO BLEND */
+/* BLUR-ONLY HEADER BLEND */
 .hero::before{
   content:"";
   position:absolute;
-  top:-80px;
+  top:-60px;
   left:0;
   width:100%;
-  height:120px;
-  background:linear-gradient(
-    to bottom,
-    rgba(255,255,255,0.0) 0%,
-    rgba(255,255,255,0.5) 50%,
-    rgba(255,255,255,0.9) 100%
-  );
+  height:80px;
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  background:rgba(255,255,255,0.15);
   pointer-events:none;
-  z-index:1;
+  z-index:0;
 }
 
 .hero-text{max-width:800px;background:rgba(255,255,255,.7);backdrop-filter:blur(10px);padding:30px;border-radius:20px;position:relative;z-index:2;}
