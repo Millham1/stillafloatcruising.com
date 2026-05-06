@@ -28,7 +28,15 @@ p{font-size:20px;line-height:1.8;}
 
 a{text-decoration:none;color:inherit;}
 
-.section{padding:80px 20px;}
+/* UPDATED FLOW */
+.section{
+  padding:90px 20px;
+}
+
+.section + .section{
+  margin-top:-40px;
+}
+
 .wrap{max-width:1200px;margin:0 auto;}
 
 .banner-header{position:relative;z-index:5;}
