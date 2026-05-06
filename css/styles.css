@@ -152,8 +152,9 @@ a{text-decoration:none;color:inherit;}
   color:white;
 }
 
+/* LIGHTER OVERLAY */
 .vibe-panel{
-  background:rgba(0,36,62,.65);
+  background:rgba(0,36,62,.45);
   padding:45px;
   border-radius:25px;
 }
