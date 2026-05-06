@@ -5,6 +5,7 @@
   --blue:#0077b6;
   --sun:#ffd21f;
   --orange:#ff7a18;
+  --seafoam:#5dff9a;
 }
 
 body{
@@ -87,6 +88,16 @@ a{text-decoration:none;color:inherit;}
   font-size:18px;
   letter-spacing:0.3px;
   white-space:nowrap;
+  padding:4px 10px;
+  border-radius:14px;
+  transition:all 0.22s ease;
+}
+
+.nav-row a:hover{
+  color:var(--seafoam);
+  background:rgba(93,255,154,0.12);
+  transform:translateY(-3px);
+  text-shadow:0 0 10px rgba(93,255,154,0.55);
 }
 
 .hero-text{
