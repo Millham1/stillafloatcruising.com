@@ -28,15 +28,14 @@ p{font-size:20px;line-height:1.8;}
 
 a{text-decoration:none;color:inherit;}
 
-/* RESTORED ATMOSPHERE */
 .section{
-  padding:100px 20px;
+  padding:80px 20px;
   position:relative;
   z-index:1;
 }
 
 .section + .section{
-  margin-top:-20px;
+  margin-top:0;
 }
 
 .wrap{
@@ -105,9 +104,7 @@ a{text-decoration:none;color:inherit;}
   text-shadow:0 0 8px rgba(255,210,31,0.7);
 }
 
-.nav-row a.active{
-  color:var(--sun);
-}
+.nav-row a.active{color:var(--sun);}
 
 .hero-text{
   max-width:800px;
@@ -130,7 +127,7 @@ a{text-decoration:none;color:inherit;}
   position:relative;
 }
 
-.meet-mark img{
+.meet-mark .bio-img{
   width:100%;
   height:auto;
   border-radius:20px;
@@ -155,17 +152,20 @@ a{text-decoration:none;color:inherit;}
   box-shadow:0 4px 12px rgba(0,0,0,0.12);
 }
 
-.parrots-accent{
+.meet-mark .parrots-accent{
   position:absolute;
-  right:30px;
-  top:40px;
-  width:135px;
+  right:18px;
+  top:22px;
+  width:145px;
+  max-width:145px;
+  height:auto;
   border-radius:16px;
   padding:5px;
-  background:rgba(255,255,255,0.7);
+  background:rgba(255,255,255,0.72);
   backdrop-filter:blur(6px);
   box-shadow:0 6px 18px rgba(0,0,0,0.10);
-  opacity:0.92;
+  opacity:0.94;
+  z-index:3;
 }
 
 .report-section{
@@ -208,17 +208,17 @@ a{text-decoration:none;color:inherit;}
   inset:0;
   background:linear-gradient(
     135deg,
-    rgba(0,36,62,0.35) 0%,
-    rgba(0,36,62,0.22) 45%,
-    rgba(0,36,62,0.10) 75%,
-    rgba(0,36,62,0.02) 100%
+    rgba(0,36,62,0.48) 0%,
+    rgba(0,36,62,0.34) 45%,
+    rgba(0,36,62,0.20) 75%,
+    rgba(0,36,62,0.08) 100%
   );
 }
 
 .vibe-panel{
   position:relative;
   z-index:2;
-  background:rgba(0,36,62,0.18);
+  background:rgba(0,36,62,0.35);
   padding:45px;
   border-radius:25px;
   backdrop-filter:blur(4px);
@@ -227,12 +227,14 @@ a{text-decoration:none;color:inherit;}
 .vibe-panel h2,
 .vibe-panel p{
   color:#ffffff;
-  text-shadow:0 2px 10px rgba(0,0,0,0.35);
+  text-shadow:0 3px 12px rgba(0,0,0,0.55);
 }
 
 .vibe-panel p{font-size:22px;}
 
 .cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
   gap:18px;
   padding:40px 20px;
 }
@@ -244,7 +246,7 @@ a{text-decoration:none;color:inherit;}
   color:white;
   display:flex;
   align-items:end;
-  background:rgba(3,25,55,0.45);
+  background:rgba(3,25,55,0.50);
   box-shadow:0 8px 18px rgba(0,0,0,0.10);
   backdrop-filter:blur(4px);
 }
