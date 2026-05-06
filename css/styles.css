@@ -28,7 +28,7 @@ p{font-size:20px;line-height:1.8;}
 
 a{text-decoration:none;color:inherit;}
 
-/* STRONGER FLOW */
+/* FLOW */
 .section{
   padding:100px 20px;
   position:relative;
@@ -123,7 +123,20 @@ a{text-decoration:none;color:inherit;}
 
 .section-kicker{display:inline-block;background:rgba(255,255,255,0.92);color:var(--orange);padding:10px 20px;border-radius:22px;font-size:18px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-bottom:18px;box-shadow:0 4px 12px rgba(0,0,0,0.18);} 
 
-.parrots-accent{position:absolute;right:-100px;top:-80px;width:160px;max-width:160px;border-radius:16px;padding:6px;background:rgba(255,255,255,0.65);backdrop-filter:blur(8px);box-shadow:0 6px 18px rgba(0,0,0,0.15);transform:rotate(2deg);opacity:0.9;z-index:1;}
+/* FIXED PARROT */
+.parrots-accent{
+  position:absolute;
+  right:0;
+  top:10px;
+  width:140px;
+  border-radius:16px;
+  padding:6px;
+  background:rgba(255,255,255,0.75);
+  backdrop-filter:blur(6px);
+  box-shadow:0 6px 18px rgba(0,0,0,0.12);
+  transform:none;
+  opacity:0.95;
+}
 
 .report-section{background:url('../assets/images/Tropical beach with palm trees and ship.png') center/cover no-repeat;position:relative;padding:80px 20px;}
 .report-section:before{content:"";position:absolute;inset:0;background:rgba(0,0,0,.55);} 
@@ -133,6 +146,7 @@ a{text-decoration:none;color:inherit;}
 .report-box{background:rgba(255,255,255,.95);padding:30px;border-radius:20px;}
 .report-box p{font-size:20px;}
 
+/* FIXED VIBE */
 .vibe-section{background:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e') center/cover no-repeat;padding:100px 20px;color:white;position:relative;}
 
 .vibe-section::before{
@@ -141,27 +155,46 @@ a{text-decoration:none;color:inherit;}
   inset:0;
   background:linear-gradient(
     135deg,
-    rgba(0,36,62,0.55) 0%,
-    rgba(0,36,62,0.35) 45%,
-    rgba(0,36,62,0.20) 75%,
-    rgba(0,36,62,0.10) 100%
+    rgba(0,36,62,0.35) 0%,
+    rgba(0,36,62,0.25) 45%,
+    rgba(0,36,62,0.15) 75%,
+    rgba(0,36,62,0.05) 100%
   );
 }
 
 .vibe-panel{
   position:relative;
   z-index:2;
-  background:rgba(0,36,62,.35);
+  background:rgba(0,36,62,0.25);
   padding:45px;
   border-radius:25px;
   backdrop-filter:blur(6px);
 }
 
+.vibe-panel h2,
+.vibe-panel p{
+  color:#ffffff;
+}
+
 .vibe-panel p{font-size:22px;}
 
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:25px;padding:60px 20px;}
+/* DIALED BACK CARDS */
+.cards{
+  gap:18px;
+  padding:40px 20px;
+}
 
-.flavor-card{border-radius:30px;min-height:320px;padding:30px;color:white;display:flex;align-items:end;background:rgba(3,25,55,.7);box-shadow:0 20px 50px rgba(0,0,0,.25);} 
+.flavor-card{
+  border-radius:24px;
+  min-height:280px;
+  padding:24px;
+  color:white;
+  display:flex;
+  align-items:end;
+  background:rgba(3,25,55,0.6);
+  box-shadow:0 10px 25px rgba(0,0,0,0.15);
+}
+
 .flavor-card h3{font-size:30px;} 
 .flavor-card p{font-size:20px;} 
 
