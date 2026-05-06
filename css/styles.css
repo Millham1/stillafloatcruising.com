@@ -155,18 +155,19 @@ a{text-decoration:none;color:inherit;}
 
 .meet-mark .parrots-accent{
   position:absolute;
-  right:18px;
-  top:22px;
-  width:145px;
-  max-width:145px;
+  right:42px;
+  top:-14px;
+  width:130px;
+  max-width:130px;
   height:auto;
   border-radius:16px;
   padding:5px;
-  background:rgba(255,255,255,0.72);
+  background:rgba(255,255,255,0.68);
   backdrop-filter:blur(6px);
-  box-shadow:0 6px 18px rgba(0,0,0,0.10);
+  box-shadow:0 5px 14px rgba(0,0,0,0.08);
   opacity:0.94;
   z-index:3;
+  transform:rotate(5deg);
 }
 
 .report-section{
