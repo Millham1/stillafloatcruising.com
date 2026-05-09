@@ -6,9 +6,59 @@
 <title>Cruise News | Still Afloat</title>
 <link rel="stylesheet" href="./css/styles.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+body{
+  background:
+    radial-gradient(circle at top right, rgba(0,119,182,0.24), transparent 28%),
+    radial-gradient(circle at left center, rgba(93,255,154,0.10), transparent 30%),
+    linear-gradient(to bottom, #06111f 0%, #0b2238 35%, #102f4d 100%);
+  min-height:100vh;
+}
+
+.hero{
+  padding-bottom:55px !important;
+}
+
+.news-shell{
+  margin-top:-25px;
+  position:relative;
+}
+
+.news-wrap{
+  max-width:1100px;
+  margin:auto;
+  padding:0 22px 70px;
+}
+
+.news-intro{
+  margin-bottom:24px;
+}
+
+.news-intro h2{
+  color:white;
+  margin-bottom:10px;
+}
+
+.news-intro p,
+.news-intro .section-kicker{
+  color:rgba(255,255,255,0.82);
+}
+
+#full-news-feed article{
+  transition:all .22s ease;
+  border:1px solid rgba(255,255,255,0.08);
+}
+
+#full-news-feed article:hover{
+  transform:translateY(-4px);
+  box-shadow:0 18px 38px rgba(0,0,0,0.24);
+  border-color:rgba(93,255,154,0.24);
+}
+</style>
 </head>
 <body>
 <header class="banner-header" id="top"><img class="banner-image" src="./assets/images/Youtube banner cropped.png" alt="Still Afloat YouTube banner"></header>
+
 <main>
 <section class="hero">
   <div class="hero-text">
@@ -17,14 +67,22 @@
     <p>Relevant cruise stories, itinerary changes, ship updates, port developments, and weather impacts gathered for cruisers.</p>
   </div>
 </section>
-<section class="section">
-  <div class="wrap">
-    <p class="section-kicker">Latest Cruise Stories</p>
-    <h2>What cruisers should be watching</h2>
+
+<section class="news-shell">
+  <div class="news-wrap">
+
+    <div class="news-intro">
+      <p class="section-kicker">Latest Cruise Stories</p>
+      <h2>What cruisers should actually be watching</h2>
+      <p>Real cruise headlines, itinerary changes, port developments, weather impacts, and travel disruptions affecting cruise vacations.</p>
+    </div>
+
     <div id="full-news-feed"></div>
+
   </div>
 </section>
 </main>
+
 <footer><p>© 2026 Still Afloat LLC — Cruise smarter. Laugh more. Stay Afloat.</p></footer>
 <script src="./js/news.js"></script>
 </body>
