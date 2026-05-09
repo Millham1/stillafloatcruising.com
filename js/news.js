@@ -1,37 +1,6 @@
 const newsContainer = document.getElementById('news-container');
 const fullNewsFeed = document.getElementById('full-news-feed');
 
-const fallbackStories = [
-  {
-    title:'Cruise lines monitoring tropical developments in the Atlantic',
-    link:'https://www.cruisehive.com/news/'
-  },
-  {
-    title:'Royal Caribbean expands entertainment offerings across fleet',
-    link:'https://www.royalcaribbeanblog.com/'
-  },
-  {
-    title:'Port Canaveral continues major cruise terminal growth',
-    link:'https://www.portcanaveral.com/news/'
-  },
-  {
-    title:'Cruise itineraries impacted by weather systems in the Caribbean',
-    link:'https://www.cruisecritic.com/news/'
-  },
-  {
-    title:'Cruise industry watching new Caribbean tourism fee proposals',
-    link:'https://www.seatrade-cruise.com/'
-  }
-];
-
-function categorize(title){
-  const lower = title.toLowerCase();
-  if(lower.includes('storm') || lower.includes('weather') || lower.includes('hurricane') || lower.includes('tropical')) return 'Weather Watch';
-  if(lower.includes('port') || lower.includes('terminal')) return 'Ports';
-  if(lower.includes('tax') || lower.includes('fee') || lower.includes('airline')) return 'Travel Impact';
-  return 'Cruise Industry';
-}
-
 function renderHomepageNews(stories){
   if(!newsContainer) return;
 
@@ -56,7 +25,7 @@ function renderFullNews(stories){
   fullNewsFeed.innerHTML = `
     <article class="report-box" style="margin-bottom:20px;padding:22px;border-radius:20px;background:rgba(255,255,255,0.88);box-shadow:0 14px 28px rgba(0,0,0,0.10);">
       <div style="display:inline-block;background:#0077b6;color:#5dff9a;padding:5px 12px;border-radius:999px;font-size:13px;font-weight:800;margin-bottom:10px;">
-        FEATURED • ${categorize(featured.title)}
+        FEATURED • ${featured.category}
       </div>
       <h2 style="font-size:32px;margin-bottom:10px;line-height:1.12;">${featured.title}</h2>
       <a href="${featured.link}" target="_blank" rel="noopener noreferrer" style="display:inline-block;color:#0077b6;font-weight:800;font-size:18px;text-decoration:none;">
@@ -68,7 +37,7 @@ function renderFullNews(stories){
       ${remaining.map(story => `
         <article class="report-box" style="padding:16px 18px;border-radius:16px;background:rgba(255,255,255,0.82);backdrop-filter:blur(8px);">
           <div style="display:inline-block;background:rgba(0,119,182,0.12);color:#0077b6;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:800;margin-bottom:7px;">
-            ${categorize(story.title)}
+            ${story.category}
           </div>
           <h3 style="margin-bottom:6px;line-height:1.22;font-size:22px;">${story.title}</h3>
           <a href="${story.link}" target="_blank" rel="noopener noreferrer" style="color:#0077b6;font-weight:800;text-decoration:none;">
@@ -80,61 +49,21 @@ function renderFullNews(stories){
   `;
 }
 
-async function tryFeed(feedUrl){
+async function initNews(){
   try {
-    const proxy = `https://api.allorigins.win/raw?url=${encodeURIComponent(feedUrl)}`;
-    const response = await fetch(proxy);
+    const response = await fetch('/api/cruise-news');
+    const data = await response.json();
 
-    if(!response.ok) return [];
+    if(!data.stories || !data.stories.length){
+      throw new Error('No stories returned');
+    }
 
-    const xmlText = await response.text();
-
-    if(!xmlText || xmlText.includes('error')) return [];
-
-    const parser = new DOMParser();
-    const xml = parser.parseFromString(xmlText, 'text/xml');
-    const items = Array.from(xml.querySelectorAll('item')).slice(0,4);
-
-    return items.map(item => ({
-      title: item.querySelector('title')?.textContent || 'Cruise update',
-      link: item.querySelector('link')?.textContent || '#'
-    }));
+    renderHomepageNews(data.stories);
+    renderFullNews(data.stories);
 
   } catch(error){
-    console.error('Feed failed', feedUrl, error);
-    return [];
+    console.error('Cruise news API failed', error);
   }
-}
-
-async function loadCruiseNews(){
-  const feeds = [
-    'https://www.cruisehive.com/feed',
-    'https://www.royalcaribbeanblog.com/rss.xml',
-    'https://www.seatrade-cruise.com/rss.xml'
-  ];
-
-  let stories = [];
-
-  for(const feed of feeds){
-    const results = await tryFeed(feed);
-    stories = stories.concat(results);
-  }
-
-  const deduped = stories.filter((story, index, self) =>
-    index === self.findIndex(s => s.title === story.title)
-  );
-
-  return deduped.length ? deduped : fallbackStories;
-}
-
-async function initNews(){
-  renderHomepageNews(fallbackStories);
-  renderFullNews(fallbackStories);
-
-  const liveStories = await loadCruiseNews();
-
-  renderHomepageNews(liveStories);
-  renderFullNews(liveStories);
 }
 
 initNews();
