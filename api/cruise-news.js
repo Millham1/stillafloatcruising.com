@@ -21,6 +21,31 @@ export default async function handler(req, res) {
       link: 'https://www.reuters.com/world/us/'
     },
     {
+      category: 'Travel Impact',
+      title: 'USA Today Travel follows cruise and airline developments impacting travelers',
+      link: 'https://www.usatoday.com/travel/'
+    },
+    {
+      category: 'Travel Impact',
+      title: 'NBC News reports on travel delays and transportation disruptions',
+      link: 'https://www.nbcnews.com/travel'
+    },
+    {
+      category: 'Travel Impact',
+      title: 'AP News tracks tourism and global travel developments',
+      link: 'https://apnews.com/hub/travel'
+    },
+    {
+      category: 'Weather Watch',
+      title: 'NOAA hurricane monitoring remains critical for Caribbean cruise routes',
+      link: 'https://www.nhc.noaa.gov/'
+    },
+    {
+      category: 'Travel Impact',
+      title: 'TSA travel advisories continue affecting airport planning and embarkation timing',
+      link: 'https://www.tsa.gov/travel'
+    },
+    {
       category: 'Cruise Industry',
       title: 'Cruise Hive continues coverage of itinerary and ship updates',
       link: 'https://www.cruisehive.com/'
@@ -31,7 +56,7 @@ export default async function handler(req, res) {
       link: 'https://www.cruisecritic.com/news/'
     },
     {
-      category: 'Travel Impact',
+      category: 'Weather Watch',
       title: 'Fox Weather monitors Caribbean systems affecting cruise routes',
       link: 'https://www.foxweather.com/weather-news'
     }
