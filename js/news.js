@@ -1,13 +1,6 @@
 const newsContainer = document.getElementById('news-container');
 const fullNewsFeed = document.getElementById('full-news-feed');
 
-const rssFeeds = [
-  'https://www.cruisehive.com/feed',
-  'https://www.cruisecritic.com/articles.xml',
-  'https://www.royalcaribbeanblog.com/rss.xml',
-  'https://www.seatrade-cruise.com/rss.xml'
-];
-
 const fallbackStories = [
   {
     title:'Cruise lines monitoring tropical developments in the Atlantic',
@@ -19,7 +12,7 @@ const fallbackStories = [
   },
   {
     title:'Port Canaveral continues major cruise terminal growth',
-    link:'https://www.portcanaveral.com/news'
+    link:'https://www.portcanaveral.com/news/'
   },
   {
     title:'Cruise itineraries impacted by weather systems in the Caribbean',
@@ -37,49 +30,6 @@ function categorize(title){
   if(lower.includes('port') || lower.includes('terminal')) return 'Ports';
   if(lower.includes('tax') || lower.includes('fee') || lower.includes('airline')) return 'Travel Impact';
   return 'Cruise Industry';
-}
-
-async function fetchFeed(feedUrl){
-  try {
-    const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent(feedUrl)}`;
-    const response = await fetch(proxy);
-    const data = await response.json();
-
-    if(!data.contents) return [];
-
-    const parser = new DOMParser();
-    const xml = parser.parseFromString(data.contents, 'text/xml');
-    const items = Array.from(xml.querySelectorAll('item')).slice(0,5);
-
-    return items.map(item => ({
-      title: item.querySelector('title')?.textContent || 'Cruise update',
-      link: item.querySelector('link')?.textContent || '#'
-    }));
-
-  } catch(error){
-    console.error('Feed error', feedUrl, error);
-    return [];
-  }
-}
-
-async function getCruiseNews(){
-  try {
-    const allFeeds = await Promise.all(rssFeeds.map(fetchFeed));
-
-    const merged = allFeeds.flat()
-      .filter(story => story.title && story.link)
-      .filter((story, index, self) =>
-        index === self.findIndex(s => s.title === story.title)
-      );
-
-    if(!merged.length) return fallbackStories;
-
-    return merged.slice(0,15);
-
-  } catch(error){
-    console.error('Cruise aggregation failed', error);
-    return fallbackStories;
-  }
 }
 
 function renderHomepageNews(stories){
@@ -130,10 +80,61 @@ function renderFullNews(stories){
   `;
 }
 
+async function tryFeed(feedUrl){
+  try {
+    const proxy = `https://api.allorigins.win/raw?url=${encodeURIComponent(feedUrl)}`;
+    const response = await fetch(proxy);
+
+    if(!response.ok) return [];
+
+    const xmlText = await response.text();
+
+    if(!xmlText || xmlText.includes('error')) return [];
+
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(xmlText, 'text/xml');
+    const items = Array.from(xml.querySelectorAll('item')).slice(0,4);
+
+    return items.map(item => ({
+      title: item.querySelector('title')?.textContent || 'Cruise update',
+      link: item.querySelector('link')?.textContent || '#'
+    }));
+
+  } catch(error){
+    console.error('Feed failed', feedUrl, error);
+    return [];
+  }
+}
+
+async function loadCruiseNews(){
+  const feeds = [
+    'https://www.cruisehive.com/feed',
+    'https://www.royalcaribbeanblog.com/rss.xml',
+    'https://www.seatrade-cruise.com/rss.xml'
+  ];
+
+  let stories = [];
+
+  for(const feed of feeds){
+    const results = await tryFeed(feed);
+    stories = stories.concat(results);
+  }
+
+  const deduped = stories.filter((story, index, self) =>
+    index === self.findIndex(s => s.title === story.title)
+  );
+
+  return deduped.length ? deduped : fallbackStories;
+}
+
 async function initNews(){
-  const stories = await getCruiseNews();
-  renderHomepageNews(stories);
-  renderFullNews(stories);
+  renderHomepageNews(fallbackStories);
+  renderFullNews(fallbackStories);
+
+  const liveStories = await loadCruiseNews();
+
+  renderHomepageNews(liveStories);
+  renderFullNews(liveStories);
 }
 
 initNews();
