@@ -15,6 +15,42 @@ body{
   min-height:100vh;
 }
 
+.weather-hero{
+  position:relative;
+  overflow:hidden;
+  padding:70px 22px 56px;
+  text-align:center;
+  background:
+    radial-gradient(circle at top left, rgba(93,255,154,0.14), transparent 30%),
+    radial-gradient(circle at top right, rgba(0,119,182,0.24), transparent 34%),
+    linear-gradient(135deg, rgba(7,24,63,0.96), rgba(13,52,88,0.92));
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.weather-hero::before{
+  content:'☀️  ⛅  🌊  🌦️';
+  position:absolute;
+  top:18px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:28px;
+  opacity:.22;
+  letter-spacing:16px;
+}
+
+.weather-hero h1{
+  color:white;
+  font-size:56px;
+  font-weight:900;
+  margin-bottom:10px;
+  letter-spacing:-1px;
+}
+
+.weather-hero p{
+  color:rgba(255,255,255,0.74);
+  font-size:18px;
+}
+
 .weather-shell{
   max-width:1200px;
   margin:auto;
@@ -100,8 +136,10 @@ body{
 </style>
 </head>
 <body>
-<header class="banner-header" id="top">
-  <img class="banner-image" src="./assets/images/Youtube banner cropped.png" alt="Still Afloat banner">
+
+<header class="weather-hero">
+  <h1>Still Afloat Weather Center</h1>
+  <p>Live embarkation and destination conditions for cruise travelers.</p>
 </header>
 
 <main class="weather-shell">
@@ -111,37 +149,11 @@ body{
   <p>Current weather for the busiest North American cruise departure ports.</p>
 
   <div class="weather-grid">
-
-    <a class="weather-tile" href="#">
-      <div class="weather-emoji">☀️</div>
-      <div class="weather-location">Miami</div>
-      <div class="weather-temp">84°</div>
-    </a>
-
-    <a class="weather-tile" href="#">
-      <div class="weather-emoji">⛅</div>
-      <div class="weather-location">Canaveral</div>
-      <div class="weather-temp">81°</div>
-    </a>
-
-    <a class="weather-tile" href="#">
-      <div class="weather-emoji">🌤️</div>
-      <div class="weather-location">Ft Lauderdale</div>
-      <div class="weather-temp">83°</div>
-    </a>
-
-    <a class="weather-tile" href="#">
-      <div class="weather-emoji">🌧️</div>
-      <div class="weather-location">Tampa</div>
-      <div class="weather-temp">79°</div>
-    </a>
-
-    <a class="weather-tile" href="#">
-      <div class="weather-emoji">🌦️</div>
-      <div class="weather-location">Galveston</div>
-      <div class="weather-temp">82°</div>
-    </a>
-
+    <a class="weather-tile" href="#"><div class="weather-emoji">☀️</div><div class="weather-location">Miami</div><div class="weather-temp">84°</div></a>
+    <a class="weather-tile" href="#"><div class="weather-emoji">⛅</div><div class="weather-location">Canaveral</div><div class="weather-temp">81°</div></a>
+    <a class="weather-tile" href="#"><div class="weather-emoji">🌤️</div><div class="weather-location">Ft Lauderdale</div><div class="weather-temp">83°</div></a>
+    <a class="weather-tile" href="#"><div class="weather-emoji">🌧️</div><div class="weather-location">Tampa</div><div class="weather-temp">79°</div></a>
+    <a class="weather-tile" href="#"><div class="weather-emoji">🌦️</div><div class="weather-location">Galveston</div><div class="weather-temp">82°</div></a>
   </div>
 
   <div class="weather-search">
@@ -154,67 +166,16 @@ body{
   <p>Current conditions for popular Caribbean and cruise destinations.</p>
 
   <div class="weather-grid">
-
-    <a class="weather-tile" href="#">
-      <div class="weather-emoji">☀️</div>
-      <div class="weather-location">Nassau</div>
-      <div class="weather-temp">85°</div>
-    </a>
-
-    <a class="weather-tile" href="#">
-      <div class="weather-emoji">🌤️</div>
-      <div class="weather-location">Cozumel</div>
-      <div class="weather-temp">86°</div>
-    </a>
-
-    <a class="weather-tile" href="#">
-      <div class="weather-emoji">⛅</div>
-      <div class="weather-location">St Thomas</div>
-      <div class="weather-temp">83°</div>
-    </a>
-
-    <a class="weather-tile" href="#">
-      <div class="weather-emoji">🌦️</div>
-      <div class="weather-location">Grand Cayman</div>
-      <div class="weather-temp">82°</div>
-    </a>
-
-    <a class="weather-tile" href="#">
-      <div class="weather-emoji">☀️</div>
-      <div class="weather-location">CocoCay</div>
-      <div class="weather-temp">84°</div>
-    </a>
-
-    <a class="weather-tile" href="#">
-      <div class="weather-emoji">🌴</div>
-      <div class="weather-location">Great Stirrup</div>
-      <div class="weather-temp">83°</div>
-    </a>
-
-    <a class="weather-tile" href="#">
-      <div class="weather-emoji">🌤️</div>
-      <div class="weather-location">San Juan</div>
-      <div class="weather-temp">85°</div>
-    </a>
-
-    <a class="weather-tile" href="#">
-      <div class="weather-emoji">☀️</div>
-      <div class="weather-location">Aruba</div>
-      <div class="weather-temp">88°</div>
-    </a>
-
-    <a class="weather-tile" href="#">
-      <div class="weather-emoji">🌦️</div>
-      <div class="weather-location">Costa Maya</div>
-      <div class="weather-temp">84°</div>
-    </a>
-
-    <a class="weather-tile" href="#">
-      <div class="weather-emoji">⛅</div>
-      <div class="weather-location">Roatán</div>
-      <div class="weather-temp">82°</div>
-    </a>
-
+    <a class="weather-tile" href="#"><div class="weather-emoji">☀️</div><div class="weather-location">Nassau</div><div class="weather-temp">85°</div></a>
+    <a class="weather-tile" href="#"><div class="weather-emoji">🌤️</div><div class="weather-location">Cozumel</div><div class="weather-temp">86°</div></a>
+    <a class="weather-tile" href="#"><div class="weather-emoji">⛅</div><div class="weather-location">St Thomas</div><div class="weather-temp">83°</div></a>
+    <a class="weather-tile" href="#"><div class="weather-emoji">🌦️</div><div class="weather-location">Grand Cayman</div><div class="weather-temp">82°</div></a>
+    <a class="weather-tile" href="#"><div class="weather-emoji">☀️</div><div class="weather-location">CocoCay</div><div class="weather-temp">84°</div></a>
+    <a class="weather-tile" href="#"><div class="weather-emoji">🌴</div><div class="weather-location">Great Stirrup</div><div class="weather-temp">83°</div></a>
+    <a class="weather-tile" href="#"><div class="weather-emoji">🌤️</div><div class="weather-location">San Juan</div><div class="weather-temp">85°</div></a>
+    <a class="weather-tile" href="#"><div class="weather-emoji">☀️</div><div class="weather-location">Aruba</div><div class="weather-temp">88°</div></a>
+    <a class="weather-tile" href="#"><div class="weather-emoji">🌦️</div><div class="weather-location">Costa Maya</div><div class="weather-temp">84°</div></a>
+    <a class="weather-tile" href="#"><div class="weather-emoji">⛅</div><div class="weather-location">Roatán</div><div class="weather-temp">82°</div></a>
   </div>
 
   <div class="weather-search">
