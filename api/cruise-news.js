@@ -9,17 +9,9 @@ const EXCLUDED_KEYWORDS = [
 function categorize(title = '') {
   const lower = title.toLowerCase();
 
-  if (lower.includes('storm') || lower.includes('weather') || lower.includes('hurricane') || lower.includes('tropical')) {
-    return 'Weather Watch';
-  }
-
-  if (lower.includes('port') || lower.includes('terminal') || lower.includes('embarkation') || lower.includes('nassau') || lower.includes('canaveral')) {
-    return 'Ports';
-  }
-
-  if (lower.includes('flight') || lower.includes('airline') || lower.includes('tsa') || lower.includes('tax') || lower.includes('fee')) {
-    return 'Travel Impact';
-  }
+  if (lower.includes('storm') || lower.includes('weather') || lower.includes('hurricane') || lower.includes('tropical')) return 'Weather Watch';
+  if (lower.includes('port') || lower.includes('terminal') || lower.includes('embarkation')) return 'Ports';
+  if (lower.includes('flight') || lower.includes('airline') || lower.includes('tsa')) return 'Travel Impact';
 
   return 'Cruise Industry';
 }
@@ -31,7 +23,6 @@ function containsExcludedTopics(text = '') {
 
 function cruiseRelevanceScore(story) {
   const haystack = `${story.title || ''} ${story.description || ''}`.toLowerCase();
-
   let score = 0;
 
   CRUISE_KEYWORDS.forEach(keyword => {
@@ -41,16 +32,14 @@ function cruiseRelevanceScore(story) {
   if (haystack.includes('royal caribbean')) score += 4;
   if (haystack.includes('norwegian')) score += 4;
   if (haystack.includes('carnival')) score += 4;
-  if (haystack.includes('celebrity')) score += 3;
   if (haystack.includes('ship')) score += 2;
   if (haystack.includes('itinerary')) score += 3;
   if (haystack.includes('bahamas')) score += 2;
-  if (haystack.includes('private island')) score += 3;
 
   return score;
 }
 
-function normalizeGNewsArticle(article) {
+function normalizeArticle(article) {
   return {
     category: categorize(article.title),
     title: article.title,
@@ -62,13 +51,13 @@ function normalizeGNewsArticle(article) {
   };
 }
 
-async function getGNewsStories() {
+async function getStories() {
   const apiKey = process.env.GNEWS_API_KEY;
   if (!apiKey) return [];
 
-  const query = encodeURIComponent('("cruise ship" OR "cruise line" OR cruise OR Caribbean OR Bahamas OR Royal Caribbean OR Norwegian Cruise OR Carnival Cruise OR Celebrity Cruises)');
+  const query = encodeURIComponent('("cruise ship" OR cruise OR Caribbean OR Bahamas OR Royal Caribbean OR Norwegian Cruise OR Carnival Cruise)');
 
-  const url = `https://gnews.io/api/v4/search?q=${query}&lang=en&country=us&max=30&apikey=${apiKey}`;
+  const url = `https://gnews.io/api/v4/search?q=${query}&lang=en&country=us&max=40&apikey=${apiKey}`;
 
   const response = await fetch(url);
   if (!response.ok) throw new Error(`GNews request failed: ${response.status}`);
@@ -77,7 +66,7 @@ async function getGNewsStories() {
   const articles = Array.isArray(data.articles) ? data.articles : [];
 
   return articles
-    .map(normalizeGNewsArticle)
+    .map(normalizeArticle)
     .filter(story => story.title && story.link)
     .filter(story => !containsExcludedTopics(`${story.title} ${story.description}`))
     .map(story => ({
@@ -88,49 +77,47 @@ async function getGNewsStories() {
     .sort((a, b) => b.relevance - a.relevance);
 }
 
-function getFallbackStories() {
+function fallbackStories() {
   return [
     {
       category: 'Cruise Industry',
-      title: 'Cruise Hive tracks new ships, itinerary changes, and onboard updates',
-      description: 'Cruise-specific headlines covering ships, ports, dining, and itinerary developments.',
+      title: 'Cruise Hive tracks new ships, itineraries, and onboard experiences',
+      description: 'Cruise-focused reporting on ships, dining, entertainment, and destinations.',
       link: 'https://www.cruisehive.com/',
-      source: 'Cruise Hive'
+      source: 'Cruise Hive',
+      relevance: 10
     },
     {
       category: 'Cruise Industry',
-      title: 'Royal Caribbean Blog follows entertainment, dining, and fleet developments',
-      description: 'Coverage of Royal Caribbean ships, onboard experiences, and Caribbean itineraries.',
+      title: 'Royal Caribbean Blog follows fleet and private island developments',
+      description: 'Coverage of ships, CocoCay, dining, entertainment, and itineraries.',
       link: 'https://www.royalcaribbeanblog.com/',
-      source: 'Royal Caribbean Blog'
-    },
-    {
-      category: 'Cruise Industry',
-      title: 'Cruise Critic reports on ships, destinations, and cruise travel trends',
-      description: 'Passenger-focused cruise news and destination coverage.',
-      link: 'https://www.cruisecritic.com/news/',
-      source: 'Cruise Critic'
+      source: 'Royal Caribbean Blog',
+      relevance: 10
     },
     {
       category: 'Ports',
-      title: 'Port Canaveral continues expansion of cruise operations and terminals',
-      description: 'Official updates from one of the world’s busiest cruise ports.',
+      title: 'Port Canaveral expands cruise operations and terminal infrastructure',
+      description: 'Official updates from one of the busiest cruise ports in the world.',
       link: 'https://www.portcanaveral.com/Newsroom',
-      source: 'Port Canaveral'
+      source: 'Port Canaveral',
+      relevance: 9
     },
     {
       category: 'Weather Watch',
-      title: 'NOAA tropical monitoring remains critical for Caribbean itineraries',
-      description: 'Official Atlantic and Caribbean weather monitoring for cruise planning.',
+      title: 'NOAA monitors tropical systems affecting Caribbean itineraries',
+      description: 'Atlantic hurricane and tropical weather outlook for cruisers.',
       link: 'https://www.nhc.noaa.gov/',
-      source: 'NOAA'
+      source: 'NOAA',
+      relevance: 9
     },
     {
       category: 'Travel Impact',
-      title: 'TSA guidance helps cruisers plan smoother embarkation travel days',
-      description: 'Airport and travel security guidance relevant to cruise passengers.',
+      title: 'TSA updates help cruisers prepare for embarkation travel days',
+      description: 'Airport and travel planning guidance for cruise passengers.',
       link: 'https://www.tsa.gov/travel',
-      source: 'TSA'
+      source: 'TSA',
+      relevance: 8
     }
   ];
 }
@@ -152,23 +139,30 @@ export default async function handler(req, res) {
   res.setHeader('Cache-Control', 's-maxage=900, stale-while-revalidate=1800');
 
   try {
-    const apiStories = await getGNewsStories();
-    const stories = dedupeStories(apiStories).slice(0, 15);
+    const stories = dedupeStories(await getStories());
 
     if (stories.length) {
       return res.status(200).json({
         source: 'gnews-api',
         mode: 'live',
-        stories
+        featured: stories.slice(0, 2),
+        headlines: stories.slice(0, 5),
+        extended: stories.slice(5, 20),
+        weather: stories.filter(story => story.category === 'Weather Watch').slice(0, 4)
       });
     }
   } catch (error) {
     console.error('Cruise news API provider failed:', error);
   }
 
+  const fallback = fallbackStories();
+
   return res.status(200).json({
     source: 'still-afloat-api',
     mode: 'fallback',
-    stories: getFallbackStories()
+    featured: fallback.slice(0, 2),
+    headlines: fallback.slice(0, 5),
+    extended: fallback,
+    weather: fallback.filter(story => story.category === 'Weather Watch')
   });
 }
