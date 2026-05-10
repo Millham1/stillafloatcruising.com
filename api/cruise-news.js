@@ -16,11 +16,9 @@ const QUERY_POOLS = [
 
 function categorize(title = '') {
   const lower = title.toLowerCase();
-
   if (lower.includes('storm') || lower.includes('weather') || lower.includes('hurricane') || lower.includes('tropical')) return 'Weather Watch';
   if (lower.includes('port') || lower.includes('terminal') || lower.includes('embarkation')) return 'Ports';
   if (lower.includes('flight') || lower.includes('airline') || lower.includes('tsa')) return 'Travel Impact';
-
   return 'Cruise Industry';
 }
 
@@ -95,7 +93,7 @@ async function getStories() {
     .sort((a, b) => b.relevance - a.relevance);
 }
 
-function fallbackStories() {
+function curatedDepthStories() {
   return [
     {
       category: 'Cruise Industry',
@@ -114,12 +112,36 @@ function fallbackStories() {
       relevance: 10
     },
     {
+      category: 'Cruise Industry',
+      title: 'Cruise Critic reports on ships, destinations, and cruise travel trends',
+      description: 'Passenger-focused cruise news and destination coverage.',
+      link: 'https://www.cruisecritic.com/news/',
+      source: 'Cruise Critic',
+      relevance: 9
+    },
+    {
+      category: 'Cruise Industry',
+      title: 'Seatrade Cruise covers cruise business, ship orders, and destination trends',
+      description: 'Industry coverage for cruise lines, ports, and destinations.',
+      link: 'https://www.seatrade-cruise.com/',
+      source: 'Seatrade Cruise',
+      relevance: 9
+    },
+    {
       category: 'Ports',
       title: 'Port Canaveral expands cruise operations and terminal infrastructure',
       description: 'Official updates from one of the busiest cruise ports in the world.',
       link: 'https://www.portcanaveral.com/Newsroom',
       source: 'Port Canaveral',
       relevance: 9
+    },
+    {
+      category: 'Ports',
+      title: 'Miami cruise port operations and passenger updates',
+      description: 'Official port information for Miami cruise embarkation planning.',
+      link: 'https://www.portmiami.biz/newsroom',
+      source: 'PortMiami',
+      relevance: 8
     },
     {
       category: 'Weather Watch',
@@ -130,11 +152,43 @@ function fallbackStories() {
       relevance: 9
     },
     {
+      category: 'Weather Watch',
+      title: 'Fox Weather tracks storms and travel impacts for cruise regions',
+      description: 'Weather developments affecting flights, ports, and cruise itineraries.',
+      link: 'https://www.foxweather.com/weather-news',
+      source: 'Fox Weather',
+      relevance: 8
+    },
+    {
       category: 'Travel Impact',
       title: 'TSA updates help cruisers prepare for embarkation travel days',
-      description: 'Airport and travel planning guidance for cruise passengers.',
+      description: 'Airport and travel security guidance relevant to cruise passengers.',
       link: 'https://www.tsa.gov/travel',
       source: 'TSA',
+      relevance: 8
+    },
+    {
+      category: 'Cruise Industry',
+      title: 'Princess Cruises news and destination updates',
+      description: 'Line-specific cruise news, ships, destinations, and onboard experiences.',
+      link: 'https://www.princess.com/en-us/news',
+      source: 'Princess Cruises',
+      relevance: 8
+    },
+    {
+      category: 'Cruise Industry',
+      title: 'Norwegian Cruise Line press releases and fleet updates',
+      description: 'Official NCL news about ships, destinations, and onboard programs.',
+      link: 'https://www.ncl.com/newsroom',
+      source: 'Norwegian Cruise Line',
+      relevance: 8
+    },
+    {
+      category: 'Cruise Industry',
+      title: 'Carnival Cruise Line newsroom and ship updates',
+      description: 'Official Carnival news on ships, destinations, and onboard experiences.',
+      link: 'https://www.carnival-news.com/',
+      source: 'Carnival Cruise Line',
       relevance: 8
     }
   ];
@@ -144,43 +198,61 @@ function dedupeStories(stories) {
   const seen = new Set();
 
   return stories.filter(story => {
-    const key = story.link || story.title;
+    const titleKey = (story.title || '').toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 80);
+    const linkKey = (story.link || '').toLowerCase().replace(/\/$/, '');
+    const key = linkKey || titleKey;
 
-    if (!key || seen.has(key)) return false;
+    if (!key || seen.has(key) || seen.has(titleKey)) return false;
 
     seen.add(key);
+    seen.add(titleKey);
     return true;
   });
+}
+
+function buildBuckets(stories) {
+  const enriched = dedupeStories([...stories, ...curatedDepthStories()]);
+  const headlines = enriched.slice(0, 5);
+  const headlineLinks = new Set(headlines.map(story => story.link));
+  const headlineTitles = new Set(headlines.map(story => story.title));
+
+  const extended = enriched
+    .filter(story => !headlineLinks.has(story.link) && !headlineTitles.has(story.title))
+    .slice(0, 18);
+
+  const weather = enriched
+    .filter(story => story.category === 'Weather Watch')
+    .filter(story => !headlineLinks.has(story.link) && !headlineTitles.has(story.title))
+    .slice(0, 4);
+
+  return {
+    featured: headlines.slice(0, 2),
+    headlines,
+    extended,
+    weather
+  };
 }
 
 export default async function handler(req, res) {
   res.setHeader('Cache-Control', 's-maxage=900, stale-while-revalidate=1800');
 
   try {
-    const stories = dedupeStories(await getStories());
+    const liveStories = await getStories();
+    const buckets = buildBuckets(liveStories);
 
-    if (stories.length) {
-      return res.status(200).json({
-        source: 'gnews-api',
-        mode: 'live',
-        featured: stories.slice(0, 2),
-        headlines: stories.slice(0, 5),
-        extended: stories.slice(5, 20),
-        weather: stories.filter(story => story.category === 'Weather Watch').slice(0, 4)
-      });
-    }
+    return res.status(200).json({
+      source: liveStories.length ? 'gnews-api-plus-curated' : 'still-afloat-curated',
+      mode: liveStories.length ? 'live-plus-curated' : 'curated',
+      ...buckets
+    });
   } catch (error) {
     console.error('Cruise news API provider failed:', error);
+    const buckets = buildBuckets([]);
+
+    return res.status(200).json({
+      source: 'still-afloat-curated',
+      mode: 'curated',
+      ...buckets
+    });
   }
-
-  const fallback = fallbackStories();
-
-  return res.status(200).json({
-    source: 'still-afloat-api',
-    mode: 'fallback',
-    featured: fallback.slice(0, 2),
-    headlines: fallback.slice(0, 5),
-    extended: fallback,
-    weather: fallback.filter(story => story.category === 'Weather Watch')
-  });
 }
