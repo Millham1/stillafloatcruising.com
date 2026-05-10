@@ -6,6 +6,14 @@ const EXCLUDED_KEYWORDS = [
   'hantavirus','politics','election','war','shooting','murder','covid','pandemic','hostage','earthquake','inflation','stock market'
 ];
 
+const QUERY_POOLS = [
+  '("Royal Caribbean" OR "Norwegian Cruise" OR "Carnival Cruise" OR "Celebrity Cruises")',
+  '("cruise ship" OR itinerary OR embarkation OR Caribbean cruise)',
+  '(Bahamas OR CocoCay OR Nassau OR "private island" OR excursion)',
+  '(Port Canaveral OR Miami cruise port OR cruise terminal)',
+  '(cruise dining OR cruise entertainment OR onboard experience OR casino at sea)'
+];
+
 function categorize(title = '') {
   const lower = title.toLowerCase();
 
@@ -29,12 +37,14 @@ function cruiseRelevanceScore(story) {
     if (haystack.includes(keyword)) score += 2;
   });
 
-  if (haystack.includes('royal caribbean')) score += 4;
-  if (haystack.includes('norwegian')) score += 4;
-  if (haystack.includes('carnival')) score += 4;
-  if (haystack.includes('ship')) score += 2;
+  if (haystack.includes('royal caribbean')) score += 5;
+  if (haystack.includes('norwegian')) score += 5;
+  if (haystack.includes('carnival')) score += 5;
+  if (haystack.includes('ship')) score += 3;
   if (haystack.includes('itinerary')) score += 3;
-  if (haystack.includes('bahamas')) score += 2;
+  if (haystack.includes('private island')) score += 4;
+  if (haystack.includes('entertainment')) score += 2;
+  if (haystack.includes('dining')) score += 2;
 
   return score;
 }
@@ -51,22 +61,30 @@ function normalizeArticle(article) {
   };
 }
 
-async function getStories() {
-  const apiKey = process.env.GNEWS_API_KEY;
-  if (!apiKey) return [];
-
-  const query = encodeURIComponent('("cruise ship" OR cruise OR Caribbean OR Bahamas OR Royal Caribbean OR Norwegian Cruise OR Carnival Cruise)');
-
-  const url = `https://gnews.io/api/v4/search?q=${query}&lang=en&country=us&max=40&apikey=${apiKey}`;
+async function fetchQueryPool(query, apiKey) {
+  const encoded = encodeURIComponent(query);
+  const url = `https://gnews.io/api/v4/search?q=${encoded}&lang=en&country=us&max=10&apikey=${apiKey}`;
 
   const response = await fetch(url);
-  if (!response.ok) throw new Error(`GNews request failed: ${response.status}`);
+  if (!response.ok) return [];
 
   const data = await response.json();
   const articles = Array.isArray(data.articles) ? data.articles : [];
 
+  return articles.map(normalizeArticle);
+}
+
+async function getStories() {
+  const apiKey = process.env.GNEWS_API_KEY;
+  if (!apiKey) return [];
+
+  const queryResults = await Promise.all(
+    QUERY_POOLS.map(query => fetchQueryPool(query, apiKey))
+  );
+
+  const articles = queryResults.flat();
+
   return articles
-    .map(normalizeArticle)
     .filter(story => story.title && story.link)
     .filter(story => !containsExcludedTopics(`${story.title} ${story.description}`))
     .map(story => ({
