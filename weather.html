@@ -3,15 +3,239 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Port Weather | Still Afloat</title>
+<title>Cruise Weather | Still Afloat</title>
 <link rel="stylesheet" href="./css/styles.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+body{
+  background:
+    radial-gradient(circle at top right, rgba(0,119,182,0.22), transparent 28%),
+    radial-gradient(circle at left center, rgba(93,255,154,0.10), transparent 32%),
+    linear-gradient(to bottom, #06111f 0%, #0b2238 40%, #102f4d 100%);
+  min-height:100vh;
+}
+
+.weather-shell{
+  max-width:1200px;
+  margin:auto;
+  padding:36px 22px 80px;
+}
+
+.weather-section{
+  margin-bottom:54px;
+}
+
+.weather-section h2{
+  color:white;
+  font-size:34px;
+  margin-bottom:10px;
+}
+
+.weather-section p{
+  color:rgba(255,255,255,0.76);
+  margin-bottom:24px;
+}
+
+.weather-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:18px;
+}
+
+.weather-tile{
+  background:rgba(7,24,63,0.72);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:26px;
+  backdrop-filter:blur(10px);
+  padding:24px 14px;
+  text-align:center;
+  text-decoration:none;
+  transition:all .22s ease;
+  box-shadow:0 12px 24px rgba(0,0,0,0.16);
+}
+
+.weather-tile:hover{
+  transform:translateY(-6px) scale(1.03);
+  border-color:rgba(93,255,154,0.34);
+  box-shadow:0 18px 36px rgba(0,0,0,0.28);
+}
+
+.weather-emoji{
+  font-size:54px;
+  margin-bottom:12px;
+  line-height:1;
+}
+
+.weather-location{
+  color:white;
+  font-weight:800;
+  font-size:18px;
+  margin-bottom:8px;
+}
+
+.weather-temp{
+  color:#5dff9a;
+  font-size:28px;
+  font-weight:900;
+}
+
+.weather-search{
+  margin-top:22px;
+}
+
+.weather-search input,
+.weather-search select{
+  width:100%;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.10);
+  border-radius:16px;
+  padding:14px 16px;
+  color:white;
+  font-size:16px;
+}
+
+.weather-search input::placeholder{
+  color:rgba(255,255,255,0.52);
+}
+</style>
 </head>
 <body>
-<section class="hero">
-<div class="hero-text">
-<h1>Port Weather</h1>
-<p>Weather for major cruise departure ports.</p>
-</div>
+<header class="banner-header" id="top">
+  <img class="banner-image" src="./assets/images/Youtube banner cropped.png" alt="Still Afloat banner">
+</header>
+
+<main class="weather-shell">
+
+<section class="weather-section">
+  <h2>Embarkation Ports</h2>
+  <p>Current weather for the busiest North American cruise departure ports.</p>
+
+  <div class="weather-grid">
+
+    <a class="weather-tile" href="#">
+      <div class="weather-emoji">☀️</div>
+      <div class="weather-location">Miami</div>
+      <div class="weather-temp">84°</div>
+    </a>
+
+    <a class="weather-tile" href="#">
+      <div class="weather-emoji">⛅</div>
+      <div class="weather-location">Canaveral</div>
+      <div class="weather-temp">81°</div>
+    </a>
+
+    <a class="weather-tile" href="#">
+      <div class="weather-emoji">🌤️</div>
+      <div class="weather-location">Ft Lauderdale</div>
+      <div class="weather-temp">83°</div>
+    </a>
+
+    <a class="weather-tile" href="#">
+      <div class="weather-emoji">🌧️</div>
+      <div class="weather-location">Tampa</div>
+      <div class="weather-temp">79°</div>
+    </a>
+
+    <a class="weather-tile" href="#">
+      <div class="weather-emoji">🌦️</div>
+      <div class="weather-location">Galveston</div>
+      <div class="weather-temp">82°</div>
+    </a>
+
+  </div>
+
+  <div class="weather-search">
+    <input type="text" placeholder="Search other embarkation ports...">
+  </div>
 </section>
+
+<section class="weather-section">
+  <h2>Cruise Destinations</h2>
+  <p>Current conditions for popular Caribbean and cruise destinations.</p>
+
+  <div class="weather-grid">
+
+    <a class="weather-tile" href="#">
+      <div class="weather-emoji">☀️</div>
+      <div class="weather-location">Nassau</div>
+      <div class="weather-temp">85°</div>
+    </a>
+
+    <a class="weather-tile" href="#">
+      <div class="weather-emoji">🌤️</div>
+      <div class="weather-location">Cozumel</div>
+      <div class="weather-temp">86°</div>
+    </a>
+
+    <a class="weather-tile" href="#">
+      <div class="weather-emoji">⛅</div>
+      <div class="weather-location">St Thomas</div>
+      <div class="weather-temp">83°</div>
+    </a>
+
+    <a class="weather-tile" href="#">
+      <div class="weather-emoji">🌦️</div>
+      <div class="weather-location">Grand Cayman</div>
+      <div class="weather-temp">82°</div>
+    </a>
+
+    <a class="weather-tile" href="#">
+      <div class="weather-emoji">☀️</div>
+      <div class="weather-location">CocoCay</div>
+      <div class="weather-temp">84°</div>
+    </a>
+
+    <a class="weather-tile" href="#">
+      <div class="weather-emoji">🌴</div>
+      <div class="weather-location">Great Stirrup</div>
+      <div class="weather-temp">83°</div>
+    </a>
+
+    <a class="weather-tile" href="#">
+      <div class="weather-emoji">🌤️</div>
+      <div class="weather-location">San Juan</div>
+      <div class="weather-temp">85°</div>
+    </a>
+
+    <a class="weather-tile" href="#">
+      <div class="weather-emoji">☀️</div>
+      <div class="weather-location">Aruba</div>
+      <div class="weather-temp">88°</div>
+    </a>
+
+    <a class="weather-tile" href="#">
+      <div class="weather-emoji">🌦️</div>
+      <div class="weather-location">Costa Maya</div>
+      <div class="weather-temp">84°</div>
+    </a>
+
+    <a class="weather-tile" href="#">
+      <div class="weather-emoji">⛅</div>
+      <div class="weather-location">Roatán</div>
+      <div class="weather-temp">82°</div>
+    </a>
+
+  </div>
+
+  <div class="weather-search">
+    <select>
+      <option>Search more cruise destinations...</option>
+      <option>Barcelona</option>
+      <option>Athens</option>
+      <option>Venice</option>
+      <option>Reykjavik</option>
+      <option>Sydney</option>
+      <option>Juneau</option>
+      <option>Ketchikan</option>
+      <option>Dubrovnik</option>
+    </select>
+  </div>
+
+</section>
+</main>
+
+<footer>
+  <p>© 2026 Still Afloat LLC — Cruise smarter. Laugh more. Stay Afloat.</p>
+</footer>
 </body>
 </html>
