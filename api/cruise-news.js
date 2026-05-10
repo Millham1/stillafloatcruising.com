@@ -1,127 +1,173 @@
-const EXCLUDED_KEYWORDS = [
+const SEARCHES = [
+  'cruise',
+  'cruise ship',
+  'Royal Caribbean cruise',
+  'Norwegian Cruise Line',
+  'Carnival Cruise Line'
+];
+
+const REQUIRED_TERMS = [
+  'cruise',
+  'cruises',
+  'cruise ship',
+  'cruise line',
+  'royal caribbean',
+  'norwegian cruise',
+  'carnival cruise',
+  'celebrity cruises',
+  'princess cruises',
+  'msc cruises',
+  'port canaveral',
+  'nassau',
+  'bahamas cruise',
+  'caribbean cruise'
+];
+
+const BLOCKED_TERMS = [
   'hantavirus',
   'politics',
   'election',
   'war',
   'shooting',
   'murder',
-  'covid',
-  'pandemic',
   'hostage',
-  'earthquake',
-  'inflation',
   'stock market'
 ];
 
-const QUERY_POOLS = [
-  '"Royal Caribbean" OR "Norwegian Cruise" OR "Carnival Cruise"',
-  '"cruise ship" OR "cruise line"',
-  'Caribbean cruise OR Bahamas cruise',
-  'Port Canaveral OR cruise terminal',
-  'cruise entertainment OR cruise dining'
-];
+function categoryFor(text = '') {
+  const value = text.toLowerCase();
 
-function containsExcludedTopics(text = '') {
-  const lower = text.toLowerCase();
-  return EXCLUDED_KEYWORDS.some(keyword => lower.includes(keyword));
-}
-
-function categorize(title = '') {
-  const lower = title.toLowerCase();
-
-  if (lower.includes('storm') || lower.includes('weather') || lower.includes('hurricane')) {
+  if (value.includes('hurricane') || value.includes('storm') || value.includes('weather') || value.includes('tropical')) {
     return 'Weather Watch';
   }
 
-  if (lower.includes('port') || lower.includes('terminal') || lower.includes('embarkation')) {
+  if (value.includes('port') || value.includes('terminal') || value.includes('embarkation') || value.includes('canaveral') || value.includes('nassau')) {
     return 'Ports';
+  }
+
+  if (value.includes('flight') || value.includes('airline') || value.includes('tsa') || value.includes('airport')) {
+    return 'Travel Impact';
   }
 
   return 'Cruise Industry';
 }
 
+function isBlocked(article) {
+  const text = `${article.title || ''} ${article.description || ''}`.toLowerCase();
+  return BLOCKED_TERMS.some(term => text.includes(term));
+}
+
+function isCruiseRelevant(article) {
+  const text = `${article.title || ''} ${article.description || ''}`.toLowerCase();
+  return REQUIRED_TERMS.some(term => text.includes(term));
+}
+
 function normalizeArticle(article) {
+  const title = (article.title || '').trim();
+  const description = (article.description || '').trim();
+  const link = (article.url || '').trim();
+
   return {
-    category: categorize(article.title || ''),
-    title: article.title || '',
-    description: article.description || '',
-    link: article.url || '',
-    source: article.source?.name || 'GNews',
+    category: categoryFor(`${title} ${description}`),
+    title,
+    description,
+    link,
+    source: article.source?.name || 'News source',
     publishedAt: article.publishedAt || null,
     image: article.image || null
   };
 }
 
-async function fetchQuery(query, apiKey) {
-  const encoded = encodeURIComponent(query);
-  const url = `https://gnews.io/api/v4/search?q=${encoded}&lang=en&country=us&max=10&apikey=${apiKey}`;
+function dedupeArticles(articles) {
+  const seenLinks = new Set();
+  const seenTitles = new Set();
 
-  const response = await fetch(url);
+  return articles.filter(article => {
+    const linkKey = article.link.toLowerCase().replace(/\/$/, '');
+    const titleKey = article.title.toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 90);
+
+    if (!article.title || !article.link) return false;
+    if (seenLinks.has(linkKey) || seenTitles.has(titleKey)) return false;
+
+    seenLinks.add(linkKey);
+    seenTitles.add(titleKey);
+    return true;
+  });
+}
+
+async function fetchGNewsSearch(query, apiKey) {
+  const url = new URL('https://gnews.io/api/v4/search');
+  url.searchParams.set('q', query);
+  url.searchParams.set('lang', 'en');
+  url.searchParams.set('country', 'us');
+  url.searchParams.set('max', '10');
+  url.searchParams.set('apikey', apiKey);
+
+  const response = await fetch(url.toString());
 
   if (!response.ok) {
-    return [];
+    const body = await response.text();
+    throw new Error(`GNews failed for "${query}" with ${response.status}: ${body}`);
   }
 
   const data = await response.json();
   return Array.isArray(data.articles) ? data.articles : [];
 }
 
-function dedupeStories(stories) {
-  const seen = new Set();
-
-  return stories.filter(story => {
-    const key = `${story.title}-${story.link}`.toLowerCase();
-
-    if (!story.title || !story.link || seen.has(key)) {
-      return false;
-    }
-
-    seen.add(key);
-    return true;
-  });
-}
-
-async function getLiveStories() {
+async function getStories() {
   const apiKey = process.env.GNEWS_API_KEY;
 
   if (!apiKey) {
-    return [];
+    return { stories: [], errors: ['Missing GNEWS_API_KEY'] };
   }
 
-  const queryResults = await Promise.all(
-    QUERY_POOLS.map(query => fetchQuery(query, apiKey))
+  const results = [];
+  const errors = [];
+
+  for (const search of SEARCHES) {
+    try {
+      const articles = await fetchGNewsSearch(search, apiKey);
+      results.push(...articles);
+    } catch (error) {
+      errors.push(error.message);
+    }
+  }
+
+  const stories = dedupeArticles(
+    results
+      .map(normalizeArticle)
+      .filter(article => article.title && article.link)
+      .filter(article => !isBlocked(article))
+      .filter(article => isCruiseRelevant(article))
   );
 
-  return dedupeStories(
-    queryResults
-      .flat()
-      .map(normalizeArticle)
-      .filter(story => !containsExcludedTopics(`${story.title} ${story.description}`))
-  );
+  return { stories, errors };
 }
 
 export default async function handler(req, res) {
   res.setHeader('Cache-Control', 's-maxage=900, stale-while-revalidate=1800');
 
   try {
-    const stories = await getLiveStories();
+    const { stories, errors } = await getStories();
 
     return res.status(200).json({
+      ok: true,
       source: 'gnews-live',
-      headlines: stories.slice(0, 5),
-      extended: stories.slice(5, 20),
-      weather: stories
-        .filter(story => story.category === 'Weather Watch')
-        .slice(0, 4)
+      storyCount: stories.length,
+      generatedAt: new Date().toISOString(),
+      stories,
+      homepage: stories.slice(0, 5),
+      diagnostics: req.query?.debug === '1' ? { errors } : undefined
     });
   } catch (error) {
-    console.error('Cruise news failure:', error);
-
-    return res.status(200).json({
+    return res.status(500).json({
+      ok: false,
       source: 'gnews-live',
-      headlines: [],
-      extended: [],
-      weather: []
+      storyCount: 0,
+      generatedAt: new Date().toISOString(),
+      stories: [],
+      homepage: [],
+      error: error.message
     });
   }
 }
