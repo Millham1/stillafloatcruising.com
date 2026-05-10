@@ -18,37 +18,61 @@ body{
 .weather-hero{
   position:relative;
   overflow:hidden;
-  padding:70px 22px 56px;
+  padding:92px 22px 76px;
   text-align:center;
   background:
-    radial-gradient(circle at top left, rgba(93,255,154,0.14), transparent 30%),
-    radial-gradient(circle at top right, rgba(0,119,182,0.24), transparent 34%),
-    linear-gradient(135deg, rgba(7,24,63,0.96), rgba(13,52,88,0.92));
-  border-bottom:1px solid rgba(255,255,255,0.08);
+    linear-gradient(rgba(5,18,38,.52), rgba(5,18,38,.66)),
+    linear-gradient(135deg,#0077b6 0%,#0096c7 30%,#00b4d8 55%,#48cae4 100%);
+  border-bottom:1px solid rgba(255,255,255,0.10);
 }
 
 .weather-hero::before{
-  content:'☀️  ⛅  🌊  🌦️';
+  content:'';
   position:absolute;
-  top:18px;
+  inset:0;
+  background:
+    radial-gradient(circle at top left, rgba(93,255,154,0.24), transparent 24%),
+    radial-gradient(circle at top right, rgba(255,255,255,0.16), transparent 26%),
+    radial-gradient(circle at bottom center, rgba(0,0,0,0.22), transparent 40%);
+}
+
+.weather-hero::after{
+  content:'🌴 ☀️ 🌊 ⛵ 🌦️';
+  position:absolute;
+  top:20px;
   left:50%;
   transform:translateX(-50%);
-  font-size:28px;
-  opacity:.22;
+  font-size:34px;
   letter-spacing:16px;
+  opacity:.24;
+}
+
+.weather-hero-content{
+  position:relative;
+  z-index:2;
 }
 
 .weather-hero h1{
-  color:white;
-  font-size:56px;
+  font-size:72px;
+  line-height:1;
+  margin-bottom:16px;
   font-weight:900;
-  margin-bottom:10px;
-  letter-spacing:-1px;
+  letter-spacing:-2px;
+  color:white;
+  text-shadow:0 8px 24px rgba(0,0,0,0.30);
+}
+
+.weather-hero h1 span{
+  color:#5dff9a;
 }
 
 .weather-hero p{
-  color:rgba(255,255,255,0.74);
-  font-size:18px;
+  color:rgba(255,255,255,0.92);
+  font-size:21px;
+  max-width:820px;
+  margin:auto;
+  line-height:1.5;
+  text-shadow:0 4px 14px rgba(0,0,0,0.24);
 }
 
 .weather-shell{
@@ -133,21 +157,35 @@ body{
 .weather-search input::placeholder{
   color:rgba(255,255,255,0.52);
 }
+
+@media (max-width:768px){
+  .weather-hero{
+    padding:72px 18px 58px;
+  }
+
+  .weather-hero h1{
+    font-size:50px;
+  }
+
+  .weather-hero p{
+    font-size:17px;
+  }
+}
 </style>
 </head>
 <body>
 
 <header class="weather-hero">
-  <h1>Still Afloat Weather Center</h1>
-  <p>Live embarkation and destination conditions for cruise travelers.</p>
+  <div class="weather-hero-content">
+    <h1>Still Afloat <span>Weather Center</span></h1>
+    <p>Track live embarkation and destination conditions across the Caribbean and the world’s most popular cruise ports.</p>
+  </div>
 </header>
 
 <main class="weather-shell">
-
 <section class="weather-section">
   <h2>Embarkation Ports</h2>
   <p>Current weather for the busiest North American cruise departure ports.</p>
-
   <div class="weather-grid">
     <a class="weather-tile" href="#"><div class="weather-emoji">☀️</div><div class="weather-location">Miami</div><div class="weather-temp">84°</div></a>
     <a class="weather-tile" href="#"><div class="weather-emoji">⛅</div><div class="weather-location">Canaveral</div><div class="weather-temp">81°</div></a>
@@ -155,7 +193,6 @@ body{
     <a class="weather-tile" href="#"><div class="weather-emoji">🌧️</div><div class="weather-location">Tampa</div><div class="weather-temp">79°</div></a>
     <a class="weather-tile" href="#"><div class="weather-emoji">🌦️</div><div class="weather-location">Galveston</div><div class="weather-temp">82°</div></a>
   </div>
-
   <div class="weather-search">
     <input type="text" placeholder="Search other embarkation ports...">
   </div>
@@ -164,7 +201,6 @@ body{
 <section class="weather-section">
   <h2>Cruise Destinations</h2>
   <p>Current conditions for popular Caribbean and cruise destinations.</p>
-
   <div class="weather-grid">
     <a class="weather-tile" href="#"><div class="weather-emoji">☀️</div><div class="weather-location">Nassau</div><div class="weather-temp">85°</div></a>
     <a class="weather-tile" href="#"><div class="weather-emoji">🌤️</div><div class="weather-location">Cozumel</div><div class="weather-temp">86°</div></a>
@@ -177,7 +213,6 @@ body{
     <a class="weather-tile" href="#"><div class="weather-emoji">🌦️</div><div class="weather-location">Costa Maya</div><div class="weather-temp">84°</div></a>
     <a class="weather-tile" href="#"><div class="weather-emoji">⛅</div><div class="weather-location">Roatán</div><div class="weather-temp">82°</div></a>
   </div>
-
   <div class="weather-search">
     <select>
       <option>Search more cruise destinations...</option>
@@ -191,7 +226,6 @@ body{
       <option>Dubrovnik</option>
     </select>
   </div>
-
 </section>
 </main>
 
