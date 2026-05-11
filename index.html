@@ -5,8 +5,38 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Still Afloat Cruising | Cruise Smarter</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<link rel="stylesheet" href="./css/styles.css?v=20260511-home-weather-style-2">
+<link rel="stylesheet" href="./css/styles.css?v=20260511-home-report-ocean-glass">
 <style>
+#report .report-grid{
+  align-items:stretch;
+}
+
+#report .report-box{
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at top right, rgba(93,255,154,.16), transparent 34%),
+    linear-gradient(145deg, rgba(0,119,182,.58), rgba(7,24,63,.78)) !important;
+  border:1px solid rgba(255,255,255,.18) !important;
+  border-radius:28px;
+  backdrop-filter:blur(14px);
+  box-shadow:0 18px 42px rgba(0,0,0,.24);
+}
+
+#report .report-box::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,0));
+  pointer-events:none;
+}
+
+#report .report-box h3{
+  position:relative;
+  color:#ffffff;
+  text-shadow:0 2px 10px rgba(0,0,0,.24);
+}
+
 #weather-container{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
@@ -15,22 +45,26 @@
 }
 
 .home-weather-tile{
-  background:linear-gradient(180deg, rgba(11,34,56,.92), rgba(7,24,63,.88));
-  border:1px solid rgba(93,255,154,0.08);
+  background:
+    radial-gradient(circle at top, rgba(255,255,255,.16), transparent 42%),
+    linear-gradient(180deg, rgba(11,96,145,.72), rgba(7,24,63,.80));
+  border:1px solid rgba(255,255,255,.16);
   border-radius:24px;
-  backdrop-filter:blur(10px);
+  backdrop-filter:blur(12px);
   padding:18px 10px;
   text-align:center;
   text-decoration:none;
   transition:all .22s ease;
-  box-shadow:0 14px 28px rgba(0,0,0,0.24);
+  box-shadow:0 12px 24px rgba(0,0,0,.22);
 }
 
 .home-weather-tile:hover{
   transform:translateY(-5px) scale(1.03);
-  border-color:rgba(93,255,154,0.28);
-  box-shadow:0 20px 40px rgba(0,0,0,0.34);
-  background:linear-gradient(180deg, rgba(0,119,182,.88), rgba(7,24,63,.92));
+  border-color:rgba(93,255,154,.42);
+  box-shadow:0 20px 40px rgba(0,0,0,.34);
+  background:
+    radial-gradient(circle at top, rgba(93,255,154,.22), transparent 45%),
+    linear-gradient(180deg, rgba(0,119,182,.82), rgba(7,24,63,.88));
 }
 
 .home-weather-emoji{
@@ -52,18 +86,17 @@
   font-weight:900;
 }
 
-.report-box{
-  background:linear-gradient(180deg, rgba(11,34,56,.90), rgba(7,24,63,.84)) !important;
-  border:1px solid rgba(93,255,154,0.08) !important;
-  backdrop-filter:blur(10px);
-  box-shadow:0 14px 32px rgba(0,0,0,0.24);
+#news-container > div{
+  border-bottom:1px solid rgba(255,255,255,.18) !important;
 }
 
-.report-box h3,
-.report-box p,
-.report-box li,
-.report-box a{
-  color:white;
+#news-container a{
+  color:#ffffff !important;
+  text-shadow:0 1px 6px rgba(0,0,0,.18);
+}
+
+#news-container a:hover{
+  color:#5dff9a !important;
 }
 </style>
 </head>
