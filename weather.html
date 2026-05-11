@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cruise Weather | Still Afloat</title>
-<link rel="stylesheet" href="./css/styles.css?v=live-api-weather">
+<link rel="stylesheet" href="./css/styles.css?v=live-api-weather-2">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
 body{
@@ -46,6 +46,15 @@ body{
 .weather-section{margin-bottom:54px;}
 .weather-section h2{color:white;font-size:34px;margin-bottom:10px;}
 .weather-section p{color:rgba(255,255,255,0.76);margin-bottom:24px;}
+.weather-hint{
+  color:rgba(93,255,154,.92);
+  font-size:13px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  margin:-8px 0 22px;
+  text-shadow:0 0 12px rgba(93,255,154,.28);
+  font-weight:700;
+}
 .weather-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:18px;}
 .weather-tile{
   background:rgba(7,24,63,0.72);
@@ -74,6 +83,7 @@ body{
 <section class="weather-section">
   <h2>Embarkation Ports</h2>
   <p>Live weather conditions for major cruise departure ports.</p>
+  <div class="weather-hint">🧭 Select a port to explore the live 10-day forecast</div>
   <div class="weather-grid" id="embarkation-grid">
     <div class="loading">Loading live weather...</div>
   </div>
@@ -82,6 +92,7 @@ body{
 <section class="weather-section">
   <h2>Cruise Destinations</h2>
   <p>Live Caribbean and cruise destination conditions.</p>
+  <div class="weather-hint">🧭 Tap any destination tile for a detailed 10-day outlook</div>
   <div class="weather-grid" id="destination-grid">
     <div class="loading">Loading live weather...</div>
   </div>
