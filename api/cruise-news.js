@@ -8,11 +8,17 @@ const RSS_SOURCES = [
 ];
 
 const NEWSAPI_SEARCHES = [
-  { q: 'cruise travel', tier: 'lifestyle' },
-  { q: 'cruise vacation', tier: 'lifestyle' },
-  { q: 'cruise passengers', tier: 'impact' },
-  { q: 'cruise weather', tier: 'impact' },
-  { q: 'cruise industry', tier: 'industry' }
+  { q: 'Caribbean tourism OR Bahamas tourism', tier: 'lifestyle' },
+  { q: 'Alaska tourism OR Mediterranean tourism', tier: 'lifestyle' },
+  { q: 'private island travel OR beach vacations', tier: 'lifestyle' },
+  { q: 'Miami airport delays OR FAA delays', tier: 'impact' },
+  { q: 'hurricane Caribbean OR tropical weather travel', tier: 'impact' },
+  { q: 'Barcelona overtourism OR European tourism restrictions', tier: 'impact' },
+  { q: 'travel industry demand OR tourism trends', tier: 'industry' }
+];
+
+const CRUISE_RELEVANCE = [
+  'caribbean','bahamas','alaska','mediterranean','tourism','travel','airport','faa','port','terminal','hurricane','tropical','vacation','island','beach','miami','barcelona','ship','cruise','passenger'
 ];
 
 function normalizeText(text='') {
@@ -33,8 +39,13 @@ function normalizeStory(raw) {
         : 'Cruise Life',
     publishedAt: raw.publishedAt || null,
     image: raw.image || null,
-    score: 100
+    score: raw.tier === 'lifestyle' ? 300 : raw.tier === 'impact' ? 200 : 100
   };
+}
+
+function isCruiseRelevant(story) {
+  const text = `${story.title} ${story.description}`.toLowerCase();
+  return CRUISE_RELEVANCE.some(term => text.includes(term));
 }
 
 async function fetchNewsApi(search) {
@@ -53,14 +64,14 @@ async function fetchNewsApi(search) {
     url.searchParams.set('q', search.q);
     url.searchParams.set('language', 'en');
     url.searchParams.set('sortBy', 'publishedAt');
-    url.searchParams.set('pageSize', '10');
+    url.searchParams.set('pageSize', '12');
     url.searchParams.set('apiKey', NEWS_API_KEY);
 
     const response = await fetch(url.toString());
     const data = await response.json();
 
-    return {
-      stories: (data.articles || []).map(article => normalizeStory({
+    const stories = (data.articles || [])
+      .map(article => normalizeStory({
         title: article.title,
         description: article.description,
         link: article.url,
@@ -68,13 +79,17 @@ async function fetchNewsApi(search) {
         image: article.urlToImage,
         publishedAt: article.publishedAt,
         tier: search.tier
-      })),
+      }))
+      .filter(isCruiseRelevant);
+
+    return {
+      stories,
       debug: {
         query: search.q,
         status: response.status,
         totalResults: data.totalResults || 0,
-        returned: (data.articles || []).length,
-        sampleSources: [...new Set((data.articles || []).map(a => a.source?.name).filter(Boolean))].slice(0,10)
+        returned: stories.length,
+        sampleSources: [...new Set(stories.map(s => s.source))].slice(0,10)
       }
     };
 
@@ -96,7 +111,7 @@ async function fetchRssSource(source) {
     if (!response.ok) return [];
 
     const xml = await response.text();
-    const items = [...xml.matchAll(/<item[\s\S]*?<\/item>/gi)].slice(0, 4);
+    const items = [...xml.matchAll(/<item[\s\S]*?<\/item>/gi)].slice(0, 3);
 
     return items.map(match => {
       const item = match[0];
@@ -110,9 +125,7 @@ async function fetchRssSource(source) {
         description,
         link,
         source: source.name,
-        tier: source.name.includes('Industry') || source.name.includes('Seatrade')
-          ? 'industry'
-          : 'lifestyle'
+        tier: source.name.includes('Industry') || source.name.includes('Seatrade') ? 'industry' : 'lifestyle'
       });
     });
 
@@ -129,7 +142,9 @@ export default async function handler(req, res) {
     const newsStories = newsApiResults.flatMap(r => r.stories);
     const rssStories = rssResults.flat();
 
-    const stories = [...newsStories, ...rssStories].slice(0, 20);
+    const stories = [...newsStories, ...rssStories]
+      .sort((a,b) => b.score - a.score)
+      .slice(0, 25);
 
     return res.status(200).json({
       ok: true,
@@ -142,7 +157,6 @@ export default async function handler(req, res) {
         newsApiDebug: newsApiResults.map(r => r.debug)
       }
     });
-
   } catch (error) {
     return res.status(500).json({
       ok: false,
