@@ -26,6 +26,33 @@ body{
   padding:0 22px 70px;
 }
 
+.news-nav{
+  display:flex;
+  justify-content:flex-end;
+  margin-bottom:20px;
+}
+
+.news-home-link{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:linear-gradient(180deg, rgba(9,72,117,.96), rgba(4,33,66,.96));
+  color:white;
+  text-decoration:none;
+  padding:12px 18px;
+  border-radius:18px;
+  border:1px solid rgba(123,214,255,.28);
+  font-weight:800;
+  box-shadow:0 12px 28px rgba(0,0,0,.28);
+  transition:all .2s ease;
+}
+
+.news-home-link:hover{
+  transform:translateY(-2px);
+  color:#5dff9a;
+  border-color:rgba(93,255,154,.34);
+}
+
 #full-news-feed article{
   transition:all .22s ease;
   border:1px solid rgba(255,255,255,0.08);
@@ -44,6 +71,14 @@ body{
 <main>
 <section class="news-shell">
   <div class="news-wrap">
+
+    <div class="news-nav">
+      <a class="news-home-link" href="index.html">
+        <i class="fa-solid fa-house"></i>
+        Home
+      </a>
+    </div>
+
     <div id="full-news-feed"></div>
   </div>
 </section>
