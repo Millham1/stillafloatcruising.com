@@ -57,17 +57,29 @@ body{
   font-size:22px;
   color:rgba(255,255,255,.92);
 }
-.home-link{
+.nav-links{
   position:absolute;
   top:20px;
   left:20px;
   z-index:5;
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.nav-link{
   background:rgba(7,24,63,0.78);
   color:white;
   padding:12px 20px;
   border-radius:18px;
   text-decoration:none;
   font-weight:800;
+  border:1px solid rgba(255,255,255,.14);
+  backdrop-filter:blur(8px);
+  transition:.2s ease;
+}
+.nav-link:hover{
+  transform:translateY(-2px);
+  background:rgba(0,119,182,.88);
 }
 .forecast-grid{
   display:grid;
@@ -92,18 +104,26 @@ body{
   .hero h1{font-size:42px;}
   .hero p{font-size:18px;}
   .hero-content{padding:22px;}
+  .nav-links{left:12px;right:12px;gap:8px;}
+  .nav-link{padding:10px 14px;font-size:14px;}
 }
 </style>
 </head>
 <body>
 <div class="hero" id="hero">
-  <a class="home-link" href="weather.html">← Weather</a>
+  <div class="nav-links">
+    <a class="nav-link" href="index.html">🏠 Home</a>
+    <a class="nav-link" href="weather.html">🌦️ Weather</a>
+  </div>
+
   <div class="hero-content">
     <h1 id="title">Loading Forecast...</h1>
     <p>10-day cruise weather outlook</p>
   </div>
 </div>
+
 <div class="forecast-grid" id="forecast"></div>
+
 <script>
 const PEXELS_API_KEY = 'P82hqxcbAMVh4XpB7Dr3zwUrzWY1kldO6Q8QvO9XkJ8FXGsl4iH6ebzA';
 
@@ -164,7 +184,8 @@ async function loadForecast(){
 
   await loadHeroImage(location);
 
-  const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${location.lat}&longitude=${location.lon}&daily=weather_code,temperature_2m_max,temperature_2m_min&temperature_unit=fahrenheit&timezone=auto`);
+  const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${location.lat}&longitude=${location.lon}&daily=weather_code,temperature_2m_max,temperature_2m_min&temperature_unit=fahrenheit&timezone=auto&forecast_days=10`);
+
   const data = await response.json();
 
   const html = data.daily.time.map((day,index)=>`
