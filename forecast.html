@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forecast | Still Afloat</title>
+<link rel="stylesheet" href="./css/styles.css">
+<style>
+body{
+  margin:0;
+  font-family:system-ui,sans-serif;
+  background:#06111f;
+  color:white;
+}
+.hero{
+  padding:60px 20px;
+  text-align:center;
+  background:linear-gradient(135deg,#0077b6,#00b4d8);
+}
+.forecast-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:16px;
+  padding:30px;
+  max-width:1200px;
+  margin:auto;
+}
+.day-card{
+  background:rgba(255,255,255,0.08);
+  border-radius:22px;
+  padding:18px;
+  text-align:center;
+}
+.day-emoji{font-size:42px;margin-bottom:10px;}
+.day-temp{font-size:26px;font-weight:800;color:#5dff9a;}
+</style>
+</head>
+<body>
+<div class="hero">
+  <h1 id="title">Loading Forecast...</h1>
+  <p>10-day cruise weather outlook</p>
+</div>
+<div class="forecast-grid" id="forecast"></div>
+<script>
+const locations = {
+  miami:{name:'Miami',lat:25.7617,lon:-80.1918},
+  'port-canaveral':{name:'Canaveral',lat:28.3922,lon:-80.6077},
+  'fort-lauderdale':{name:'Ft Lauderdale',lat:26.1224,lon:-80.1373},
+  tampa:{name:'Tampa',lat:27.9506,lon:-82.4572},
+  galveston:{name:'Galveston',lat:29.3013,lon:-94.7977},
+  nassau:{name:'Nassau',lat:25.0443,lon:-77.3504},
+  cozumel:{name:'Cozumel',lat:20.4229,lon:-86.9223},
+  'st-thomas':{name:'St Thomas',lat:18.3381,lon:-64.8941},
+  'grand-cayman':{name:'Grand Cayman',lat:19.3133,lon:-81.2546},
+  cococay:{name:'CocoCay',lat:25.8170,lon:-77.9390},
+  'great-stirrup':{name:'Great Stirrup',lat:25.8244,lon:-77.9120},
+  'san-juan':{name:'San Juan',lat:18.4655,lon:-66.1057},
+  aruba:{name:'Aruba',lat:12.5211,lon:-69.9683},
+  'costa-maya':{name:'Costa Maya',lat:18.7140,lon:-87.7090},
+  roatan:{name:'Roatán',lat:16.3247,lon:-86.5365}
+};
+
+function emoji(code){
+  if([0].includes(code)) return '☀️';
+  if([1,2].includes(code)) return '🌤️';
+  if([3].includes(code)) return '☁️';
+  if([45,48].includes(code)) return '🌫️';
+  if([51,53,55,61,63,65,80,81,82].includes(code)) return '🌧️';
+  if([95,96,99].includes(code)) return '⛈️';
+  return '⛅';
+}
+
+async function loadForecast(){
+  const params = new URLSearchParams(window.location.search);
+  const place = params.get('place');
+  const location = locations[place] || locations.miami;
+
+  document.getElementById('title').textContent = `${location.name} Forecast`;
+
+  const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${location.lat}&longitude=${location.lon}&daily=weather_code,temperature_2m_max,temperature_2m_min&temperature_unit=fahrenheit&timezone=auto`);
+  const data = await response.json();
+
+  const html = data.daily.time.map((day,index)=>`
+    <div class="day-card">
+      <div>${new Date(day).toLocaleDateString('en-US',{weekday:'short'})}</div>
+      <div class="day-emoji">${emoji(data.daily.weather_code[index])}</div>
+      <div class="day-temp">${Math.round(data.daily.temperature_2m_max[index])}°</div>
+      <div>${Math.round(data.daily.temperature_2m_min[index])}° low</div>
+    </div>
+  `).join('');
+
+  document.getElementById('forecast').innerHTML = html;
+}
+
+loadForecast();
+</script>
+</body>
+</html>
