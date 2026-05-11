@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Still Afloat Cruising | Cruise Smarter</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<link rel="stylesheet" href="./css/styles.css?v=20260511-home-weather-style">
+<link rel="stylesheet" href="./css/styles.css?v=20260511-home-weather-style-2">
 <style>
 #weather-container{
   display:grid;
@@ -15,21 +15,22 @@
 }
 
 .home-weather-tile{
-  background:rgba(7,24,63,0.72);
-  border:1px solid rgba(255,255,255,0.08);
+  background:linear-gradient(180deg, rgba(11,34,56,.92), rgba(7,24,63,.88));
+  border:1px solid rgba(93,255,154,0.08);
   border-radius:24px;
   backdrop-filter:blur(10px);
   padding:18px 10px;
   text-align:center;
   text-decoration:none;
   transition:all .22s ease;
-  box-shadow:0 12px 24px rgba(0,0,0,0.16);
+  box-shadow:0 14px 28px rgba(0,0,0,0.24);
 }
 
 .home-weather-tile:hover{
   transform:translateY(-5px) scale(1.03);
-  border-color:rgba(93,255,154,0.34);
-  box-shadow:0 18px 36px rgba(0,0,0,0.28);
+  border-color:rgba(93,255,154,0.28);
+  box-shadow:0 20px 40px rgba(0,0,0,0.34);
+  background:linear-gradient(180deg, rgba(0,119,182,.88), rgba(7,24,63,.92));
 }
 
 .home-weather-emoji{
@@ -49,6 +50,20 @@
   color:#5dff9a;
   font-size:24px;
   font-weight:900;
+}
+
+.report-box{
+  background:linear-gradient(180deg, rgba(11,34,56,.90), rgba(7,24,63,.84)) !important;
+  border:1px solid rgba(93,255,154,0.08) !important;
+  backdrop-filter:blur(10px);
+  box-shadow:0 14px 32px rgba(0,0,0,0.24);
+}
+
+.report-box h3,
+.report-box p,
+.report-box li,
+.report-box a{
+  color:white;
 }
 </style>
 </head>
