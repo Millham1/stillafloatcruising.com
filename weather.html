@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cruise Weather | Still Afloat</title>
-<link rel="stylesheet" href="./css/styles.css?v=live-api-weather-2">
+<link rel="stylesheet" href="./css/styles.css?v=live-api-weather-3">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
 body{
@@ -72,6 +72,81 @@ body{
 .weather-location{color:white;font-weight:800;font-size:18px;margin-bottom:8px;}
 .weather-temp{color:#5dff9a;font-size:28px;font-weight:900;}
 .loading{color:white;text-align:center;padding:60px;font-size:20px;}
+.search-shell{
+  margin-top:28px;
+  position:relative;
+}
+.search-label{
+  color:#5dff9a;
+  font-size:12px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  margin-bottom:10px;
+  font-weight:800;
+}
+.search-box{
+  position:relative;
+}
+.search-box i{
+  position:absolute;
+  left:18px;
+  top:50%;
+  transform:translateY(-50%);
+  color:rgba(255,255,255,.66);
+}
+.search-input{
+  width:100%;
+  background:linear-gradient(180deg, rgba(11,96,145,.42), rgba(7,24,63,.82));
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:22px;
+  padding:18px 18px 18px 52px;
+  color:white;
+  font-size:16px;
+  outline:none;
+  backdrop-filter:blur(12px);
+  box-sizing:border-box;
+}
+.search-input:focus{
+  border-color:rgba(93,255,154,.42);
+  box-shadow:0 0 22px rgba(93,255,154,.18);
+}
+.search-results{
+  position:absolute;
+  top:100%;
+  left:0;
+  right:0;
+  margin-top:10px;
+  background:linear-gradient(180deg, rgba(11,34,56,.96), rgba(7,24,63,.98));
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:24px;
+  overflow:hidden;
+  backdrop-filter:blur(14px);
+  z-index:30;
+  max-height:360px;
+  overflow-y:auto;
+  display:none;
+}
+.search-results.active{display:block;}
+.search-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:16px 20px;
+  color:white;
+  text-decoration:none;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  transition:.18s ease;
+}
+.search-item:hover{
+  background:rgba(0,119,182,.32);
+  color:#5dff9a;
+}
+.search-item span{
+  opacity:.72;
+  font-size:13px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
 </style>
 </head>
 <body>
@@ -87,6 +162,15 @@ body{
   <div class="weather-grid" id="embarkation-grid">
     <div class="loading">Loading live weather...</div>
   </div>
+
+  <div class="search-shell">
+    <div class="search-label">Worldwide Cruise Port Search</div>
+    <div class="search-box">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input class="search-input" id="embarkation-search" placeholder="Search global embarkation ports...">
+      <div class="search-results" id="embarkation-results"></div>
+    </div>
+  </div>
 </section>
 
 <section class="weather-section">
@@ -96,6 +180,15 @@ body{
   <div class="weather-grid" id="destination-grid">
     <div class="loading">Loading live weather...</div>
   </div>
+
+  <div class="search-shell">
+    <div class="search-label">Worldwide Destination Search</div>
+    <div class="search-box">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input class="search-input" id="destination-search" placeholder="Search cruise destinations worldwide...">
+      <div class="search-results" id="destination-results"></div>
+    </div>
+  </div>
 </section>
 </main>
 
@@ -104,6 +197,9 @@ body{
 </footer>
 
 <script>
+let embarkationPorts = [];
+let destinations = [];
+
 function renderTile(item){
   return `
     <a class="weather-tile" href="${item.forecastUrl}">
@@ -114,16 +210,65 @@ function renderTile(item){
   `;
 }
 
+function renderSearchResults(results, container){
+  if(results.length === 0){
+    container.innerHTML = '<div class="search-item">No matching cruise locations found.</div>';
+    container.classList.add('active');
+    return;
+  }
+
+  container.innerHTML = results.slice(0,12).map(item => `
+    <a class="search-item" href="forecast.html?place=${item.slug}">
+      <div>${item.name}</div>
+      <span>10-Day Forecast</span>
+    </a>
+  `).join('');
+
+  container.classList.add('active');
+}
+
+function setupSearch(inputId, resultsId, dataset){
+  const input = document.getElementById(inputId);
+  const results = document.getElementById(resultsId);
+
+  input.addEventListener('input', () => {
+    const value = input.value.trim().toLowerCase();
+
+    if(!value){
+      results.classList.remove('active');
+      return;
+    }
+
+    const filtered = dataset.filter(item =>
+      item.name.toLowerCase().includes(value)
+    );
+
+    renderSearchResults(filtered, results);
+  });
+
+  document.addEventListener('click', (e) => {
+    if(!results.contains(e.target) && e.target !== input){
+      results.classList.remove('active');
+    }
+  });
+}
+
 async function loadWeather(){
   try {
     const response = await fetch('/api/weather');
     const data = await response.json();
+
+    embarkationPorts = data.allEmbarkationPorts || [];
+    destinations = data.allDestinations || [];
 
     document.getElementById('embarkation-grid').innerHTML =
       data.embarkation.map(renderTile).join('');
 
     document.getElementById('destination-grid').innerHTML =
       data.destinations.map(renderTile).join('');
+
+    setupSearch('embarkation-search', 'embarkation-results', embarkationPorts);
+    setupSearch('destination-search', 'destination-results', destinations);
 
   } catch(error){
     document.getElementById('embarkation-grid').innerHTML = '<div class="loading">Unable to load weather.</div>';
