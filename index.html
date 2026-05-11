@@ -5,8 +5,42 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Still Afloat Cruising | Cruise Smarter</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<link rel="stylesheet" href="./css/styles.css?v=20260511-home-report-ocean-glass-2">
+<link rel="stylesheet" href="./css/styles.css?v=20260511-home-layout-refresh-1">
 <style>
+.hero{
+  position:relative;
+  padding-top:140px;
+}
+
+.hero-nav{
+  position:absolute;
+  top:26px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:20;
+  background:rgba(7,24,63,.58);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:24px;
+  padding:10px 18px;
+  box-shadow:0 10px 30px rgba(0,0,0,.22);
+}
+
+.hero-nav .nav-row{
+  gap:10px;
+}
+
+.hero-nav a{
+  font-size:14px;
+  padding:10px 16px;
+  border-radius:14px;
+}
+
+.hero-nav .secondary a{
+  padding:8px 14px;
+  font-size:13px;
+}
+
 #report .report-grid{
   align-items:stretch;
 }
@@ -114,57 +148,50 @@
 <header class="banner-header" id="top"><img class="banner-image" src="./assets/images/Youtube banner cropped.png" alt="Still Afloat YouTube banner"></header>
 <main>
 <section class="hero">
-
-  <nav class="hero-nav">
-    <div class="nav-row">
-      <a href="#report">Cruise Report</a>
-      <a href="#vibe">The Vibe</a>
-      <a href="#mark">Meet Mark</a>
-      <a href="#watch">YouTube</a>
-    </div>
-    <div class="nav-row secondary">
-      <a href="#">Gear</a>
-      <a href="#">Book Your Cruise</a>
-    </div>
-  </nav>
-
-  <div class="hero-overlay"></div>
-  <div class="hero-content">
-    <div class="hero-text">
-      <p class="eyebrow"><i class="fa-solid fa-anchor"></i> Cruise planning with personality</p>
-      <h1><span>Cruise smarter. </span><span>Laugh more.</span></h1>
-      <p><strong>Still Afloat</strong> is cruise planning with common sense and a conga line spirit: ship stories, port-day reality, casino-offer lessons, gear at sea, and practical advice from someone who has lived the water life.</p>
-    </div>
-  </div>
+<nav class="hero-nav">
+<div class="nav-row">
+<a href="#vibe">The Vibe</a>
+<a href="#report">Cruise Report</a>
+<a href="#mark">Meet Mark</a>
+<a href="#watch">YouTube</a>
+</div>
+<div class="nav-row secondary">
+<a href="#">Gear</a>
+<a href="#">Book Your Cruise</a>
+</div>
+</nav>
+<div class="hero-overlay"></div>
+<div class="hero-content">
+<div class="hero-text">
+<p class="eyebrow"><i class="fa-solid fa-anchor"></i> Cruise planning with personality</p>
+<h1><span>Cruise smarter. </span><span>Laugh more.</span></h1>
+<p><strong>Still Afloat</strong> is cruise planning with common sense and a conga line spirit: ship stories, port-day reality, casino-offer lessons, gear at sea, and practical advice from someone who has lived the water life.</p>
+</div>
+</div>
 </section>
 
-<section id="report" class="section report-section high-report"><div class="wrap"><p class="section-kicker">Cruise Report</p><h2>What’s happening out there right now</h2><div class="report-grid"><div class="report-box"><h3>Cruise News</h3><div id="news-container"></div><div style="margin-top:24px;"><a href="news.html" style="display:inline-block;background:#0077b6;color:#5dff9a;padding:14px 24px;border-radius:16px;font-weight:800;font-size:20px;box-shadow:0 10px 24px rgba(0,0,0,0.18);border:2px solid rgba(255,255,255,0.2);">More News →</a></div></div><div class="report-box"><h3>Port Weather</h3><div class="weather-hint">🧭 Select a port to explore the live 10-day forecast</div><div id="weather-container"></div><div style="margin-top:24px;"><a href="weather.html" style="display:inline-block;background:#0077b6;color:#5dff9a;padding:14px 24px;border-radius:16px;font-weight:800;font-size:20px;box-shadow:0 10px 24px rgba(0,0,0,0.18);border:2px solid rgba(255,255,255,0.2);">More Port Weather →</a></div></div></div></div></section>
-
 <section id="vibe" class="section vibe-section"><div class="wrap vibe-panel"><div><p class="section-kicker">The actual vibe</p><h2>Part cruise desk. Part conga line. Part real-world travel talk.</h2></div><div class="big-copy"><p>This site helps regular people make better cruise decisions before money, vacation time, and patience get wasted.</p><p>We’ll talk ships, cabins, ports, cameras, packing, food, casino offers, loyalty perks, hotels, flights, embarkation, and whatever else shows up between booking day and the gangway.</p></div></div></section>
+
+<section id="report" class="section report-section high-report"><div class="wrap"><p class="section-kicker">Cruise Report</p><h2>What’s happening out there right now</h2><div class="report-grid"><div class="report-box"><h3>Cruise News</h3><div id="news-container"></div><div style="margin-top:24px;"><a href="news.html" style="display:inline-block;background:#0077b6;color:#5dff9a;padding:14px 24px;border-radius:16px;font-weight:800;font-size:20px;box-shadow:0 10px 24px rgba(0,0,0,0.18);border:2px solid rgba(255,255,255,0.2);">More News →</a></div></div><div class="report-box"><h3>Port Weather</h3><div class="weather-hint">🧭 Select a port to explore the live 10-day forecast</div><div id="weather-container"></div><div style="margin-top:24px;"><a href="weather.html" style="display:inline-block;background:#0077b6;color:#5dff9a;padding:14px 24px;border-radius:16px;font-weight:800;font-size:20px;box-shadow:0 10px 24px rgba(0,0,0,0.18);border:2px solid rgba(255,255,255,0.2);">More Port Weather →</a></div></div></div></div></section>
 
 <section class="section card-section"><div class="wrap cards"><article class="flavor-card ship-card"><div><i class="fa-solid fa-ship"></i><h3>Ship & Cabin Choices</h3><p>Which ship fits the trip, when the cheaper cabin is fine, and when paying more buys a better vacation.</p></div></article><article class="flavor-card gear-card"><div><i class="fa-solid fa-camera-retro"></i><h3>Gear at Sea</h3><p>Packing smarter, traveling lighter, and figuring out what is actually worth bringing before you leave the dock.</p></div></article><article class="flavor-card casino-card"><div><i class="fa-solid fa-dice"></i><h3>Casino Offers & Reality</h3><p>What cruise offers really include, what is extra, and how to think about the math before chasing the offer.</p></div></article></div></section>
 
 <section id="mark" class="section mark-section">
-  <div class="wrap meet-mark">
-
-    <img class="bio-img" src="./assets/images/Bio shot.JPG" alt="Mark Millham">
-
-    <div class="meet-mark-text">
-      <p class="section-kicker">Meet Mark</p>
-      <h2>Experience,<br><span class="saltwater-line">with a little saltwater behind it.</span></h2>
-      <p>I’m Mark Millham — retired IT senior manager, veteran, former liveaboard sailor, and longtime cruiser.</p>
-      <p><strong>Still Afloat</strong> is where I break things down the way I actually think about them: what matters, what does not, where people waste money or spend wisely, and how to enjoy the trip without drowning in options.</p>
-      <p class="tagline">Cruise smarter. Laugh more. Stay Afloat.</p>
-    </div>
-
-    <img class="parrots-accent" src="./assets/images/parrots.JPG" alt="Mark with parrots">
-
-  </div>
+<div class="wrap meet-mark">
+<img class="bio-img" src="./assets/images/Bio shot.JPG" alt="Mark Millham">
+<div class="meet-mark-text">
+<p class="section-kicker">Meet Mark</p>
+<h2>Experience,<br><span class="saltwater-line">with a little saltwater behind it.</span></h2>
+<p>I’m Mark Millham — retired IT senior manager, veteran, former liveaboard sailor, and longtime cruiser.</p>
+<p><strong>Still Afloat</strong> is where I break things down the way I actually think about them: what matters, what does not, where people waste money or spend wisely, and how to enjoy the trip without drowning in options.</p>
+<p class="tagline">Cruise smarter. Laugh more. Stay Afloat.</p>
+</div>
+<img class="parrots-accent" src="./assets/images/parrots.JPG" alt="Mark with parrots">
+</div>
 </section>
 
 <section id="watch" class="section youtube-section"><div class="wrap two-col"><div><p class="section-kicker">YouTube coming soon</p><h2>The channel is being built around the trip, not a studio script.</h2></div><div class="video-placeholder"><i class="fa-brands fa-youtube"></i><h3>First videos coming soon</h3><p>Planning episodes, ship selection, cruise prep, onboard lessons, travel-day decisions, and honest post-cruise takeaways.</p></div></div></section>
 </main>
-
 <footer><p>© 2026 Still Afloat LLC — Cruise smarter. Laugh more. Stay Afloat.</p></footer>
 <script src="./js/app.js?v=20260505-1"></script>
 <script src="./js/news.js"></script>
