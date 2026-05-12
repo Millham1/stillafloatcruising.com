@@ -8,17 +8,19 @@ const RSS_SOURCES = [
 ];
 
 const NEWSAPI_SEARCHES = [
-  { q: 'Caribbean tourism OR Bahamas tourism', tier: 'lifestyle' },
-  { q: 'Alaska tourism OR Mediterranean tourism', tier: 'lifestyle' },
-  { q: 'private island travel OR beach vacations', tier: 'lifestyle' },
-  { q: 'Miami airport delays OR FAA delays', tier: 'impact' },
-  { q: 'hurricane Caribbean OR tropical weather travel', tier: 'impact' },
-  { q: 'Barcelona overtourism OR European tourism restrictions', tier: 'impact' },
-  { q: 'travel industry demand OR tourism trends', tier: 'industry' }
+  { q: 'Caribbean cruise travel OR Bahamas cruise destinations', tier: 'lifestyle' },
+  { q: 'Alaska cruise season OR Mediterranean cruise ports', tier: 'lifestyle' },
+  { q: 'cruise port delays OR airport delays affecting cruise travelers', tier: 'impact' },
+  { q: 'Caribbean hurricane cruise impacts OR itinerary changes', tier: 'impact' },
+  { q: 'new cruise ships OR cruise industry expansion', tier: 'industry' }
 ];
 
-const CRUISE_RELEVANCE = [
-  'caribbean','bahamas','alaska','mediterranean','tourism','travel','airport','faa','port','terminal','hurricane','tropical','vacation','island','beach','miami','barcelona','ship','cruise','passenger'
+const POSITIVE_TERMS = [
+  'cruise','ship','port','itinerary','caribbean','bahamas','alaska','mediterranean','vacation','travel','tourism','airport','hurricane','island','resort','royal caribbean','norwegian','celebrity','carnival','msc'
+];
+
+const NEGATIVE_TERMS = [
+  'hiv','genetic','politics','election','war','murder','lawsuit','research paper','medical study','virus','stock prediction'
 ];
 
 function normalizeText(text='') {
@@ -26,33 +28,39 @@ function normalizeText(text='') {
 }
 
 function normalizeStory(raw) {
+  const tier = raw.tier || 'lifestyle';
+
   return {
     title: normalizeText(raw.title || ''),
     description: normalizeText(raw.description || ''),
     link: raw.link || '',
     source: raw.source || 'Unknown',
-    tier: raw.tier || 'lifestyle',
-    category: raw.tier === 'impact'
+    tier,
+    category: tier === 'impact'
       ? 'Cruise Impact'
-      : raw.tier === 'industry'
+      : tier === 'industry'
         ? 'Industry Intelligence'
         : 'Cruise Life',
     publishedAt: raw.publishedAt || null,
     image: raw.image || null,
-    score: raw.tier === 'lifestyle' ? 300 : raw.tier === 'impact' ? 200 : 100
+    score: tier === 'lifestyle' ? 300 : tier === 'impact' ? 200 : 100
   };
 }
 
 function isCruiseRelevant(story) {
   const text = `${story.title} ${story.description}`.toLowerCase();
-  return CRUISE_RELEVANCE.some(term => text.includes(term));
+
+  const positive = POSITIVE_TERMS.some(term => text.includes(term));
+  const negative = NEGATIVE_TERMS.some(term => text.includes(term));
+
+  return positive && !negative;
 }
 
 function dedupeStories(stories) {
   const seen = new Set();
 
   return stories.filter(story => {
-    const key = story.title.toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 100);
+    const key = story.title.toLowerCase().replace(/[^a-z0-9]/g, '').slice(0,100);
     if (seen.has(key)) return false;
     seen.add(key);
     return true;
@@ -67,7 +75,7 @@ async function fetchNewsApi(search) {
     url.searchParams.set('q', search.q);
     url.searchParams.set('language', 'en');
     url.searchParams.set('sortBy', 'publishedAt');
-    url.searchParams.set('pageSize', '12');
+    url.searchParams.set('pageSize', '6');
     url.searchParams.set('apiKey', NEWS_API_KEY);
 
     const response = await fetch(url.toString());
@@ -98,7 +106,7 @@ async function fetchRssSource(source) {
     if (!response.ok) return [];
 
     const xml = await response.text();
-    const items = [...xml.matchAll(/<item[\s\S]*?<\/item>/gi)].slice(0, 3);
+    const items = [...xml.matchAll(/<item[\s\S]*?<\/item>/gi)].slice(0, 2);
 
     return items.map(match => {
       const item = match[0];
@@ -124,7 +132,7 @@ export default async function handler(req, res) {
 
     const stories = dedupeStories([...newsStories, ...rssStories])
       .sort((a,b) => b.score - a.score)
-      .slice(0, 25);
+      .slice(0,20);
 
     return res.status(200).json({
       ok: true,
