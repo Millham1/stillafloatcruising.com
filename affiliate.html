@@ -4,72 +4,39 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Still Afloat Cruise Gear</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Poppins',sans-serif;background:#03101f;color:#fff;min-height:100vh;padding:24px;overflow-x:hidden}
-body::before{content:'';position:fixed;inset:0;background:url('https://raw.githubusercontent.com/Millham1/stillafloatcruising.com/main/assets/images/Tropical%20beach%20with%20palm%20trees%20and%20ship.png') center/cover no-repeat;filter:blur(12px) brightness(.18);transform:scale(1.08);z-index:-2}
-body::after{content:'';position:fixed;inset:0;background:linear-gradient(180deg,rgba(1,8,22,.78),rgba(1,8,22,.94));z-index:-1}
-.page{max-width:1280px;margin:auto}
-.home-btn{display:inline-flex;align-items:center;gap:10px;padding:13px 28px;border-radius:999px;background:rgba(2,18,40,.92);border:1px solid rgba(45,212,255,.5);color:#fff;text-decoration:none;font-weight:700;box-shadow:0 0 24px rgba(45,212,255,.25);transition:.25s;margin-bottom:18px}
-.home-btn:hover{transform:translateY(-2px);box-shadow:0 0 36px rgba(45,212,255,.4)}
-.hero{position:relative;min-height:640px;border-radius:36px;overflow:hidden;border:1px solid rgba(255,255,255,.14);box-shadow:0 24px 80px rgba(0,0,0,.5);background:url('https://raw.githubusercontent.com/Millham1/stillafloatcruising.com/main/assets/images/Tropical%20beach%20with%20palm%20trees%20and%20ship.png') center/cover no-repeat}
-.hero::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(2,10,28,.88) 0%,rgba(2,10,28,.58) 40%,rgba(2,10,28,.18) 72%,rgba(2,10,28,.1) 100%)}
-.hero-content{position:relative;z-index:2;padding:44px;max-width:700px}
-.logo{width:220px;display:block;margin-bottom:18px;filter:drop-shadow(0 10px 20px rgba(0,0,0,.45))}
-h1{font-size:7rem;line-height:.88;font-weight:900;letter-spacing:-4px;margin-bottom:18px;text-shadow:0 12px 30px rgba(0,0,0,.45)}
-.subtitle{font-size:1.6rem;line-height:1.5;font-weight:700;max-width:620px}
-.perfect{font-family:'Pacifico',cursive;background:linear-gradient(90deg,#ffbf2f,#2dd4ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1.15em}
-.disclosure{margin-top:28px;display:flex;gap:18px;align-items:center;padding:24px;border-radius:24px;background:rgba(2,12,28,.76);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(10px);max-width:620px;box-shadow:0 20px 45px rgba(0,0,0,.35)}
-.disclosure-icon{font-size:52px;color:#ffbf2f}
-.disclosure p{font-size:1rem;line-height:1.65}
-.stay{font-family:'Pacifico',cursive;background:linear-gradient(90deg,#ffbf2f,#2dd4ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1.35em}
-.category-panel{margin-top:26px;padding:34px;border-radius:34px;background:rgba(2,12,28,.84);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(12px);box-shadow:0 24px 70px rgba(0,0,0,.38)}
-.category-title{text-align:center;font-size:2.1rem;font-weight:900;letter-spacing:.05em;margin-bottom:28px}
-.category-title span{color:#2dd4ff}
-.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
-.card{border-radius:24px;overflow:hidden;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);box-shadow:0 16px 36px rgba(0,0,0,.3);transition:.25s}
-.card:hover{transform:translateY(-6px)}
-.card img{width:100%;display:block}
-.amazon-wrap{text-align:center;margin-top:34px}
-.amazon-btn{display:inline-flex;align-items:center;gap:12px;padding:18px 40px;border-radius:999px;background:linear-gradient(180deg,#ffd45e,#ffb300);color:#071427;text-decoration:none;font-size:1.2rem;font-weight:900;box-shadow:0 18px 40px rgba(255,179,0,.32)}
-.note{text-align:center;margin-top:14px;font-size:.92rem;color:#dce7f3}
-@media(max-width:1100px){h1{font-size:5rem}.cards{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:700px){body{padding:12px}.hero-content{padding:24px}.logo{width:170px}h1{font-size:3.6rem}.subtitle{font-size:1.05rem}.disclosure{flex-direction:column;text-align:center}.cards{grid-template-columns:1fr}.category-panel{padding:20px}.amazon-btn{font-size:1rem;padding:16px 24px}}
+body{min-height:100vh;background:#020b18;padding:24px;color:#fff;font-family:Arial,sans-serif;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:url('https://raw.githubusercontent.com/Millham1/stillafloatcruising.com/main/assets/images/affiliate-hero-final.png') center/cover no-repeat;filter:blur(18px) brightness(.28);transform:scale(1.12);z-index:-2}
+body::after{content:'';position:fixed;inset:0;background:linear-gradient(180deg,rgba(1,8,20,.58),rgba(1,8,20,.86));z-index:-1}
+.page{max-width:1440px;margin:0 auto;position:relative}
+.render-wrap{position:relative;width:100%;border-radius:34px;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,.55);border:1px solid rgba(45,212,255,.18);background:#041226}
+.render{display:block;width:100%;height:auto}
+.hotspot{position:absolute;display:block;text-indent:-9999px;overflow:hidden;border-radius:18px;outline:none;transition:.18s ease}
+.hotspot:focus-visible{box-shadow:0 0 0 4px rgba(45,212,255,.75) inset;background:rgba(45,212,255,.12)}
+.hotspot:hover{background:rgba(45,212,255,.08);box-shadow:0 0 24px rgba(45,212,255,.22) inset}
+.home{left:3.8%;top:2.8%;width:13.5%;height:6.8%;border-radius:999px}
+.menu{right:5.7%;top:2.4%;width:4.8%;height:6.6%;border-radius:999px}
+.air{left:11.1%;top:64.8%;width:17.3%;height:24.3%}
+.cabin{left:30.2%;top:64.8%;width:17.3%;height:24.3%}
+.fun{left:49.5%;top:64.8%;width:17.3%;height:24.3%}
+.ideas{left:68.6%;top:64.8%;width:17.3%;height:24.3%}
+.amazon{left:27.2%;top:91.0%;width:45.6%;height:6.1%;border-radius:999px}
+@media(max-width:700px){body{padding:10px}.render-wrap{border-radius:20px}.home{left:3%;top:2%;width:18%;height:6%}.menu{right:5%;top:2%;width:7%;height:6%}.air,.cabin,.fun,.ideas,.amazon{border-radius:10px}}
 </style>
 </head>
 <body>
-<div class="page">
-<a class="home-btn" href="index.html">⚓ Home</a>
-<section class="hero">
-<div class="hero-content">
-<img class="logo" src="https://raw.githubusercontent.com/Millham1/stillafloatcruising.com/main/assets/images/still_afloat_logo.png" alt="Still Afloat Logo">
-<h1>CRUISE<br>GEAR</h1>
-<p class="subtitle">Cruise-tested picks, packing helpers, and smart finds for the <span class="perfect">Perfect Cruise.</span></p>
-<div class="disclosure">
-<div class="disclosure-icon">🌴</div>
-<div>
-<p>As an Amazon Associate, Still Afloat may earn from qualifying purchases. This helps support the channel and future cruise content.</p>
-<p style="margin-top:10px">I do the work, you enjoy. <span class="stay">Stay Afloat.</span></p>
-</div>
-</div>
-</div>
+<main class="page">
+<section class="render-wrap" aria-label="Still Afloat Cruise Gear affiliate page">
+<img class="render" src="https://raw.githubusercontent.com/Millham1/stillafloatcruising.com/main/assets/images/affiliate-hero-final.png" alt="Still Afloat Cruise Gear - Shop by category">
+<a class="hotspot home" href="index.html">Home</a>
+<a class="hotspot menu" href="index.html#menu">Menu</a>
+<a class="hotspot air" href="#air-travel">Air Travel</a>
+<a class="hotspot cabin" href="#cruise-cabin-essentials">Cruise Cabin Essentials</a>
+<a class="hotspot fun" href="#cruise-fun">Cruise Fun</a>
+<a class="hotspot ideas" href="#great-ideas">Great Ideas</a>
+<a class="hotspot amazon" href="#amazon-products">Shop Our Favorite Products on Amazon</a>
 </section>
-<section class="category-panel">
-<div class="category-title"><span>〰</span> SHOP BY CATEGORY <span>〰</span></div>
-<div class="cards">
-<div class="card"><img src="https://raw.githubusercontent.com/Millham1/stillafloatcruising.com/main/assets/images/affiliate-category-reference.png" alt="Air Travel"></div>
-<div class="card"><img src="https://raw.githubusercontent.com/Millham1/stillafloatcruising.com/main/assets/images/affiliate-category-reference.png" alt="Cruise Cabin Essentials"></div>
-<div class="card"><img src="https://raw.githubusercontent.com/Millham1/stillafloatcruising.com/main/assets/images/affiliate-category-reference.png" alt="Cruise Fun"></div>
-<div class="card"><img src="https://raw.githubusercontent.com/Millham1/stillafloatcruising.com/main/assets/images/affiliate-category-reference.png" alt="Great Ideas"></div>
-</div>
-<div class="amazon-wrap">
-<a class="amazon-btn" href="#">🛒 Shop Our Favorite Products on Amazon →</a>
-<div class="note">As an Amazon Associate, Still Afloat may earn from qualifying purchases.</div>
-</div>
-</section>
-</div>
+</main>
 </body>
 </html>
