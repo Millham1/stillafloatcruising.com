@@ -4,39 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Still Afloat Cruise Gear</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{min-height:100vh;background:#020b18;padding:24px;color:#fff;font-family:Arial,sans-serif;overflow-x:hidden}
-body::before{content:'';position:fixed;inset:0;background:url('https://raw.githubusercontent.com/Millham1/stillafloatcruising.com/main/assets/images/affiliate-hero-final.png') center/cover no-repeat;filter:blur(18px) brightness(.28);transform:scale(1.12);z-index:-2}
-body::after{content:'';position:fixed;inset:0;background:linear-gradient(180deg,rgba(1,8,20,.58),rgba(1,8,20,.86));z-index:-1}
-.page{max-width:1440px;margin:0 auto;position:relative}
-.render-wrap{position:relative;width:100%;border-radius:34px;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,.55);border:1px solid rgba(45,212,255,.18);background:#041226}
-.render{display:block;width:100%;height:auto}
-.hotspot{position:absolute;display:block;text-indent:-9999px;overflow:hidden;border-radius:18px;outline:none;transition:.18s ease}
-.hotspot:focus-visible{box-shadow:0 0 0 4px rgba(45,212,255,.75) inset;background:rgba(45,212,255,.12)}
-.hotspot:hover{background:rgba(45,212,255,.08);box-shadow:0 0 24px rgba(45,212,255,.22) inset}
-.home{left:3.8%;top:2.8%;width:13.5%;height:6.8%;border-radius:999px}
-.menu{right:5.7%;top:2.4%;width:4.8%;height:6.6%;border-radius:999px}
-.air{left:11.1%;top:64.8%;width:17.3%;height:24.3%}
-.cabin{left:30.2%;top:64.8%;width:17.3%;height:24.3%}
-.fun{left:49.5%;top:64.8%;width:17.3%;height:24.3%}
-.ideas{left:68.6%;top:64.8%;width:17.3%;height:24.3%}
-.amazon{left:27.2%;top:91.0%;width:45.6%;height:6.1%;border-radius:999px}
-@media(max-width:700px){body{padding:10px}.render-wrap{border-radius:20px}.home{left:3%;top:2%;width:18%;height:6%}.menu{right:5%;top:2%;width:7%;height:6%}.air,.cabin,.fun,.ideas,.amazon{border-radius:10px}}
+body{font-family:'Poppins',sans-serif;min-height:100vh;color:#fff;overflow-x:hidden;background:linear-gradient(rgba(2,10,28,.72),rgba(2,10,28,.9)),url('./assets/images/Tropical beach with palm trees and ship.png') center/cover no-repeat fixed;padding:28px}.page-wrap{max-width:1400px;margin:0 auto}.home-btn{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;border-radius:999px;text-decoration:none;color:#fff;font-weight:700;border:1px solid rgba(57,214,255,.55);background:rgba(3,14,35,.82);backdrop-filter:blur(8px);box-shadow:0 0 20px rgba(57,214,255,.28);transition:.25s ease;margin-bottom:28px}.home-btn:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(57,214,255,.42)}.hero-content{padding:20px 0 10px;max-width:760px}.hero-logo{width:220px;margin-bottom:18px;filter:drop-shadow(0 10px 24px rgba(0,0,0,.45))}.hero-title{font-size:7rem;line-height:.9;font-weight:900;letter-spacing:-5px;margin-bottom:18px;text-shadow:0 12px 32px rgba(0,0,0,.45)}.hero-subtitle{font-size:1.65rem;line-height:1.5;font-weight:700;margin-bottom:34px}.gradient-script{font-family:'Pacifico',cursive;background:linear-gradient(90deg,#ffb91f,#1fd8ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.affiliate-disclosure{max-width:760px;margin:0 auto 50px;display:flex;align-items:center;gap:24px;padding:28px 34px;border-radius:26px;background:rgba(3,13,32,.72);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.12);box-shadow:0 20px 50px rgba(0,0,0,.38)}.affiliate-icon{font-size:54px;color:#ffb91f}.cards-section{margin-top:20px}.section-title{text-align:center;font-size:2.6rem;font-weight:900;margin-bottom:36px}.cards-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px}.category-card{border-radius:34px;background:rgba(255,255,255,.92);padding:24px 24px 34px;text-align:center;box-shadow:0 24px 50px rgba(0,0,0,.3);transition:transform .25s ease;min-height:620px}.category-card:hover{transform:translateY(-8px)}.blue-card{border:3px solid #4bbcff}.teal-card{border:3px solid #67dfd9}.orange-card{border:3px solid #ff9b7a}.purple-card{border:3px solid #b88cff}.circle-image{width:250px;height:250px;border-radius:50%;overflow:hidden;margin:0 auto 24px}.circle-image img{width:100%;height:100%;object-fit:cover}.card-title{font-size:2.25rem;line-height:1.1;font-weight:900;color:#16337d;margin-bottom:18px;text-transform:uppercase}.card-description{font-size:1.35rem;line-height:1.6;color:#23314f;font-weight:500}.amazon-cta-wrap{text-align:center;margin-top:46px}.amazon-cta{display:inline-flex;align-items:center;gap:14px;padding:20px 42px;border-radius:999px;background:linear-gradient(180deg,#ffd560,#ffb300);color:#071427;text-decoration:none;font-size:1.3rem;font-weight:900;box-shadow:0 20px 45px rgba(255,179,0,.35)}.amazon-note{margin-top:14px;color:rgba(255,255,255,.9);font-size:.95rem}@media(max-width:1200px){.cards-grid{grid-template-columns:repeat(2,1fr)}.hero-title{font-size:5rem}}@media(max-width:768px){body{padding:16px}.hero-title{font-size:3.8rem}.cards-grid{grid-template-columns:1fr}.affiliate-disclosure{flex-direction:column;text-align:center}}
 </style>
 </head>
 <body>
-<main class="page">
-<section class="render-wrap" aria-label="Still Afloat Cruise Gear affiliate page">
-<img class="render" src="https://raw.githubusercontent.com/Millham1/stillafloatcruising.com/main/assets/images/affiliate-hero-final.png" alt="Still Afloat Cruise Gear - Shop by category">
-<a class="hotspot home" href="index.html">Home</a>
-<a class="hotspot menu" href="index.html#menu">Menu</a>
-<a class="hotspot air" href="#air-travel">Air Travel</a>
-<a class="hotspot cabin" href="#cruise-cabin-essentials">Cruise Cabin Essentials</a>
-<a class="hotspot fun" href="#cruise-fun">Cruise Fun</a>
-<a class="hotspot ideas" href="#great-ideas">Great Ideas</a>
-<a class="hotspot amazon" href="#amazon-products">Shop Our Favorite Products on Amazon</a>
-</section>
-</main>
+<div class="page-wrap">
+<a href="index.html" class="home-btn">⚓ Home</a>
+<section class="hero-content"><img src="./assets/images/still_afloat_logo.png" alt="Still Afloat" class="hero-logo"><h1 class="hero-title">CRUISE<br>GEAR</h1><p class="hero-subtitle">Cruise-tested picks, packing helpers, and smart finds for the <span class="gradient-script">Perfect Cruise.</span></p></section>
+<section class="affiliate-disclosure"><div class="affiliate-icon">🌴</div><div><p>As an Amazon Associate, Still Afloat may earn from qualifying purchases. This helps support the channel and future cruise content.</p><p style="margin-top:10px">I do the work, you enjoy. <span class="gradient-script">Stay Afloat.</span></p></div></section>
+<section class="cards-section"><h2 class="section-title">SHOP BY CATEGORY</h2><div class="cards-grid"><div class="category-card blue-card"><div class="circle-image"><img src="./assets/images/air-travel-card.png" alt="Air Travel"></div><h3 class="card-title">AIR TRAVEL</h3><p class="card-description">Smart gear for smoother flights and stress-free travel days.</p></div><div class="category-card teal-card"><div class="circle-image"><img src="./assets/images/cabin-essentials-card.png" alt="Cruise Cabin Essentials"></div><h3 class="card-title">CRUISE CABIN ESSENTIALS</h3><p class="card-description">Must-have items to make your cabin more comfortable, organized, and functional.</p></div><div class="category-card orange-card"><div class="circle-image"><img src="./assets/images/cruise-fun-card.png" alt="Cruise Fun"></div><h3 class="card-title">CRUISE FUN!</h3><p class="card-description">Fun, games, and entertainment to make every cruise better.</p></div><div class="category-card purple-card"><div class="circle-image"><img src="./assets/images/great-ideas-card.png" alt="Great Ideas"></div><h3 class="card-title">GENERALLY GREAT IDEAS</h3><p class="card-description">Unique, useful, and unexpected finds that just make life easier.</p></div></div><div class="amazon-cta-wrap"><a href="#" class="amazon-cta">🛒 Shop Our Favorite Products on Amazon →</a><div class="amazon-note">As an Amazon Associate, Still Afloat may earn from qualifying purchases.</div></div></section>
+</div>
 </body>
 </html>
