@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Still Afloat | Cruise Essentials</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Pacifico&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Poppins',sans-serif;background:linear-gradient(rgba(2,28,52,.86),rgba(2,28,52,.88)),url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1920');background-size:cover;background-attachment:fixed;color:#fff;overflow-x:hidden}
+.hero{padding:40px 20px;text-align:center}
+.logo{max-width:420px;width:90%;margin-bottom:20px}
+.hero h1{font-size:3rem;margin-bottom:16px}
+.hero p{max-width:900px;margin:auto;line-height:1.8;font-size:1.1rem}
+.wrapper{width:min(1200px,92%);margin:auto;padding-bottom:80px}
+.disclosure{background:rgba(186,233,255,.12);border:2px solid rgba(83,198,255,.45);backdrop-filter:blur(10px);padding:28px;border-radius:28px;margin-top:25px}
+.disclosure p{line-height:1.9;font-size:1.05rem}
+.stay{font-family:'Pacifico',cursive;font-size:2rem;color:#63d6ff;text-shadow:2px 2px 0 #0d2f59}
+.featured,.card{background:rgba(255,255,255,.94);color:#0d2f59;border-radius:28px;box-shadow:0 12px 35px rgba(0,0,0,.28)}
+.featured{padding:30px;margin-top:40px}
+.featured-grid{display:grid;grid-template-columns:320px 1fr;gap:30px;align-items:center}
+.placeholder{height:250px;border:3px dashed #7ccfff;border-radius:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#f6fbff}
+.placeholder span{font-size:1.5rem;font-weight:700;color:#2f6ea0}
+.section-title{text-align:center;font-size:2.4rem;margin:50px 0 35px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px}
+.card{padding:28px;text-decoration:none;transition:.35s ease;position:relative;overflow:hidden}
+.card:hover{transform:translateY(-10px) scale(1.03);box-shadow:0 18px 40px rgba(0,0,0,.35)}
+.icon{width:120px;height:120px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:3rem;margin:0 auto 18px;background:linear-gradient(135deg,#5ecfff,#b8f0ff);transition:.35s ease}
+.card:hover .icon{transform:scale(1.12) rotate(-4deg)}
+.card h3{font-size:1.5rem;margin-bottom:12px}
+.card p{line-height:1.8}
+.footer{text-align:center;margin-top:60px;padding-bottom:50px}
+@media(max-width:860px){.featured-grid{grid-template-columns:1fr}.hero h1{font-size:2.2rem}}
+</style>
+</head>
+<body>
+<section class="hero">
+<img class="logo" src="https://i.imgur.com/K7j5Q8Y.png" alt="Still Afloat logo">
+<h1>Cruise Essentials & Favorite Gear</h1>
+<p>Carefully selected cruise, travel, filming, and tech gear we personally use, test, or recommend for smoother travel and smarter cruising.</p>
+</section>
+<div class="wrapper">
+<div class="disclosure">
+<p>As an Amazon Associate, Still Afloat may earn from qualifying purchases. This helps support the channel and future cruise content.</p>
+<p style="margin-top:14px">I do the work, you enjoy. <span class="stay">Stay Afloat.</span></p>
+</div>
+<div class="featured">
+<h2 style="margin-bottom:25px">⭐ Highlighted Product of the Week</h2>
+<div class="featured-grid">
+<div class="placeholder"><div style="font-size:4rem">🎁</div><span>Coming Soon</span></div>
+<div>
+<h2 style="font-size:2.8rem;margin-bottom:16px">Coming Soon</h2>
+<p style="line-height:1.9;font-size:1.05rem">Check back soon for our hand-picked favorite product of the week.</p>
+</div>
+</div>
+</div>
+<h2 class="section-title">Shop By Category</h2>
+<div class="grid">
+<a class="card" href="#"><div class="icon">✈️</div><h3>Air Travel</h3><p>Smart gear for smoother flights and stress-free travel days.</p></a>
+<a class="card" href="#"><div class="icon">🛏️</div><h3>Cruise Cabin Essentials</h3><p>Must-have items to make your cabin more comfortable and functional.</p></a>
+<a class="card" href="#"><div class="icon">🍹</div><h3>Cruise Fun!</h3><p>Fun, games, entertainment, and vacation upgrades.</p></a>
+<a class="card" href="#"><div class="icon">💡</div><h3>Generally Great Ideas</h3><p>Unique, useful, and unexpected finds that just make life easier.</p></a>
+</div>
+<div class="footer">
+<p>Thanks for supporting the channel. Safe travels and <span class="stay">Stay Afloat!</span></p>
+</div>
+</div>
+<script>
+document.querySelectorAll('.card').forEach(card=>{card.addEventListener('mousemove',e=>{const r=card.getBoundingClientRect();const x=e.clientX-r.left;const y=e.clientY-r.top;const ry=((x/r.width)-.5)*10;const rx=((y/r.height)-.5)*-10;card.style.transform=`perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-8px) scale(1.03)`});card.addEventListener('mouseleave',()=>{card.style.transform=''})})
+</script>
+</body>
+</html>
