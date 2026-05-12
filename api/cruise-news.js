@@ -12,15 +12,15 @@ const NEWSAPI_SEARCHES = [
   { q: 'Alaska cruise season OR Mediterranean cruise ports', tier: 'lifestyle' },
   { q: 'cruise port delays OR airport delays affecting cruise travelers', tier: 'impact' },
   { q: 'Caribbean hurricane cruise impacts OR itinerary changes', tier: 'impact' },
-  { q: 'new cruise ships OR cruise industry expansion', tier: 'industry' }
+  { q: 'new cruise ships OR cruise loyalty changes', tier: 'lifestyle' }
 ];
 
 const POSITIVE_TERMS = [
-  'cruise','ship','port','itinerary','caribbean','bahamas','alaska','mediterranean','vacation','travel','tourism','airport','hurricane','island','resort','royal caribbean','norwegian','celebrity','carnival','msc'
+  'cruise','ship','port','itinerary','caribbean','bahamas','alaska','mediterranean','vacation','travel','tourism','airport','hurricane','island','resort','royal caribbean','norwegian','celebrity','carnival','msc','disney cruise'
 ];
 
 const NEGATIVE_TERMS = [
-  'hiv','genetic','politics','election','war','murder','lawsuit','research paper','medical study','virus','stock prediction'
+  'hiv','genetic','politics','election','war','murder','lawsuit','research paper','medical study','virus','stock prediction','thc beverage','car market'
 ];
 
 function normalizeText(text='') {
@@ -36,14 +36,10 @@ function normalizeStory(raw) {
     link: raw.link || '',
     source: raw.source || 'Unknown',
     tier,
-    category: tier === 'impact'
-      ? 'Cruise Impact'
-      : tier === 'industry'
-        ? 'Industry Intelligence'
-        : 'Cruise Life',
+    category: tier === 'impact' ? 'Travel Impact' : 'Cruise Life',
     publishedAt: raw.publishedAt || null,
     image: raw.image || null,
-    score: tier === 'lifestyle' ? 300 : tier === 'impact' ? 200 : 100
+    score: tier === 'impact' ? 200 : 300
   };
 }
 
@@ -60,9 +56,16 @@ function dedupeStories(stories) {
   const seen = new Set();
 
   return stories.filter(story => {
-    const key = story.title.toLowerCase().replace(/[^a-z0-9]/g, '').slice(0,100);
-    if (seen.has(key)) return false;
-    seen.add(key);
+    const titleKey = story.title.toLowerCase()
+      .replace(/disney|cruise|line|passengers|new|update|confirmed|timeline|banned|alcohol/g, '')
+      .replace(/[^a-z0-9]/g, '')
+      .slice(0,80);
+
+    const sourceKey = `${story.source}-${titleKey}`;
+
+    if (seen.has(sourceKey)) return false;
+
+    seen.add(sourceKey);
     return true;
   });
 }
@@ -75,7 +78,7 @@ async function fetchNewsApi(search) {
     url.searchParams.set('q', search.q);
     url.searchParams.set('language', 'en');
     url.searchParams.set('sortBy', 'publishedAt');
-    url.searchParams.set('pageSize', '6');
+    url.searchParams.set('pageSize', '5');
     url.searchParams.set('apiKey', NEWS_API_KEY);
 
     const response = await fetch(url.toString());
@@ -106,7 +109,7 @@ async function fetchRssSource(source) {
     if (!response.ok) return [];
 
     const xml = await response.text();
-    const items = [...xml.matchAll(/<item[\s\S]*?<\/item>/gi)].slice(0, 2);
+    const items = [...xml.matchAll(/<item[\s\S]*?<\/item>/gi)].slice(0, 1);
 
     return items.map(match => {
       const item = match[0];
@@ -116,7 +119,7 @@ async function fetchRssSource(source) {
         description: (item.match(/<description>([\s\S]*?)<\/description>/i) || [])[1] || '',
         link: (item.match(/<link>([\s\S]*?)<\/link>/i) || [])[1] || '',
         source: source.name,
-        tier: source.name.includes('Industry') || source.name.includes('Seatrade') ? 'industry' : 'lifestyle'
+        tier: source.name.includes('Industry') || source.name.includes('Seatrade') ? 'impact' : 'lifestyle'
       });
     });
 
@@ -132,7 +135,7 @@ export default async function handler(req, res) {
 
     const stories = dedupeStories([...newsStories, ...rssStories])
       .sort((a,b) => b.score - a.score)
-      .slice(0,20);
+      .slice(0,16);
 
     return res.status(200).json({
       ok: true,
