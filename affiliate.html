@@ -6,12 +6,13 @@
 <title>Still Afloat Gear</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:#042b45;display:flex;justify-content:center;padding:24px;}
+body{background:#042b45;display:flex;justify-content:center;padding:24px;font-family:Arial,sans-serif;}
 .wrapper{position:relative;width:min(100%,1000px);}
 .master{width:100%;display:block;border-radius:18px;box-shadow:0 25px 60px rgba(0,0,0,.4);}
+.home-btn{position:absolute;top:18px;left:18px;z-index:20;background:rgba(5,34,57,.88);color:#fff;text-decoration:none;padding:10px 18px;border-radius:999px;font-weight:700;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.18);box-shadow:0 10px 24px rgba(0,0,0,.25);transition:.2s ease;}
+.home-btn:hover{transform:translateY(-2px);background:rgba(0,119,182,.92);}
 .hotspot{position:absolute;display:block;border-radius:22px;transition:all .2s ease;}
 .hotspot:hover{background:rgba(255,255,255,.10);transform:translateY(-4px);}
-.home{left:0;top:0;width:100%;height:14%;}
 .air{left:6.5%;top:71.5%;width:19%;height:20%;}
 .cabin{left:28%;top:71.5%;width:19%;height:20%;}
 .fun{left:49.5%;top:71.5%;width:19%;height:20%;}
@@ -21,8 +22,8 @@ body{background:#042b45;display:flex;justify-content:center;padding:24px;}
 </head>
 <body>
 <div class="wrapper">
+<a class="home-btn" href="/index.html">← Home</a>
 <img class="master" src="assets/images/affiliate%20page%20image.png" alt="Still Afloat Cruise Essentials">
-<a class="hotspot home" href="index.html"></a>
 <a class="hotspot air" href="#"></a>
 <a class="hotspot cabin" href="#"></a>
 <a class="hotspot fun" href="#"></a>
