@@ -48,16 +48,19 @@ function isCruiseRelevant(story) {
   return CRUISE_RELEVANCE.some(term => text.includes(term));
 }
 
+function dedupeStories(stories) {
+  const seen = new Set();
+
+  return stories.filter(story => {
+    const key = story.title.toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 100);
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
 async function fetchNewsApi(search) {
-  if (!NEWS_API_KEY) {
-    return {
-      stories: [],
-      debug: {
-        query: search.q,
-        status: 'missing-api-key'
-      }
-    };
-  }
+  if (!NEWS_API_KEY) return [];
 
   try {
     const url = new URL('https://newsapi.org/v2/everything');
@@ -68,9 +71,11 @@ async function fetchNewsApi(search) {
     url.searchParams.set('apiKey', NEWS_API_KEY);
 
     const response = await fetch(url.toString());
+    if (!response.ok) return [];
+
     const data = await response.json();
 
-    const stories = (data.articles || [])
+    return (data.articles || [])
       .map(article => normalizeStory({
         title: article.title,
         description: article.description,
@@ -82,26 +87,8 @@ async function fetchNewsApi(search) {
       }))
       .filter(isCruiseRelevant);
 
-    return {
-      stories,
-      debug: {
-        query: search.q,
-        status: response.status,
-        totalResults: data.totalResults || 0,
-        returned: stories.length,
-        sampleSources: [...new Set(stories.map(s => s.source))].slice(0,10)
-      }
-    };
-
-  } catch (error) {
-    return {
-      stories: [],
-      debug: {
-        query: search.q,
-        status: 'fetch-failed',
-        error: error.message
-      }
-    };
+  } catch {
+    return [];
   }
 }
 
@@ -116,14 +103,10 @@ async function fetchRssSource(source) {
     return items.map(match => {
       const item = match[0];
 
-      const title = (item.match(/<title>([\s\S]*?)<\/title>/i) || [])[1] || '';
-      const description = (item.match(/<description>([\s\S]*?)<\/description>/i) || [])[1] || '';
-      const link = (item.match(/<link>([\s\S]*?)<\/link>/i) || [])[1] || '';
-
       return normalizeStory({
-        title,
-        description,
-        link,
+        title: (item.match(/<title>([\s\S]*?)<\/title>/i) || [])[1] || '',
+        description: (item.match(/<description>([\s\S]*?)<\/description>/i) || [])[1] || '',
+        link: (item.match(/<link>([\s\S]*?)<\/link>/i) || [])[1] || '',
         source: source.name,
         tier: source.name.includes('Industry') || source.name.includes('Seatrade') ? 'industry' : 'lifestyle'
       });
@@ -136,31 +119,24 @@ async function fetchRssSource(source) {
 
 export default async function handler(req, res) {
   try {
-    const newsApiResults = await Promise.all(NEWSAPI_SEARCHES.map(fetchNewsApi));
-    const rssResults = await Promise.all(RSS_SOURCES.map(fetchRssSource));
+    const newsStories = (await Promise.all(NEWSAPI_SEARCHES.map(fetchNewsApi))).flat();
+    const rssStories = (await Promise.all(RSS_SOURCES.map(fetchRssSource))).flat();
 
-    const newsStories = newsApiResults.flatMap(r => r.stories);
-    const rssStories = rssResults.flat();
-
-    const stories = [...newsStories, ...rssStories]
+    const stories = dedupeStories([...newsStories, ...rssStories])
       .sort((a,b) => b.score - a.score)
       .slice(0, 25);
 
     return res.status(200).json({
       ok: true,
       homepage: stories.slice(0,5),
-      stories,
-      diagnostics: {
-        newsApiEnabled: !!NEWS_API_KEY,
-        newsApiStoryCount: newsStories.length,
-        rssStoryCount: rssStories.length,
-        newsApiDebug: newsApiResults.map(r => r.debug)
-      }
+      stories
     });
   } catch (error) {
     return res.status(500).json({
       ok: false,
-      error: error.message
+      error: error.message,
+      homepage: [],
+      stories: []
     });
   }
 }
