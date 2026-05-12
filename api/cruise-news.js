@@ -3,8 +3,7 @@ const NEWS_API_KEY = process.env.NEWS_API_KEY || process.env.newsapi;
 const RSS_SOURCES = [
   { name: 'Cruise Hive', url: 'https://www.cruisehive.com/feed' },
   { name: 'Royal Caribbean Blog', url: 'https://www.royalcaribbeanblog.com/rss.xml' },
-  { name: 'Cruise Industry News', url: 'https://cruiseindustrynews.com/cruise-news/feed/' },
-  { name: 'Seatrade Cruise', url: 'https://www.seatrade-cruise.com/rss.xml' }
+  { name: 'Cruise Industry News', url: 'https://cruiseindustrynews.com/cruise-news/feed/' }
 ];
 
 const NEWSAPI_SEARCHES = [
@@ -53,19 +52,29 @@ function isCruiseRelevant(story) {
 }
 
 function dedupeStories(stories) {
-  const seen = new Set();
+  const seenNarratives = new Set();
+  const sourceCounts = {};
 
   return stories.filter(story => {
-    const titleKey = story.title.toLowerCase()
+    const narrativeKey = story.title.toLowerCase()
       .replace(/disney|cruise|line|passengers|new|update|confirmed|timeline|banned|alcohol/g, '')
       .replace(/[^a-z0-9]/g, '')
       .slice(0,80);
 
-    const sourceKey = `${story.source}-${titleKey}`;
+    if (seenNarratives.has(narrativeKey)) {
+      return false;
+    }
 
-    if (seen.has(sourceKey)) return false;
+    seenNarratives.add(narrativeKey);
 
-    seen.add(sourceKey);
+    sourceCounts[story.source] = (sourceCounts[story.source] || 0);
+
+    if (sourceCounts[story.source] >= 1) {
+      return false;
+    }
+
+    sourceCounts[story.source]++;
+
     return true;
   });
 }
@@ -119,7 +128,7 @@ async function fetchRssSource(source) {
         description: (item.match(/<description>([\s\S]*?)<\/description>/i) || [])[1] || '',
         link: (item.match(/<link>([\s\S]*?)<\/link>/i) || [])[1] || '',
         source: source.name,
-        tier: source.name.includes('Industry') || source.name.includes('Seatrade') ? 'impact' : 'lifestyle'
+        tier: source.name.includes('Industry') ? 'impact' : 'lifestyle'
       });
     });
 
@@ -135,7 +144,7 @@ export default async function handler(req, res) {
 
     const stories = dedupeStories([...newsStories, ...rssStories])
       .sort((a,b) => b.score - a.score)
-      .slice(0,16);
+      .slice(0,14);
 
     return res.status(200).json({
       ok: true,
