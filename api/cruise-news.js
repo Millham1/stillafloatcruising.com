@@ -8,7 +8,7 @@ const RSS_SOURCES = [
 
 const NEWSAPI_SEARCHES = [
   {
-    q: 'Norwegian Cruise Line OR Royal Caribbean Group OR Royal Caribbean International OR Celebrity Cruises OR Carnival Cruise Line OR Disney Cruise Line OR MSC Cruises',
+    q: 'site:ncl.com OR site:royalcaribbean.com OR site:celebritycruises.com OR site:carnival.com OR site:disneycruise.disney.go.com OR site:msccruisesusa.com cruise',
     tier: 'direct',
     lane: 'direct'
   },
@@ -36,8 +36,8 @@ const NEWSAPI_SEARCHES = [
   }
 ];
 
-const DIRECT_CRUISE_LINE_TERMS = [
-  'norwegian cruise line','ncl','royal caribbean international','royal caribbean group','celebrity cruises','carnival cruise line','disney cruise line','msc cruises','princess cruises','holland america line','virgin voyages','azamara','oceania cruises','regent seven seas'
+const DIRECT_DOMAINS = [
+  'ncl.com','royalcaribbean.com','celebritycruises.com','carnival.com','disneycruise.disney.go.com','msccruisesusa.com','princess.com','hollandamerica.com','virginvoyages.com','azamara.com','oceaniacruises.com','rssc.com'
 ];
 
 const AGGREGATOR_SOURCES = [
@@ -83,12 +83,10 @@ function storyAgeHours(story) {
 
 function freshnessScore(story) {
   const hours = storyAgeHours(story);
-
   if (hours <= 24) return 1200;
   if (hours <= 72) return 850;
   if (hours <= 168) return 450;
   if (hours <= 336) return 100;
-
   return -1000;
 }
 
@@ -96,23 +94,25 @@ function isFreshEnough(story) {
   return storyAgeHours(story) <= 336;
 }
 
-function inferLane(raw, lane) {
-  const text = `${raw.title || ''} ${raw.description || ''} ${raw.source || ''} ${raw.link || ''}`.toLowerCase();
+function isOfficialCruiseLine(raw) {
+  const link = String(raw.link || '').toLowerCase();
+  const source = String(raw.source || '').toLowerCase();
+  return DIRECT_DOMAINS.some(domain => link.includes(domain) || source.includes(domain));
+}
 
-  if (DIRECT_CRUISE_LINE_TERMS.some(term => text.includes(term))) {
-    return 'direct';
-  }
+function inferLane(raw, lane) {
+  if (isOfficialCruiseLine(raw)) return 'direct';
 
   if (AGGREGATOR_SOURCES.some(source => String(raw.source || '').toLowerCase().includes(source))) {
     return 'aggregator';
   }
 
-  return lane || 'cruise';
+  return lane === 'direct' ? 'cruise' : (lane || 'cruise');
 }
 
 function normalizeStory(raw) {
   const lane = inferLane(raw, raw.lane);
-  const tier = lane === 'direct' ? 'direct' : (raw.tier || 'lifestyle');
+  const tier = lane === 'direct' ? 'direct' : (raw.tier === 'direct' ? 'industry' : (raw.tier || 'lifestyle'));
 
   const story = {
     title: normalizeText(raw.title || ''),
@@ -135,7 +135,6 @@ function isCruiseRelevant(story) {
   const text = `${story.title} ${story.description}`.toLowerCase();
   const positive = POSITIVE_TERMS.some(term => text.includes(term));
   const negative = NEGATIVE_TERMS.some(term => text.includes(term));
-
   return story.title && story.link && positive && !negative && isFreshEnough(story);
 }
 
@@ -173,31 +172,18 @@ function dedupeStories(stories) {
 
 function sortStories(stories) {
   return [...stories].sort((a, b) => {
-    const laneWeight = {
-      direct: 180,
-      mainstream: 60,
-      impact: 45,
-      industry: 20,
-      cruise: 10,
-      aggregator: -60
-    };
-
+    const laneWeight = { direct: 180, mainstream: 60, impact: 45, industry: 20, cruise: 10, aggregator: -60 };
     const scoreA = a.score + a.freshness + (laneWeight[a.lane] || 0);
     const scoreB = b.score + b.freshness + (laneWeight[b.lane] || 0);
-
     const scoreDiff = scoreB - scoreA;
     if (scoreDiff !== 0) return scoreDiff;
-
     return storyDateValue(b) - storyDateValue(a);
   });
 }
 
 function pickDiverseHomepage(stories) {
-  const homepageEligible = sortStories(stories)
-    .filter(story => storyAgeHours(story) <= 168);
-
+  const homepageEligible = sortStories(stories).filter(story => storyAgeHours(story) <= 168);
   const picks = [];
-
   const addFirst = predicate => {
     const item = homepageEligible.find(story => predicate(story) && !picks.includes(story));
     if (item) picks.push(item);
@@ -219,25 +205,18 @@ function pickDiverseHomepage(stories) {
 
 async function fetchNewsApi(search) {
   if (!NEWS_API_KEY) return [];
-
   try {
     const url = new URL('https://newsapi.org/v2/everything');
-
     url.searchParams.set('q', search.q);
     url.searchParams.set('language', 'en');
     url.searchParams.set('sortBy', 'publishedAt');
     url.searchParams.set('pageSize', '10');
     url.searchParams.set('from', new Date(Date.now() - (1000 * 60 * 60 * 24 * 7)).toISOString());
-
-    if (search.domains) {
-      url.searchParams.set('domains', search.domains);
-    }
-
+    if (search.domains) url.searchParams.set('domains', search.domains);
     url.searchParams.set('apiKey', NEWS_API_KEY);
 
     const response = await fetch(url.toString());
     if (!response.ok) return [];
-
     const data = await response.json();
 
     return (data.articles || [])
@@ -259,12 +238,8 @@ async function fetchNewsApi(search) {
 
 async function fetchRssSource(source) {
   try {
-    const response = await fetch(source.url, {
-      headers: { 'user-agent': 'StillAfloatCruising/1.0' }
-    });
-
+    const response = await fetch(source.url, { headers: { 'user-agent': 'StillAfloatCruising/1.0' } });
     if (!response.ok) return [];
-
     const xml = await response.text();
     const items = [...xml.matchAll(/<item[\s\S]*?<\/item>/gi)].slice(0, 10);
 
@@ -273,7 +248,6 @@ async function fetchRssSource(source) {
       const guid = extractTag(item, 'guid');
       const link = extractTag(item, 'link') || guid;
       const pubDate = extractTag(item, 'pubDate') || extractTag(item, 'dc:date') || extractTag(item, 'published');
-
       return normalizeStory({
         title: extractTag(item, 'title'),
         description: extractTag(item, 'description') || extractTag(item, 'content:encoded'),
@@ -302,20 +276,8 @@ export default async function handler(req, res) {
     const stories = sortStories(deduped).slice(0, 30);
     const homepage = pickDiverseHomepage(deduped);
 
-    return res.status(200).json({
-      ok: true,
-      generatedAt: new Date().toISOString(),
-      homepage,
-      stories,
-      count: stories.length
-    });
+    return res.status(200).json({ ok: true, generatedAt: new Date().toISOString(), homepage, stories, count: stories.length });
   } catch (error) {
-    return res.status(500).json({
-      ok: false,
-      error: error.message,
-      homepage: [],
-      stories: [],
-      count: 0
-    });
+    return res.status(500).json({ ok: false, error: error.message, homepage: [], stories: [], count: 0 });
   }
 }
