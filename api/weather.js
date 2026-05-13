@@ -1,6 +1,6 @@
 import { CRUISE_LOCATIONS } from '../data/cruiseLocations.js';
 
-const DESTINATIONS = CRUISE_LOCATIONS;
+const LOCATIONS = CRUISE_LOCATIONS;
 
 function emoji(code){
   if([0].includes(code)) return '☀️';
@@ -11,6 +11,29 @@ function emoji(code){
   if([95,96,99].includes(code)) return '⛈️';
   if([71,73,75,77,85,86].includes(code)) return '❄️';
   return '🌤️';
+}
+
+function publicLocation(item){
+  return {
+    slug:item.slug,
+    name:item.name,
+    type:item.type,
+    lat:item.lat,
+    lon:item.lon,
+    query:item.query || item.name
+  };
+}
+
+function featuredByType(type, limit = 10){
+  const typed = LOCATIONS.filter(item => item.type === type);
+  const featured = typed.filter(item => item.featured);
+  const combined = [...featured, ...typed.filter(item => !item.featured)];
+  const seen = new Set();
+  return combined.filter(item => {
+    if(seen.has(item.slug)) return false;
+    seen.add(item.slug);
+    return true;
+  }).slice(0, limit);
 }
 
 async function fetchForecast(destination){
@@ -28,7 +51,7 @@ async function fetchForecast(destination){
   const data = await response.json();
 
   return {
-    ...destination,
+    ...publicLocation(destination),
     temp: Math.round(data.current.temperature_2m),
     emoji: emoji(data.current.weather_code),
     forecastUrl: `forecast.html?place=${destination.slug}`,
@@ -41,36 +64,42 @@ async function fetchForecast(destination){
   };
 }
 
-function publicLocation(item){
-  return {
-    slug:item.slug,
-    name:item.name,
-    type:item.type
-  };
-}
-
 export default async function handler(req, res){
   res.setHeader('Cache-Control', 's-maxage=900, stale-while-revalidate=1800');
+
   try{
     const place = req.query.place;
+
     if(place){
-      const destination = DESTINATIONS.find(item => item.slug === place);
-      if(!destination) return res.status(404).json({ ok:false, error:'Destination not found' });
+      const destination = LOCATIONS.find(item => item.slug === place);
+      if(!destination){
+        return res.status(404).json({ ok:false, error:'Destination not found' });
+      }
+
       const forecast = await fetchForecast(destination);
       return res.status(200).json({ ok:true, forecast });
     }
 
-    const featured = DESTINATIONS.filter(item => item.featured);
-    const cards = await Promise.all(featured.map(fetchForecast));
+    const embarkationFeatured = featuredByType('embarkation', 10);
+    const destinationFeatured = featuredByType('destination', 10);
+    const cards = await Promise.all([...embarkationFeatured, ...destinationFeatured].map(fetchForecast));
+
     return res.status(200).json({
       ok:true,
       generatedAt:new Date().toISOString(),
       embarkation:cards.filter(card => card.type === 'embarkation'),
       destinations:cards.filter(card => card.type === 'destination'),
-      allEmbarkationPorts:DESTINATIONS.filter(item => item.type === 'embarkation').map(publicLocation),
-      allDestinations:DESTINATIONS.filter(item => item.type === 'destination').map(publicLocation)
+      allEmbarkationPorts:LOCATIONS.filter(item => item.type === 'embarkation').map(publicLocation).sort((a,b)=>a.name.localeCompare(b.name)),
+      allDestinations:LOCATIONS.filter(item => item.type === 'destination').map(publicLocation).sort((a,b)=>a.name.localeCompare(b.name))
     });
   }catch(error){
-    return res.status(500).json({ ok:false, error:error.message, embarkation:[], destinations:[], allEmbarkationPorts:[], allDestinations:[] });
+    return res.status(500).json({
+      ok:false,
+      error:error.message,
+      embarkation:[],
+      destinations:[],
+      allEmbarkationPorts:LOCATIONS.filter(item => item.type === 'embarkation').map(publicLocation).sort((a,b)=>a.name.localeCompare(b.name)),
+      allDestinations:LOCATIONS.filter(item => item.type === 'destination').map(publicLocation).sort((a,b)=>a.name.localeCompare(b.name))
+    });
   }
 }
