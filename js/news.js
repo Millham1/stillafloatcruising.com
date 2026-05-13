@@ -5,6 +5,20 @@ let allStories = [];
 let renderedCount = 0;
 const STORIES_PER_BATCH = 10;
 
+function storyUrl(story) {
+  const params = new URLSearchParams({
+    title: story.title || '',
+    source: story.source || '',
+    description: story.description || '',
+    link: story.link || '',
+    image: story.image || '',
+    category: story.category || '',
+    published: story.publishedAt || ''
+  });
+
+  return `story.html?${params.toString()}`;
+}
+
 function badgeConfig(tier='lifestyle') {
   if (tier === 'impact') {
     return {
@@ -17,6 +31,13 @@ function badgeConfig(tier='lifestyle') {
     return {
       label: '🚢 Cruise Pulse',
       style: 'background:rgba(67,97,238,.18);color:#d8e2ff;border:1px solid rgba(67,97,238,.34);'
+    };
+  }
+
+  if (tier === 'direct') {
+    return {
+      label: '📡 Direct from Cruise Lines',
+      style: 'background:rgba(93,255,154,.18);color:#d7ffe6;border:1px solid rgba(93,255,154,.34);'
     };
   }
 
@@ -50,9 +71,7 @@ function renderHomepage(stories = []) {
         </div>
 
         <a
-          href="${story.link}"
-          target="_blank"
-          rel="noopener noreferrer"
+          href="${storyUrl(story)}"
           style="font-size:16px;font-weight:700;color:white;text-decoration:none;line-height:1.35;display:block;transition:all .18s ease;"
           onmouseover="this.style.color='#5dff9a';this.style.transform='translateX(4px)'"
           onmouseout="this.style.color='white';this.style.transform='translateX(0px)'"
@@ -108,19 +127,10 @@ function storyCard(story) {
 
       <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
         <a
-          href="${story.link}"
-          target="_blank"
-          rel="noopener noreferrer"
+          href="${storyUrl(story)}"
           style="display:inline-block;color:#7de3ff;font-weight:800;text-decoration:none;font-size:14px;"
         >
-          Read Full Story ↗
-        </a>
-
-        <a
-          href="news.html"
-          style="display:inline-block;color:rgba(255,255,255,.72);font-weight:700;text-decoration:none;font-size:13px;"
-        >
-          Return to News
+          Open Story Detail →
         </a>
       </div>
     </article>
