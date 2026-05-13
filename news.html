@@ -7,37 +7,12 @@
 <link rel="stylesheet" href="./css/styles.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-body{
-  background:
-    radial-gradient(circle at top right, rgba(0,119,182,0.24), transparent 28%),
-    radial-gradient(circle at left center, rgba(93,255,154,0.10), transparent 30%),
-    linear-gradient(to bottom,#06111f 0%,#0b2238 35%,#102f4d 100%);
-  min-height:100vh;
-  color:white;
-}
-.news-wrap{max-width:1100px;margin:auto;padding:28px 22px 70px}
-.news-header{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:26px}
-.news-logo img{width:240px;max-width:42vw;filter:drop-shadow(0 12px 26px rgba(0,0,0,.55))}
-.news-home-link{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(180deg, rgba(9,72,117,.96), rgba(4,33,66,.96));color:white;text-decoration:none;padding:12px 18px;border-radius:18px;border:1px solid rgba(123,214,255,.28);font-weight:800;box-shadow:0 12px 28px rgba(0,0,0,.28)}
-.news-panel{margin-bottom:26px;padding:22px 24px;border-radius:26px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.10);backdrop-filter:blur(16px);box-shadow:0 18px 44px rgba(0,0,0,.24)}
-.news-panel h1{margin:0 0 12px;font-size:44px;line-height:1}
-.news-panel p{margin:0;color:rgba(255,255,255,.72);line-height:1.6}
-#full-news-feed article{transition:all .22s ease;border:1px solid rgba(255,255,255,.08)}
-#full-news-feed article:hover{transform:translateY(-4px);box-shadow:0 18px 38px rgba(0,0,0,.24);border-color:rgba(93,255,154,.24)}
-footer{padding:30px 20px 50px;text-align:center;color:rgba(255,255,255,.52)}
+body{background:radial-gradient(circle at top right, rgba(0,119,182,0.24), transparent 28%),radial-gradient(circle at left center, rgba(93,255,154,0.10), transparent 30%),linear-gradient(to bottom,#06111f 0%,#0b2238 35%,#102f4d 100%);min-height:100vh;color:white}.news-wrap{max-width:1100px;margin:auto;padding:24px 22px 70px}.news-panel{margin-bottom:26px;padding:22px 24px;border-radius:26px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.10);backdrop-filter:blur(16px);box-shadow:0 18px 44px rgba(0,0,0,.24)}.news-panel h1{margin:0 0 12px;font-size:44px;line-height:1}.news-panel p{margin:0;color:rgba(255,255,255,.72);line-height:1.6}#full-news-feed article{transition:all .22s ease;border:1px solid rgba(255,255,255,.08)}#full-news-feed article:hover{transform:translateY(-4px);box-shadow:0 18px 38px rgba(0,0,0,.24);border-color:rgba(93,255,154,.24)}footer{padding:30px 20px 50px;text-align:center;color:rgba(255,255,255,.52)}
 </style>
 </head>
 <body>
+<div id="navbar-container"></div>
 <main class="news-wrap">
-<div class="news-header">
-<a class="news-logo" href="index.html">
-<img src="/assets/images/still_afloat_logo.png" alt="Still Afloat logo">
-</a>
-<a class="news-home-link" href="index.html">
-<i class="fa-solid fa-house"></i>
-Home
-</a>
-</div>
 <div class="news-panel">
 <h1>Cruise News & Travel Pulse</h1>
 <p>Real-time cruise operations, weather impacts, destination changes, passenger disruptions and curated travel intelligence.</p>
@@ -45,6 +20,7 @@ Home
 <div id="full-news-feed"></div>
 </main>
 <footer>© 2026 Still Afloat LLC — Cruise smarter. Laugh more. Stay Afloat.</footer>
+<script src="/components/navbar.js"></script>
 <script src="./js/news.js"></script>
 </body>
 </html>
