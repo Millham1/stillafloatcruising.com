@@ -1,12 +1,17 @@
 const NEWS_API_KEY = process.env.NEWS_API_KEY || process.env.newsapi;
 
 const RSS_SOURCES = [
-  { name: 'Cruise Hive', url: 'https://www.cruisehive.com/feed', tier: 'lifestyle', lane: 'cruise' },
-  { name: 'Royal Caribbean Blog', url: 'https://www.royalcaribbeanblog.com/rss.xml', tier: 'lifestyle', lane: 'cruise' },
-  { name: 'Cruise Industry News', url: 'https://cruiseindustrynews.com/cruise-news/feed/', tier: 'industry', lane: 'cruise' }
+  { name: 'Cruise Hive', url: 'https://www.cruisehive.com/feed', tier: 'lifestyle', lane: 'aggregator' },
+  { name: 'Royal Caribbean Blog', url: 'https://www.royalcaribbeanblog.com/rss.xml', tier: 'lifestyle', lane: 'aggregator' },
+  { name: 'Cruise Industry News', url: 'https://cruiseindustrynews.com/cruise-news/feed/', tier: 'industry', lane: 'industry' }
 ];
 
 const NEWSAPI_SEARCHES = [
+  {
+    q: 'Norwegian Cruise Line OR Royal Caribbean Group OR Royal Caribbean International OR Celebrity Cruises OR Carnival Cruise Line OR Disney Cruise Line OR MSC Cruises',
+    tier: 'direct',
+    lane: 'direct'
+  },
   {
     q: '(cruise OR cruises OR "cruise ship" OR "cruise port") AND (hurricane OR storm OR weather OR delay OR stranded OR cancelled OR airport OR flight)',
     domains: 'cnn.com,foxnews.com,cbsnews.com,weather.com,abcnews.go.com,nbcnews.com,usatoday.com,apnews.com',
@@ -20,11 +25,6 @@ const NEWSAPI_SEARCHES = [
     lane: 'mainstream'
   },
   {
-    q: 'Norwegian Cruise Line OR Royal Caribbean OR Celebrity Cruises OR Carnival Cruise OR Disney Cruise Line',
-    tier: 'industry',
-    lane: 'cruise'
-  },
-  {
     q: 'cruise itinerary change OR cruise port delay OR cruise weather impact OR cruise passengers',
     tier: 'impact',
     lane: 'impact'
@@ -34,6 +34,14 @@ const NEWSAPI_SEARCHES = [
     tier: 'lifestyle',
     lane: 'cruise'
   }
+];
+
+const DIRECT_CRUISE_LINE_TERMS = [
+  'norwegian cruise line','ncl','royal caribbean international','royal caribbean group','celebrity cruises','carnival cruise line','disney cruise line','msc cruises','princess cruises','holland america line','virgin voyages','azamara','oceania cruises','regent seven seas'
+];
+
+const AGGREGATOR_SOURCES = [
+  'cruise hive','cruise industry news','royal caribbean blog','cruise fever','cruise critic'
 ];
 
 const POSITIVE_TERMS = [
@@ -88,9 +96,23 @@ function isFreshEnough(story) {
   return storyAgeHours(story) <= 336;
 }
 
+function inferLane(raw, lane) {
+  const text = `${raw.title || ''} ${raw.description || ''} ${raw.source || ''} ${raw.link || ''}`.toLowerCase();
+
+  if (DIRECT_CRUISE_LINE_TERMS.some(term => text.includes(term))) {
+    return 'direct';
+  }
+
+  if (AGGREGATOR_SOURCES.some(source => String(raw.source || '').toLowerCase().includes(source))) {
+    return 'aggregator';
+  }
+
+  return lane || 'cruise';
+}
+
 function normalizeStory(raw) {
-  const tier = raw.tier || 'lifestyle';
-  const lane = raw.lane || 'cruise';
+  const lane = inferLane(raw, raw.lane);
+  const tier = lane === 'direct' ? 'direct' : (raw.tier || 'lifestyle');
 
   const story = {
     title: normalizeText(raw.title || ''),
@@ -99,10 +121,10 @@ function normalizeStory(raw) {
     source: normalizeText(raw.source || 'Unknown'),
     tier,
     lane,
-    category: tier === 'impact' ? 'Travel Impact' : tier === 'industry' ? 'Cruise Pulse' : 'Cruise Life',
+    category: lane === 'direct' ? 'Direct from Cruise Lines' : tier === 'impact' ? 'Travel Impact' : tier === 'industry' ? 'Cruise Pulse' : 'Cruise Life',
     publishedAt: safeIsoDate(raw.publishedAt),
     image: raw.image || null,
-    score: tier === 'impact' ? 320 : tier === 'industry' ? 230 : 210
+    score: lane === 'direct' ? 420 : tier === 'impact' ? 320 : tier === 'industry' ? 230 : 210
   };
 
   story.freshness = freshnessScore(story);
@@ -151,7 +173,14 @@ function dedupeStories(stories) {
 
 function sortStories(stories) {
   return [...stories].sort((a, b) => {
-    const laneWeight = { mainstream: 50, impact: 35, cruise: 10 };
+    const laneWeight = {
+      direct: 180,
+      mainstream: 60,
+      impact: 45,
+      industry: 20,
+      cruise: 10,
+      aggregator: -60
+    };
 
     const scoreA = a.score + a.freshness + (laneWeight[a.lane] || 0);
     const scoreB = b.score + b.freshness + (laneWeight[b.lane] || 0);
@@ -174,11 +203,11 @@ function pickDiverseHomepage(stories) {
     if (item) picks.push(item);
   };
 
+  addFirst(story => story.lane === 'direct');
   addFirst(story => story.lane === 'mainstream' && story.tier === 'impact');
   addFirst(story => story.lane === 'mainstream');
   addFirst(story => story.tier === 'impact');
   addFirst(story => story.tier === 'industry');
-  addFirst(story => story.tier === 'lifestyle');
 
   for (const story of homepageEligible) {
     if (picks.length >= 5) break;
