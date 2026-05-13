@@ -67,11 +67,32 @@ function extractTag(item, tag) {
   return normalizeText(match?.[1] || '');
 }
 
+function storyAgeHours(story) {
+  const time = Date.parse(story.publishedAt || '');
+  if (!Number.isFinite(time)) return 9999;
+  return Math.floor((Date.now() - time) / (1000 * 60 * 60));
+}
+
+function freshnessScore(story) {
+  const hours = storyAgeHours(story);
+
+  if (hours <= 24) return 1200;
+  if (hours <= 72) return 850;
+  if (hours <= 168) return 450;
+  if (hours <= 336) return 100;
+
+  return -1000;
+}
+
+function isFreshEnough(story) {
+  return storyAgeHours(story) <= 336;
+}
+
 function normalizeStory(raw) {
   const tier = raw.tier || 'lifestyle';
   const lane = raw.lane || 'cruise';
 
-  return {
+  const story = {
     title: normalizeText(raw.title || ''),
     description: normalizeText(raw.description || ''),
     link: normalizeText(raw.link || ''),
@@ -81,15 +102,19 @@ function normalizeStory(raw) {
     category: tier === 'impact' ? 'Travel Impact' : tier === 'industry' ? 'Cruise Pulse' : 'Cruise Life',
     publishedAt: safeIsoDate(raw.publishedAt),
     image: raw.image || null,
-    score: tier === 'impact' ? 300 : tier === 'industry' ? 230 : 210
+    score: tier === 'impact' ? 320 : tier === 'industry' ? 230 : 210
   };
+
+  story.freshness = freshnessScore(story);
+  return story;
 }
 
 function isCruiseRelevant(story) {
   const text = `${story.title} ${story.description}`.toLowerCase();
   const positive = POSITIVE_TERMS.some(term => text.includes(term));
   const negative = NEGATIVE_TERMS.some(term => text.includes(term));
-  return story.title && story.link && positive && !negative;
+
+  return story.title && story.link && positive && !negative && isFreshEnough(story);
 }
 
 function storyDateValue(story) {
@@ -126,29 +151,36 @@ function dedupeStories(stories) {
 
 function sortStories(stories) {
   return [...stories].sort((a, b) => {
-    const laneWeight = { mainstream: 40, impact: 30, cruise: 10 };
-    const scoreDiff = (b.score + (laneWeight[b.lane] || 0)) - (a.score + (laneWeight[a.lane] || 0));
+    const laneWeight = { mainstream: 50, impact: 35, cruise: 10 };
+
+    const scoreA = a.score + a.freshness + (laneWeight[a.lane] || 0);
+    const scoreB = b.score + b.freshness + (laneWeight[b.lane] || 0);
+
+    const scoreDiff = scoreB - scoreA;
     if (scoreDiff !== 0) return scoreDiff;
+
     return storyDateValue(b) - storyDateValue(a);
   });
 }
 
 function pickDiverseHomepage(stories) {
-  const sorted = sortStories(stories);
+  const homepageEligible = sortStories(stories)
+    .filter(story => storyAgeHours(story) <= 168);
+
   const picks = [];
 
   const addFirst = predicate => {
-    const item = sorted.find(story => predicate(story) && !picks.includes(story));
+    const item = homepageEligible.find(story => predicate(story) && !picks.includes(story));
     if (item) picks.push(item);
   };
 
   addFirst(story => story.lane === 'mainstream' && story.tier === 'impact');
   addFirst(story => story.lane === 'mainstream');
-  addFirst(story => story.tier === 'impact' && story.lane !== 'mainstream');
+  addFirst(story => story.tier === 'impact');
   addFirst(story => story.tier === 'industry');
   addFirst(story => story.tier === 'lifestyle');
 
-  for (const story of sorted) {
+  for (const story of homepageEligible) {
     if (picks.length >= 5) break;
     if (!picks.includes(story)) picks.push(story);
   }
@@ -161,11 +193,17 @@ async function fetchNewsApi(search) {
 
   try {
     const url = new URL('https://newsapi.org/v2/everything');
+
     url.searchParams.set('q', search.q);
     url.searchParams.set('language', 'en');
     url.searchParams.set('sortBy', 'publishedAt');
     url.searchParams.set('pageSize', '10');
-    if (search.domains) url.searchParams.set('domains', search.domains);
+    url.searchParams.set('from', new Date(Date.now() - (1000 * 60 * 60 * 24 * 7)).toISOString());
+
+    if (search.domains) {
+      url.searchParams.set('domains', search.domains);
+    }
+
     url.searchParams.set('apiKey', NEWS_API_KEY);
 
     const response = await fetch(url.toString());
@@ -240,12 +278,7 @@ export default async function handler(req, res) {
       generatedAt: new Date().toISOString(),
       homepage,
       stories,
-      count: stories.length,
-      diagnostics: {
-        newsApiStories: newsStories.length,
-        rssStories: rssStories.length,
-        homepageSources: homepage.map(story => story.source)
-      }
+      count: stories.length
     });
   } catch (error) {
     return res.status(500).json({
