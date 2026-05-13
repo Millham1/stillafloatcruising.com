@@ -1,21 +1,43 @@
 const NEWS_API_KEY = process.env.NEWS_API_KEY || process.env.newsapi;
 
 const RSS_SOURCES = [
-  { name: 'Cruise Hive', url: 'https://www.cruisehive.com/feed', tier: 'lifestyle' },
-  { name: 'Royal Caribbean Blog', url: 'https://www.royalcaribbeanblog.com/rss.xml', tier: 'lifestyle' },
-  { name: 'Cruise Industry News', url: 'https://cruiseindustrynews.com/cruise-news/feed/', tier: 'impact' }
+  { name: 'Cruise Hive', url: 'https://www.cruisehive.com/feed', tier: 'lifestyle', lane: 'cruise' },
+  { name: 'Royal Caribbean Blog', url: 'https://www.royalcaribbeanblog.com/rss.xml', tier: 'lifestyle', lane: 'cruise' },
+  { name: 'Cruise Industry News', url: 'https://cruiseindustrynews.com/cruise-news/feed/', tier: 'industry', lane: 'cruise' }
 ];
 
 const NEWSAPI_SEARCHES = [
-  { q: 'cruise ship OR cruise line OR cruise port', tier: 'industry' },
-  { q: 'Caribbean cruise OR Bahamas cruise OR Alaska cruise', tier: 'lifestyle' },
-  { q: 'Norwegian Cruise Line OR Royal Caribbean OR Celebrity Cruises OR Carnival Cruise', tier: 'industry' },
-  { q: 'cruise itinerary change OR cruise port delay OR cruise weather impact', tier: 'impact' },
-  { q: 'new cruise ship OR cruise loyalty program OR cruise travel tips', tier: 'lifestyle' }
+  {
+    q: '(cruise OR cruises OR "cruise ship" OR "cruise port") AND (hurricane OR storm OR weather OR delay OR stranded OR cancelled OR airport OR flight)',
+    domains: 'cnn.com,foxnews.com,cbsnews.com,weather.com,abcnews.go.com,nbcnews.com,usatoday.com,apnews.com',
+    tier: 'impact',
+    lane: 'mainstream'
+  },
+  {
+    q: '(cruise OR cruises OR "cruise ship" OR "cruise line") AND (Caribbean OR Bahamas OR Alaska OR Mediterranean OR travel)',
+    domains: 'cnn.com,foxnews.com,cbsnews.com,usatoday.com,travelandleisure.com,forbes.com,apnews.com',
+    tier: 'lifestyle',
+    lane: 'mainstream'
+  },
+  {
+    q: 'Norwegian Cruise Line OR Royal Caribbean OR Celebrity Cruises OR Carnival Cruise OR Disney Cruise Line',
+    tier: 'industry',
+    lane: 'cruise'
+  },
+  {
+    q: 'cruise itinerary change OR cruise port delay OR cruise weather impact OR cruise passengers',
+    tier: 'impact',
+    lane: 'impact'
+  },
+  {
+    q: 'new cruise ship OR cruise loyalty program OR cruise travel tips OR cruise deal',
+    tier: 'lifestyle',
+    lane: 'cruise'
+  }
 ];
 
 const POSITIVE_TERMS = [
-  'cruise','ship','port','itinerary','caribbean','bahamas','alaska','mediterranean','vacation','travel','tourism','airport','hurricane','island','resort','royal caribbean','norwegian','celebrity','carnival','msc','disney cruise','ncl','cruise line','cruise ship','shore excursion','passenger'
+  'cruise','cruises','ship','port','itinerary','caribbean','bahamas','alaska','mediterranean','vacation','travel','tourism','airport','flight','hurricane','storm','weather','delay','cancelled','stranded','island','resort','royal caribbean','norwegian','celebrity','carnival','msc','disney cruise','ncl','cruise line','cruise ship','shore excursion','passenger'
 ];
 
 const NEGATIVE_TERMS = [
@@ -35,6 +57,11 @@ function normalizeText(text = '') {
     .trim();
 }
 
+function safeIsoDate(value) {
+  const time = Date.parse(value || '');
+  return Number.isFinite(time) ? new Date(time).toISOString() : null;
+}
+
 function extractTag(item, tag) {
   const match = item.match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`, 'i'));
   return normalizeText(match?.[1] || '');
@@ -42,6 +69,7 @@ function extractTag(item, tag) {
 
 function normalizeStory(raw) {
   const tier = raw.tier || 'lifestyle';
+  const lane = raw.lane || 'cruise';
 
   return {
     title: normalizeText(raw.title || ''),
@@ -49,10 +77,11 @@ function normalizeStory(raw) {
     link: normalizeText(raw.link || ''),
     source: normalizeText(raw.source || 'Unknown'),
     tier,
+    lane,
     category: tier === 'impact' ? 'Travel Impact' : tier === 'industry' ? 'Cruise Pulse' : 'Cruise Life',
-    publishedAt: raw.publishedAt || null,
+    publishedAt: safeIsoDate(raw.publishedAt),
     image: raw.image || null,
-    score: tier === 'impact' ? 300 : tier === 'industry' ? 250 : 200
+    score: tier === 'impact' ? 300 : tier === 'industry' ? 230 : 210
   };
 }
 
@@ -72,14 +101,14 @@ function dedupeStories(stories) {
   const seenLinks = new Set();
   const seenNarratives = new Set();
   const sourceCounts = {};
-  const maxPerSource = 8;
+  const maxPerSource = 5;
 
   return stories.filter(story => {
     const linkKey = story.link.toLowerCase().replace(/\?.*$/, '').replace(/\/$/, '');
     if (seenLinks.has(linkKey)) return false;
 
     const narrativeKey = story.title.toLowerCase()
-      .replace(/cruise|line|ship|passengers|new|update|confirmed|timeline|breaking|latest/g, '')
+      .replace(/cruise|cruises|line|ship|passengers|new|update|confirmed|timeline|breaking|latest/g, '')
       .replace(/[^a-z0-9]/g, '')
       .slice(0, 90);
 
@@ -95,6 +124,38 @@ function dedupeStories(stories) {
   });
 }
 
+function sortStories(stories) {
+  return [...stories].sort((a, b) => {
+    const laneWeight = { mainstream: 40, impact: 30, cruise: 10 };
+    const scoreDiff = (b.score + (laneWeight[b.lane] || 0)) - (a.score + (laneWeight[a.lane] || 0));
+    if (scoreDiff !== 0) return scoreDiff;
+    return storyDateValue(b) - storyDateValue(a);
+  });
+}
+
+function pickDiverseHomepage(stories) {
+  const sorted = sortStories(stories);
+  const picks = [];
+
+  const addFirst = predicate => {
+    const item = sorted.find(story => predicate(story) && !picks.includes(story));
+    if (item) picks.push(item);
+  };
+
+  addFirst(story => story.lane === 'mainstream' && story.tier === 'impact');
+  addFirst(story => story.lane === 'mainstream');
+  addFirst(story => story.tier === 'impact' && story.lane !== 'mainstream');
+  addFirst(story => story.tier === 'industry');
+  addFirst(story => story.tier === 'lifestyle');
+
+  for (const story of sorted) {
+    if (picks.length >= 5) break;
+    if (!picks.includes(story)) picks.push(story);
+  }
+
+  return picks.slice(0, 5);
+}
+
 async function fetchNewsApi(search) {
   if (!NEWS_API_KEY) return [];
 
@@ -104,6 +165,7 @@ async function fetchNewsApi(search) {
     url.searchParams.set('language', 'en');
     url.searchParams.set('sortBy', 'publishedAt');
     url.searchParams.set('pageSize', '10');
+    if (search.domains) url.searchParams.set('domains', search.domains);
     url.searchParams.set('apiKey', NEWS_API_KEY);
 
     const response = await fetch(url.toString());
@@ -119,7 +181,8 @@ async function fetchNewsApi(search) {
         source: article.source?.name || 'NewsAPI',
         image: article.urlToImage,
         publishedAt: article.publishedAt,
-        tier: search.tier
+        tier: search.tier,
+        lane: search.lane
       }))
       .filter(isCruiseRelevant);
   } catch {
@@ -130,15 +193,13 @@ async function fetchNewsApi(search) {
 async function fetchRssSource(source) {
   try {
     const response = await fetch(source.url, {
-      headers: {
-        'user-agent': 'StillAfloatCruising/1.0'
-      }
+      headers: { 'user-agent': 'StillAfloatCruising/1.0' }
     });
 
     if (!response.ok) return [];
 
     const xml = await response.text();
-    const items = [...xml.matchAll(/<item[\s\S]*?<\/item>/gi)].slice(0, 12);
+    const items = [...xml.matchAll(/<item[\s\S]*?<\/item>/gi)].slice(0, 10);
 
     return items.map(match => {
       const item = match[0];
@@ -152,7 +213,8 @@ async function fetchRssSource(source) {
         link,
         source: source.name,
         tier: source.tier,
-        publishedAt: pubDate ? new Date(pubDate).toISOString() : null
+        lane: source.lane,
+        publishedAt: pubDate
       });
     }).filter(isCruiseRelevant);
   } catch {
@@ -169,20 +231,21 @@ export default async function handler(req, res) {
       Promise.all(RSS_SOURCES.map(fetchRssSource)).then(results => results.flat())
     ]);
 
-    const stories = dedupeStories([...rssStories, ...newsStories])
-      .sort((a, b) => {
-        const scoreDiff = b.score - a.score;
-        if (scoreDiff !== 0) return scoreDiff;
-        return storyDateValue(b) - storyDateValue(a);
-      })
-      .slice(0, 30);
+    const deduped = dedupeStories([...newsStories, ...rssStories]);
+    const stories = sortStories(deduped).slice(0, 30);
+    const homepage = pickDiverseHomepage(deduped);
 
     return res.status(200).json({
       ok: true,
       generatedAt: new Date().toISOString(),
-      homepage: stories.slice(0, 5),
+      homepage,
       stories,
-      count: stories.length
+      count: stories.length,
+      diagnostics: {
+        newsApiStories: newsStories.length,
+        rssStories: rssStories.length,
+        homepageSources: homepage.map(story => story.source)
+      }
     });
   } catch (error) {
     return res.status(500).json({
