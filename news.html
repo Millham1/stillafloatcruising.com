@@ -3,155 +3,54 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cruise News Cliffnotes | Still Afloat</title>
+<title>Cruise News | Still Afloat</title>
 <link rel="stylesheet" href="./css/styles.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-:root{
-  --glass:rgba(210,230,255,.10);
-  --border:rgba(255,255,255,.10);
-  --green:#5dff9a;
-  --cyan:#7de3ff;
-}
-
 body{
-  margin:0;
-  overflow-x:hidden;
   background:
-    radial-gradient(circle at top right, rgba(0,119,182,.26), transparent 30%),
-    radial-gradient(circle at left center, rgba(93,255,154,.08), transparent 34%),
-    linear-gradient(to bottom,#06111f 0%,#0b2238 38%,#102f4d 100%);
-  color:white;
+    radial-gradient(circle at top right, rgba(0,119,182,0.24), transparent 28%),
+    radial-gradient(circle at left center, rgba(93,255,154,0.10), transparent 30%),
+    linear-gradient(to bottom,#06111f 0%,#0b2238 35%,#102f4d 100%);
   min-height:100vh;
+  color:white;
 }
 
-.news-page{
-  position:relative;
-}
-
-.news-hero{
-  position:relative;
-  min-height:460px;
-  overflow:hidden;
-  display:flex;
-  align-items:flex-end;
-  padding:34px 0 80px;
-}
-
-.news-hero::before{
-  content:'';
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(to bottom, rgba(2,12,24,.22), rgba(4,14,26,.74)),
-    url('./assets/images/news-tropical-bg.png') center center/cover no-repeat;
-  opacity:.95;
-  transform:scale(1.02);
-}
-
-.news-hero::after{
-  content:'';
-  position:absolute;
-  left:0;
-  right:0;
-  bottom:0;
-  height:180px;
-  background:linear-gradient(to bottom, transparent, #0b2238 90%);
-}
-
-.hero-content{
-  position:relative;
-  z-index:2;
-  width:min(1180px,92vw);
+.news-wrap{
+  max-width:1100px;
   margin:auto;
+  padding:28px 22px 70px;
 }
 
-.top-row{
+.news-header{
   display:flex;
   justify-content:space-between;
-  align-items:flex-start;
+  align-items:center;
   gap:20px;
-  margin-bottom:50px;
+  margin-bottom:26px;
 }
 
-.logo-link img{
-  width:240px;
-  max-width:42vw;
-  filter:drop-shadow(0 12px 22px rgba(0,0,0,.35));
+.news-logo img{
+  width:210px;
 }
 
-.home-link{
+.news-home-link{
   display:inline-flex;
   align-items:center;
-  gap:10px;
-  text-decoration:none;
+  gap:8px;
+  background:linear-gradient(180deg, rgba(9,72,117,.96), rgba(4,33,66,.96));
   color:white;
-  padding:14px 20px;
+  text-decoration:none;
+  padding:12px 18px;
   border-radius:18px;
-  background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.14);
-  backdrop-filter:blur(12px);
+  border:1px solid rgba(123,214,255,.28);
   font-weight:800;
-  transition:all .2s ease;
+  box-shadow:0 12px 28px rgba(0,0,0,.28);
 }
 
-.home-link:hover{
-  color:var(--green);
-  transform:translateY(-2px);
-  border-color:rgba(93,255,154,.32);
-}
-
-.hero-text{
-  max-width:760px;
-}
-
-.cliffnotes{
-  font-size:14px;
-  font-weight:900;
-  letter-spacing:.22em;
-  text-transform:uppercase;
-  color:#ffe082;
-  margin-bottom:16px;
-  text-shadow:0 0 18px rgba(255,224,130,.22);
-}
-
-.hero-title{
-  font-size:clamp(48px,8vw,92px);
-  line-height:.94;
-  margin:0 0 18px;
-  font-weight:900;
-  letter-spacing:-.04em;
-  text-shadow:0 16px 34px rgba(0,0,0,.45);
-}
-
-.hero-title span{
-  display:block;
-  color:var(--cyan);
-}
-
-.hero-copy{
-  max-width:640px;
-  font-size:19px;
-  line-height:1.7;
-  color:rgba(255,255,255,.82);
-  text-shadow:0 4px 16px rgba(0,0,0,.34);
-}
-
-.news-content{
-  position:relative;
-  z-index:5;
-  width:min(1180px,92vw);
-  margin:-70px auto 0;
-  padding-bottom:80px;
-}
-
-.news-intel-bar{
-  display:flex;
-  justify-content:space-between;
-  gap:20px;
-  align-items:center;
-  margin-bottom:24px;
-  padding:18px 24px;
+.news-panel{
+  margin-bottom:26px;
+  padding:22px 24px;
   border-radius:26px;
   background:rgba(255,255,255,.07);
   border:1px solid rgba(255,255,255,.10);
@@ -159,16 +58,16 @@ body{
   box-shadow:0 18px 44px rgba(0,0,0,.24);
 }
 
-.intel-title{
-  font-size:18px;
-  font-weight:900;
-  letter-spacing:.08em;
-  text-transform:uppercase;
+.news-panel h1{
+  margin:0 0 12px;
+  font-size:44px;
+  line-height:1;
 }
 
-.intel-copy{
-  color:rgba(255,255,255,.66);
-  line-height:1.5;
+.news-panel p{
+  margin:0;
+  color:rgba(255,255,255,.72);
+  line-height:1.6;
 }
 
 #full-news-feed article{
@@ -177,9 +76,9 @@ body{
 }
 
 #full-news-feed article:hover{
-  transform:translateY(-5px);
-  box-shadow:0 22px 44px rgba(0,0,0,.28);
-  border-color:rgba(93,255,154,.22);
+  transform:translateY(-4px);
+  box-shadow:0 18px 38px rgba(0,0,0,.24);
+  border-color:rgba(93,255,154,.24);
 }
 
 footer{
@@ -187,79 +86,35 @@ footer{
   text-align:center;
   color:rgba(255,255,255,.52);
 }
-
-@media(max-width:860px){
-  .top-row{
-    flex-direction:column;
-    align-items:flex-start;
-  }
-
-  .news-hero{
-    min-height:520px;
-    padding-bottom:90px;
-  }
-
-  .news-intel-bar{
-    flex-direction:column;
-    align-items:flex-start;
-  }
-}
 </style>
 </head>
 <body>
-<div class="news-page">
+<main class="news-wrap">
 
-<section class="news-hero">
-  <div class="hero-content">
+<div class="news-header">
+  <a class="news-logo" href="index.html">
+    <img src="./assets/images/stillafloat-logo.png" alt="Still Afloat logo">
+  </a>
 
-    <div class="top-row">
-      <a class="logo-link" href="index.html">
-        <img src="./assets/images/stillafloat-logo.png" alt="Still Afloat logo">
-      </a>
+  <a class="news-home-link" href="index.html">
+    <i class="fa-solid fa-house"></i>
+    Home
+  </a>
+</div>
 
-      <a class="home-link" href="index.html">
-        <i class="fa-solid fa-house"></i>
-        Home
-      </a>
-    </div>
+<div class="news-panel">
+  <h1>Cruise News & Travel Pulse</h1>
+  <p>
+    Real-time cruise operations, weather impacts, destination changes, passenger disruptions and curated travel intelligence.
+  </p>
+</div>
 
-    <div class="hero-text">
-      <div class="cliffnotes">Cruise News Cliffnotes</div>
+<div id="full-news-feed"></div>
 
-      <h1 class="hero-title">
-        Cruise Intelligence
-        <span>Without The Noise.</span>
-      </h1>
-
-      <p class="hero-copy">
-        Weather disruptions. Cruise line updates. Port changes. Passenger impacts. Industry movement. Curated through the Still Afloat lens for travelers who want the important stuff fast.
-      </p>
-    </div>
-
-  </div>
-</section>
-
-<section class="news-content">
-
-  <div class="news-intel-bar">
-    <div>
-      <div class="intel-title">Still Afloat Intelligence Feed</div>
-      <div class="intel-copy">
-        Real-time cruise operations, weather, travel impacts, destination updates and curated industry developments.
-      </div>
-    </div>
-
-    <div style="color:rgba(255,255,255,.55);font-weight:800;letter-spacing:.08em;text-transform:uppercase;">
-      Live Feed
-    </div>
-  </div>
-
-  <div id="full-news-feed"></div>
-
-</section>
+</main>
 
 <footer>
-  © 2026 Still Afloat LLC — Cruise smarter. Laugh more. Stay Afloat.
+© 2026 Still Afloat LLC — Cruise smarter. Laugh more. Stay Afloat.
 </footer>
 
 <script src="./js/news.js"></script>
