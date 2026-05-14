@@ -6,6 +6,7 @@ Official website for Still Afloat Cruising — cruise news, weather, and tips.
 - Cruise news aggregation (in progress)
 - Cruise port weather (OpenWeather API)
 - YouTube integration (coming soon)
+- trigger preview deployment
 
 ## Setup
 1. Clone repo
