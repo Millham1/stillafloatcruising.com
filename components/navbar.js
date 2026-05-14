@@ -1,6 +1,6 @@
 // Still Afloat Shared Navbar
-// Clones the homepage hero-nav design exactly, with page-aware destinations.
-// Version: v3-homepage-clone
+// Homepage hero-nav cloned globally with page-aware navigation.
+// Version: v4-global-homepage-nav
 
 (function () {
   function isHomePage() {
@@ -11,6 +11,9 @@
   const home = isHomePage();
 
   const links = {
+    home: '/index.html',
+    news: '/news.html',
+    weather: '/weather.html',
     vibe: home ? '#vibe' : '/index.html#vibe',
     report: home ? '#report' : '/index.html#report',
     mark: home ? '#mark' : '/index.html#mark',
@@ -22,12 +25,15 @@
   const navbarHTML = `
     <nav class="hero-nav sa-shared-hero-nav" aria-label="Still Afloat navigation">
       <div class="nav-row">
+        <a href="${links.home}">Home</a>
+        <a href="${links.news}">News</a>
+        <a href="${links.weather}">Weather</a>
         <a href="${links.vibe}">The Vibe</a>
         <a href="${links.report}">Cruise Report</a>
-        <a href="${links.mark}">Meet Mark</a>
-        <a href="${links.watch}">YouTube</a>
       </div>
       <div class="nav-row secondary">
+        <a href="${links.mark}">Meet Mark</a>
+        <a href="${links.watch}">YouTube</a>
         <a href="${links.gear}">Gear</a>
         <a href="${links.book}">Book Your Cruise</a>
       </div>
@@ -75,6 +81,7 @@
       display: flex;
       justify-content: flex-end;
       gap: 8px;
+      flex-wrap: wrap;
     }
 
     #navbar-container .hero-nav .secondary {
@@ -126,7 +133,6 @@
       }
 
       #navbar-container .hero-nav .nav-row {
-        flex-wrap: wrap;
         justify-content: center;
       }
     }
