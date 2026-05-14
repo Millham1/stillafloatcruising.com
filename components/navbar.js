@@ -1,14 +1,20 @@
 // Still Afloat Shared Navbar
 // Homepage hero-nav cloned globally with page-aware navigation.
-// Version: v4-global-homepage-nav
+// Version: v5-placement-normalized
 
 (function () {
-  function isHomePage() {
+  function getPageType() {
     const path = window.location.pathname;
-    return path === '/' || path.endsWith('/index.html') || path === '';
+    if (path === '/' || path.endsWith('/index.html') || path === '') return 'home';
+    if (path.endsWith('/news.html')) return 'news';
+    if (path.endsWith('/weather.html')) return 'weather';
+    if (path.endsWith('/affiliate.html')) return 'affiliate';
+    if (path.endsWith('/story.html')) return 'story';
+    return 'standard';
   }
 
-  const home = isHomePage();
+  const pageType = getPageType();
+  const home = pageType === 'home';
 
   const links = {
     home: '/index.html',
@@ -116,16 +122,45 @@
       padding: 8px 12px;
     }
 
-    body:not(.home-page) #navbar-container {
-      display: flex;
-      justify-content: flex-end;
-      padding: 22px 22px 0;
+    body.home-page #navbar-container {
+      position: absolute;
+      top: 22px;
+      right: 22px;
+      width: fit-content;
+      padding: 0;
     }
 
-    @media (max-width: 760px) {
-      body:not(.home-page) #navbar-container {
+    body.news-page #navbar-container,
+    body.affiliate-page #navbar-container,
+    body.story-page #navbar-container {
+      display: flex;
+      justify-content: flex-end;
+      padding: 22px 22px 20px;
+    }
+
+    body.weather-page #navbar-container {
+      position: absolute;
+      top: 18px;
+      right: 22px;
+      width: fit-content;
+      padding: 0;
+    }
+
+    @media (max-width: 980px) {
+      body.home-page #navbar-container,
+      body.weather-page #navbar-container {
+        left: 12px;
+        right: 12px;
+        width: auto;
+        display: flex;
         justify-content: center;
-        padding: 14px 12px 0;
+      }
+
+      body.news-page #navbar-container,
+      body.affiliate-page #navbar-container,
+      body.story-page #navbar-container {
+        justify-content: center;
+        padding: 14px 12px 18px;
       }
 
       #navbar-container .hero-nav {
@@ -146,10 +181,7 @@
     const target = document.getElementById('navbar-container');
     if (!target) return;
 
-    if (home) {
-      document.body.classList.add('home-page');
-    }
-
+    document.body.classList.add(`${pageType}-page`);
     target.innerHTML = navbarHTML;
   }
 
