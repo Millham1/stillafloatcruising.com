@@ -5,12 +5,71 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Still Afloat Cruising | Cruise Smarter</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<link rel="stylesheet" href="./css/styles.css?v=20260511-home-layout-refresh-7">
-<link rel="stylesheet" href="./css/navbar.css?v=1">
+<link rel="stylesheet" href="./css/styles.css?v=20260511-home-layout-refresh-6">
 <style>
 .hero{
   position:relative;
   padding-top:140px;
+}
+.hero-nav{
+  position:absolute;
+  top:22px;
+  right:22px;
+  width:fit-content;
+  display:inline-block;
+  z-index:20;
+  background:
+    linear-gradient(180deg, rgba(9,72,117,.96), rgba(4,33,66,.96));
+  backdrop-filter:blur(14px);
+  border:1px solid rgba(123,214,255,.32);
+  border-radius:24px;
+  padding:10px 14px;
+  box-shadow:
+    0 18px 40px rgba(0,0,0,.38),
+    inset 0 1px 0 rgba(255,255,255,.18),
+    inset 0 -1px 0 rgba(0,0,0,.24);
+}
+.hero-nav::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  border-radius:24px;
+  padding:1px;
+  background:linear-gradient(135deg, rgba(125,225,255,.38), rgba(255,255,255,.06));
+  -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;
+  mask-composite:exclude;
+  pointer-events:none;
+}
+.hero-nav .nav-row{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+}
+.hero-nav .secondary{
+  margin-top:6px;
+}
+.hero-nav a{
+  display:inline-block;
+  font-size:13px;
+  padding:9px 14px;
+  border-radius:14px;
+  color:#ffffff;
+  text-decoration:none;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.08);
+  transition:all .2s ease;
+  text-shadow:0 1px 4px rgba(0,0,0,.3);
+}
+.hero-nav a:hover{
+  background:rgba(93,255,154,.16);
+  border-color:rgba(93,255,154,.32);
+  color:#5dff9a;
+  transform:translateY(-1px);
+}
+.hero-nav .secondary a{
+  font-size:12px;
+  padding:8px 12px;
 }
 .gear-link{text-decoration:none;color:inherit;display:block}
 .gear-link:hover .gear-card{transform:translateY(-6px) scale(1.02);transition:all .25s ease}
@@ -22,7 +81,18 @@
 <header class="banner-header" id="top"><img class="banner-image" src="./assets/images/Youtube banner cropped.png" alt="Still Afloat YouTube banner"></header>
 <main>
 <section class="hero">
-<div class="hero-top-row"><div class="hero-navbar"><div id="navbar-container"></div></div></div>
+<nav class="hero-nav">
+<div class="nav-row">
+<a href="#vibe">The Vibe</a>
+<a href="#report">Cruise Report</a>
+<a href="#mark">Meet Mark</a>
+<a href="#watch">YouTube</a>
+</div>
+<div class="nav-row secondary">
+<a href="affiliate.html">Gear</a>
+<a href="#">Book Your Cruise</a>
+</div>
+</nav>
 <div class="hero-overlay"></div>
 <div class="hero-content">
 <div class="hero-text">
@@ -39,7 +109,6 @@
 <section id="watch" class="section youtube-section"><div class="wrap two-col"><div><p class="section-kicker">YouTube coming soon</p><h2>The channel is being built around the trip, not a studio script.</h2></div><div class="video-placeholder"><i class="fa-brands fa-youtube"></i><h3>First videos coming soon</h3><p>Planning episodes, ship selection, cruise prep, onboard lessons, travel-day decisions, and honest post-cruise takeaways.</p></div></div></section>
 </main>
 <footer><p>© 2026 Still Afloat LLC — Cruise smarter. Laugh more. Stay Afloat.</p></footer>
-<script src="/components/navbar.js?v=7"></script>
 <script src="./js/app.js?v=20260505-1"></script>
 <script src="./js/news.js"></script>
 <script src="./js/weather.js"></script>
