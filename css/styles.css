@@ -76,52 +76,6 @@ a{text-decoration:none;color:inherit;}
   background:linear-gradient(to bottom, rgba(255,255,255,0) 0%, #f7fcff 100%);
 }
 
-.hero-nav{
-  position:absolute;
-  top:22px;
-  right:22px;
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-  background:rgba(0,0,0,0.45);
-  backdrop-filter:blur(14px);
-  padding:12px 20px;
-  border-radius:40px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.28);
-  border:1px solid rgba(255,255,255,0.15);
-  z-index:20;
-}
-
-.nav-row{
-  display:flex;
-  gap:16px;
-  justify-content:flex-end;
-}
-
-.nav-row.secondary{
-  justify-content:center;
-  border-top:1px solid rgba(255,255,255,0.15);
-  padding-top:6px;
-}
-
-.nav-row a{
-  color:#fff;
-  font-weight:700;
-  font-size:18px;
-  letter-spacing:0.3px;
-  white-space:nowrap;
-  padding:4px 10px;
-  border-radius:14px;
-  transition:all 0.22s ease;
-}
-
-.nav-row a:hover{
-  color:var(--seafoam);
-  background:rgba(93,255,154,0.12);
-  transform:translateY(-3px);
-  text-shadow:0 0 10px rgba(93,255,154,0.55);
-}
-
 .hero-text{
   max-width:800px;
   background:rgba(255,255,255,.72);
@@ -263,24 +217,24 @@ a{text-decoration:none;color:inherit;}
 
 .cards{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:24px;
-  padding:40px 20px 70px;
+  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:28px;
+  padding:50px 20px 80px;
 }
 
 .flavor-card{
   position:relative;
   overflow:hidden;
-  border-radius:28px;
-  min-height:320px;
-  padding:28px;
+  border-radius:32px;
+  min-height:460px;
+  padding:0;
   color:white;
   display:flex;
   align-items:flex-end;
   background-size:cover;
   background-position:center;
-  box-shadow:0 18px 34px rgba(0,0,0,0.12);
-  transition:transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow:0 20px 44px rgba(0,0,0,0.18);
+  transition:transform 0.24s ease, box-shadow 0.24s ease;
   border:1px solid rgba(255,255,255,0.18);
 }
 
@@ -288,31 +242,43 @@ a{text-decoration:none;color:inherit;}
   content:"";
   position:absolute;
   inset:0;
-  background:linear-gradient(to top, rgba(3,18,40,0.82) 0%, rgba(3,18,40,0.48) 38%, rgba(3,18,40,0.10) 100%);
+  background:linear-gradient(to top, rgba(4,18,40,0.28) 0%, rgba(4,18,40,0.08) 40%, rgba(4,18,40,0.02) 100%);
 }
 
-.flavor-card > div{position:relative;z-index:2;}
+.flavor-card > div{
+  position:relative;
+  z-index:2;
+  width:100%;
+  padding:28px 26px 34px;
+  background:linear-gradient(to top, rgba(3,16,36,0.58) 0%, rgba(3,16,36,0.22) 65%, rgba(3,16,36,0) 100%);
+}
 
 .flavor-card:hover{
-  transform:translateY(-6px);
-  box-shadow:0 24px 42px rgba(0,0,0,0.18);
+  transform:translateY(-5px) scale(1.01);
+  box-shadow:0 28px 54px rgba(0,0,0,0.24);
 }
 
-.ship-card{background-image:url('https://images.unsplash.com/photo-1569263979104-865ab7cd8d13?q=80&w=1200&auto=format&fit=crop');}
-.gear-card{background-image:url('https://images.unsplash.com/photo-1527631746610-bca00a040d60?q=80&w=1200&auto=format&fit=crop');}
-.casino-card{background-image:url('https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=1200&auto=format&fit=crop');}
+.ship-card{background-image:url('../assets/images/homepage-tile-ship-cabin.png');}
+.gear-card{background-image:url('../assets/images/homepage-tile-gear-sea.png');}
+.casino-card{background-image:url('../assets/images/homepage-tile-casino-reality.png');}
+
+.flavor-card i{
+  display:none;
+}
 
 .flavor-card h3{
-  font-size:34px;
+  font-size:36px;
   color:#ffffff;
-  text-shadow:0 4px 14px rgba(0,0,0,0.65);
+  text-shadow:0 3px 12px rgba(0,0,0,0.42);
+  margin-bottom:12px;
 }
 
 .flavor-card p{
-  font-size:20px;
+  font-size:18px;
   color:#f2f6ff;
   line-height:1.6;
-  text-shadow:0 2px 10px rgba(0,0,0,0.7);
+  text-shadow:0 2px 10px rgba(0,0,0,0.48);
+  max-width:92%;
 }
 
 footer{
