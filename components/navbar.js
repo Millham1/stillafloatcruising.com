@@ -1,124 +1,151 @@
-// Still Afloat Global Navbar Component
+// Still Afloat Unified Navbar
+// Version: v2.0
+
 (function () {
   const navbarHTML = `
-    <header class="sa-navbar">
-      <div class="sa-navbar-inner">
-        <a href="/index.html" class="sa-logo-wrap">
-          <img src="/assets/images/still_afloat_logo.png" alt="Still Afloat" class="sa-logo" />
-        </a>
-
-        <nav class="sa-nav-links" id="saNavLinks">
-          <a href="/index.html" class="sa-nav-link">Home</a>
-          <a href="/news.html" class="sa-nav-link">Cruise News</a>
-          <a href="/gear.html" class="sa-nav-link">Cruising Gear</a>
-          <a href="#" class="sa-nav-link">Friday AI</a>
-        </nav>
-
-        <button class="sa-mobile-toggle" id="saMobileToggle" aria-label="Toggle Navigation">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-      </div>
-    </header>
+    <div class="sa-navbar-shell">
+      <nav class="sa-navbar-panel">
+        <a href="/index.html" class="sa-nav-pill">The Vibe</a>
+        <a href="/news.html" class="sa-nav-pill">Cruise Report</a>
+        <a href="/about.html" class="sa-nav-pill">Meet Mark</a>
+        <a href="https://youtube.com" target="_blank" class="sa-nav-pill">YouTube</a>
+        <a href="/affiliate.html" class="sa-nav-pill">Gear</a>
+        <a href="#" class="sa-nav-pill sa-nav-pill-primary">Book Your Cruise</a>
+      </nav>
+    </div>
   `;
 
   const navbarStyles = `
-    .sa-navbar {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
+    .sa-navbar-shell {
       width: 100%;
-      padding: 18px 28px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px 20px 10px;
+      position: relative;
+      z-index: 1000;
+    }
+
+    .sa-navbar-panel {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+
+      max-width: 760px;
+      width: fit-content;
+
+      padding: 16px;
+
+      border-radius: 30px;
+
+      background:
+        linear-gradient(
+          180deg,
+          rgba(17, 49, 86, 0.95),
+          rgba(10, 31, 58, 0.94)
+        );
+
+      border: 1px solid rgba(155, 220, 255, 0.22);
+
       backdrop-filter: blur(18px);
-      background: rgba(4, 12, 24, 0.72);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.10),
+        inset 0 -1px 0 rgba(255,255,255,0.04),
+        0 20px 50px rgba(0,0,0,0.34);
     }
 
-    .sa-navbar-inner {
-      max-width: 1480px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    .sa-logo {
-      width: 220px;
-      filter: drop-shadow(0 8px 20px rgba(0,0,0,0.45));
-    }
-
-    .sa-nav-links {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .sa-nav-link {
+    .sa-nav-pill {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 14px 22px;
-      border-radius: 999px;
+
+      min-width: 138px;
+      min-height: 54px;
+
+      padding: 14px 20px;
+
+      border-radius: 18px;
+
       text-decoration: none;
+
+      color: rgba(255,255,255,0.96);
+
+      font-family: 'Poppins', sans-serif;
+      font-size: 16px;
       font-weight: 700;
-      font-size: 15px;
-      color: #ffffff;
-      background: rgba(10, 31, 56, 0.72);
-      border: 1px solid rgba(110, 208, 255, 0.18);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.22);
-      transition: all 0.2s ease;
+
+      background:
+        linear-gradient(
+          180deg,
+          rgba(54, 82, 126, 0.96),
+          rgba(33, 57, 96, 0.96)
+        );
+
+      border: 1px solid rgba(180, 225, 255, 0.12);
+
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.10),
+        0 10px 24px rgba(0,0,0,0.24);
+
+      transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        border-color 0.18s ease,
+        background 0.18s ease;
     }
 
-    .sa-nav-link:hover {
+    .sa-nav-pill:hover {
       transform: translateY(-2px);
-      background: rgba(14, 52, 90, 0.92);
-      border-color: rgba(110, 208, 255, 0.42);
+
+      border-color: rgba(165, 226, 255, 0.34);
+
+      background:
+        linear-gradient(
+          180deg,
+          rgba(68, 101, 151, 0.98),
+          rgba(41, 68, 112, 0.98)
+        );
+
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.14),
+        0 14px 28px rgba(0,0,0,0.30);
     }
 
-    .sa-nav-link.active {
-      background: linear-gradient(180deg, rgba(22, 88, 148, 0.96), rgba(8, 36, 64, 0.96));
-      border-color: rgba(126, 219, 255, 0.5);
+    .sa-nav-pill.active {
+      border-color: rgba(112, 219, 255, 0.55);
+
+      background:
+        linear-gradient(
+          180deg,
+          rgba(35, 102, 168, 0.98),
+          rgba(17, 62, 112, 0.98)
+        );
     }
 
-    .sa-mobile-toggle {
-      display: none;
+    .sa-nav-pill-primary {
+      min-width: 210px;
     }
 
     @media (max-width: 920px) {
-      .sa-mobile-toggle {
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-        background: rgba(8, 24, 44, 0.88);
-        border: 1px solid rgba(255,255,255,0.12);
-        border-radius: 14px;
-        padding: 12px;
+      .sa-navbar-panel {
+        max-width: 94%;
+        gap: 10px;
+        padding: 14px;
       }
 
-      .sa-mobile-toggle span {
-        width: 24px;
-        height: 3px;
-        border-radius: 999px;
-        background: white;
+      .sa-nav-pill {
+        min-width: 150px;
+        font-size: 15px;
       }
+    }
 
-      .sa-nav-links {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        display: none;
-        flex-direction: column;
-        gap: 12px;
-        padding: 20px;
-        background: rgba(4, 12, 24, 0.96);
-      }
-
-      .sa-nav-links.open {
-        display: flex;
+    @media (max-width: 640px) {
+      .sa-nav-pill,
+      .sa-nav-pill-primary {
+        width: 100%;
       }
     }
   `;
@@ -130,28 +157,34 @@
   function injectNavbar() {
     const target = document.getElementById('navbar-container');
 
-    if (!target) return;
+    if (!target) {
+      console.warn('Navbar target not found');
+      return;
+    }
 
     target.innerHTML = navbarHTML;
 
-    const currentPage = window.location.pathname.split('/').pop();
-    const links = target.querySelectorAll('.sa-nav-link');
+    const currentPage = window.location.pathname;
 
-    links.forEach(link => {
-      const href = link.getAttribute('href');
-      if (href && currentPage && href.includes(currentPage)) {
-        link.classList.add('active');
-      }
-    });
+    const mappings = [
+      ['/index.html', 'The Vibe'],
+      ['/news.html', 'Cruise Report'],
+      ['/about.html', 'Meet Mark'],
+      ['/affiliate.html', 'Gear']
+    ];
 
-    const toggle = document.getElementById('saMobileToggle');
-    const navLinks = document.getElementById('saNavLinks');
+    const pills = target.querySelectorAll('.sa-nav-pill');
 
-    if (toggle && navLinks) {
-      toggle.addEventListener('click', () => {
-        navLinks.classList.toggle('open');
+    pills.forEach(pill => {
+      mappings.forEach(mapping => {
+        if (
+          currentPage.includes(mapping[0]) &&
+          pill.textContent.includes(mapping[1])
+        ) {
+          pill.classList.add('active');
+        }
       });
-    }
+    });
   }
 
   if (document.readyState === 'loading') {
