@@ -1,151 +1,133 @@
-// Still Afloat Unified Navbar
-// Version: v2.0
+// Still Afloat Shared Navbar
+// Clones the homepage hero-nav design exactly, with page-aware destinations.
+// Version: v3-homepage-clone
 
 (function () {
+  function isHomePage() {
+    const path = window.location.pathname;
+    return path === '/' || path.endsWith('/index.html') || path === '';
+  }
+
+  const home = isHomePage();
+
+  const links = {
+    vibe: home ? '#vibe' : '/index.html#vibe',
+    report: home ? '#report' : '/index.html#report',
+    mark: home ? '#mark' : '/index.html#mark',
+    watch: home ? '#watch' : '/index.html#watch',
+    gear: '/affiliate.html',
+    book: '#'
+  };
+
   const navbarHTML = `
-    <div class="sa-navbar-shell">
-      <nav class="sa-navbar-panel">
-        <a href="/index.html" class="sa-nav-pill">The Vibe</a>
-        <a href="/news.html" class="sa-nav-pill">Cruise Report</a>
-        <a href="/about.html" class="sa-nav-pill">Meet Mark</a>
-        <a href="https://youtube.com" target="_blank" class="sa-nav-pill">YouTube</a>
-        <a href="/affiliate.html" class="sa-nav-pill">Gear</a>
-        <a href="#" class="sa-nav-pill sa-nav-pill-primary">Book Your Cruise</a>
-      </nav>
-    </div>
+    <nav class="hero-nav sa-shared-hero-nav" aria-label="Still Afloat navigation">
+      <div class="nav-row">
+        <a href="${links.vibe}">The Vibe</a>
+        <a href="${links.report}">Cruise Report</a>
+        <a href="${links.mark}">Meet Mark</a>
+        <a href="${links.watch}">YouTube</a>
+      </div>
+      <div class="nav-row secondary">
+        <a href="${links.gear}">Gear</a>
+        <a href="${links.book}">Book Your Cruise</a>
+      </div>
+    </nav>
   `;
 
   const navbarStyles = `
-    .sa-navbar-shell {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px 20px 10px;
+    #navbar-container {
       position: relative;
       z-index: 1000;
+      width: 100%;
+      min-height: 0;
     }
 
-    .sa-navbar-panel {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: center;
-      gap: 12px;
-
-      max-width: 760px;
+    #navbar-container .hero-nav {
       width: fit-content;
-
-      padding: 16px;
-
-      border-radius: 30px;
-
+      display: inline-block;
+      z-index: 20;
       background:
-        linear-gradient(
-          180deg,
-          rgba(17, 49, 86, 0.95),
-          rgba(10, 31, 58, 0.94)
-        );
-
-      border: 1px solid rgba(155, 220, 255, 0.22);
-
-      backdrop-filter: blur(18px);
-
+        linear-gradient(180deg, rgba(9,72,117,.96), rgba(4,33,66,.96));
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(123,214,255,.32);
+      border-radius: 24px;
+      padding: 10px 14px;
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.10),
-        inset 0 -1px 0 rgba(255,255,255,0.04),
-        0 20px 50px rgba(0,0,0,0.34);
+        0 18px 40px rgba(0,0,0,.38),
+        inset 0 1px 0 rgba(255,255,255,.18),
+        inset 0 -1px 0 rgba(0,0,0,.24);
     }
 
-    .sa-nav-pill {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+    #navbar-container .hero-nav::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 24px;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(125,225,255,.38), rgba(255,255,255,.06));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
 
-      min-width: 138px;
-      min-height: 54px;
+    #navbar-container .hero-nav .nav-row {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
 
-      padding: 14px 20px;
+    #navbar-container .hero-nav .secondary {
+      margin-top: 6px;
+    }
 
-      border-radius: 18px;
-
+    #navbar-container .hero-nav a {
+      display: inline-block;
+      font-size: 13px;
+      padding: 9px 14px;
+      border-radius: 14px;
+      color: #ffffff;
       text-decoration: none;
-
-      color: rgba(255,255,255,0.96);
-
-      font-family: 'Poppins', sans-serif;
-      font-size: 16px;
-      font-weight: 700;
-
-      background:
-        linear-gradient(
-          180deg,
-          rgba(54, 82, 126, 0.96),
-          rgba(33, 57, 96, 0.96)
-        );
-
-      border: 1px solid rgba(180, 225, 255, 0.12);
-
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.10),
-        0 10px 24px rgba(0,0,0,0.24);
-
-      transition:
-        transform 0.18s ease,
-        box-shadow 0.18s ease,
-        border-color 0.18s ease,
-        background 0.18s ease;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.08);
+      transition: all .2s ease;
+      text-shadow: 0 1px 4px rgba(0,0,0,.3);
+      font-family: inherit;
+      line-height: 1.2;
+      white-space: nowrap;
     }
 
-    .sa-nav-pill:hover {
-      transform: translateY(-2px);
-
-      border-color: rgba(165, 226, 255, 0.34);
-
-      background:
-        linear-gradient(
-          180deg,
-          rgba(68, 101, 151, 0.98),
-          rgba(41, 68, 112, 0.98)
-        );
-
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.14),
-        0 14px 28px rgba(0,0,0,0.30);
+    #navbar-container .hero-nav a:hover {
+      background: rgba(93,255,154,.16);
+      border-color: rgba(93,255,154,.32);
+      color: #5dff9a;
+      transform: translateY(-1px);
     }
 
-    .sa-nav-pill.active {
-      border-color: rgba(112, 219, 255, 0.55);
-
-      background:
-        linear-gradient(
-          180deg,
-          rgba(35, 102, 168, 0.98),
-          rgba(17, 62, 112, 0.98)
-        );
+    #navbar-container .hero-nav .secondary a {
+      font-size: 12px;
+      padding: 8px 12px;
     }
 
-    .sa-nav-pill-primary {
-      min-width: 210px;
+    body:not(.home-page) #navbar-container {
+      display: flex;
+      justify-content: flex-end;
+      padding: 22px 22px 0;
     }
 
-    @media (max-width: 920px) {
-      .sa-navbar-panel {
-        max-width: 94%;
-        gap: 10px;
-        padding: 14px;
+    @media (max-width: 760px) {
+      body:not(.home-page) #navbar-container {
+        justify-content: center;
+        padding: 14px 12px 0;
       }
 
-      .sa-nav-pill {
-        min-width: 150px;
-        font-size: 15px;
+      #navbar-container .hero-nav {
+        max-width: calc(100vw - 24px);
       }
-    }
 
-    @media (max-width: 640px) {
-      .sa-nav-pill,
-      .sa-nav-pill-primary {
-        width: 100%;
+      #navbar-container .hero-nav .nav-row {
+        flex-wrap: wrap;
+        justify-content: center;
       }
     }
   `;
@@ -156,35 +138,13 @@
 
   function injectNavbar() {
     const target = document.getElementById('navbar-container');
+    if (!target) return;
 
-    if (!target) {
-      console.warn('Navbar target not found');
-      return;
+    if (home) {
+      document.body.classList.add('home-page');
     }
 
     target.innerHTML = navbarHTML;
-
-    const currentPage = window.location.pathname;
-
-    const mappings = [
-      ['/index.html', 'The Vibe'],
-      ['/news.html', 'Cruise Report'],
-      ['/about.html', 'Meet Mark'],
-      ['/affiliate.html', 'Gear']
-    ];
-
-    const pills = target.querySelectorAll('.sa-nav-pill');
-
-    pills.forEach(pill => {
-      mappings.forEach(mapping => {
-        if (
-          currentPage.includes(mapping[0]) &&
-          pill.textContent.includes(mapping[1])
-        ) {
-          pill.classList.add('active');
-        }
-      });
-    });
   }
 
   if (document.readyState === 'loading') {
