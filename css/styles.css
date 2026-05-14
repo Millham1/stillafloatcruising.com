@@ -136,8 +136,8 @@ a{text-decoration:none;color:inherit;}
 
 .meet-mark .parrots-accent{
   position:absolute;
-  right:8px;
-  top:-128px;
+  right:18px;
+  top:-92px;
   width:176px;
   max-width:176px;
   height:auto;
@@ -148,7 +148,7 @@ a{text-decoration:none;color:inherit;}
   box-shadow:0 18px 40px rgba(0,0,0,0.22);
   opacity:0.98;
   z-index:5;
-  transform:rotate(11deg);
+  transform:rotate(16deg);
 }
 
 .report-section,.vibe-section{position:relative;}
