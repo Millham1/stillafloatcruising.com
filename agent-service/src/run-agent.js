@@ -2,6 +2,8 @@ const directive = require('./editorial-directive');
 const { preprocessStories } = require('./preprocess-stories');
 const { enrichStoriesWithArticles } = require('./article-extractor');
 const { buildEditorialMemory, buildReinforcementPrompt } = require('./editorial-memory');
+const { clusterStories, flattenRepresentativeStories } = require('./semantic-clustering');
+const { buildFeedbackSignals, buildLearningPrompt } = require('./feedback-learning');
 
 async function runEditorialAgent({ stories = [], openai, editorialMemory = {} }) {
   if (!openai) {
@@ -11,8 +13,14 @@ async function runEditorialAgent({ stories = [], openai, editorialMemory = {} })
   const processedStories = preprocessStories(stories);
   const enrichedStories = await enrichStoriesWithArticles(processedStories);
 
+  const clusters = clusterStories(enrichedStories);
+  const representativeStories = flattenRepresentativeStories(clusters);
+
   const memory = buildEditorialMemory(editorialMemory);
   const reinforcement = buildReinforcementPrompt(memory);
+
+  const feedbackSignals = buildFeedbackSignals(editorialMemory);
+  const learning = buildLearningPrompt(feedbackSignals);
 
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
@@ -33,8 +41,15 @@ async function runEditorialAgent({ stories = [], openai, editorialMemory = {} })
           role: 'user',
           content: JSON.stringify({
             timestamp: new Date().toISOString(),
-            candidateStoryCount: enrichedStories.length,
-            stories: enrichedStories,
+            originalCandidateCount: stories.length,
+            clusteredCandidateCount: representativeStories.length,
+            groupedDevelopments: clusters.map(cluster => ({
+              id: cluster.id,
+              representativeTitle: cluster.representative?.title,
+              duplicateCount: cluster.duplicateCount,
+              sources: cluster.sources
+            })),
+            stories: representativeStories,
             editorialInstructions: {
               prioritizeCruiseImpact: true,
               prioritizeTravelerRelevance: true,
@@ -44,7 +59,8 @@ async function runEditorialAgent({ stories = [], openai, editorialMemory = {} })
               homepageLimit: 5,
               digestLimit: 20
             },
-            reinforcement
+            reinforcement,
+            learning
           })
         }
       ]
