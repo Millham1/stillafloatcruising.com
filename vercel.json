@@ -3,5 +3,11 @@
     "api/*.js": {
       "maxDuration": 10
     }
-  }
+  },
+  "crons": [
+    {
+      "path": "/api/scan-news",
+      "schedule": "0 10 */2 * *"
+    }
+  ]
 }
