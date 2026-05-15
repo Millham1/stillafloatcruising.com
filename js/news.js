@@ -8,8 +8,8 @@ const STORIES_PER_BATCH = 10;
 function storyUrl(story) {
   const params = new URLSearchParams({
     title: story.title || '',
-    source: story.source || '',
-    description: story.description || '',
+    source: Array.isArray(story.sources) ? story.sources.join(', ') : (story.source || ''),
+    description: story.summary || story.description || '',
     link: story.link || '',
     image: story.image || '',
     category: story.category || '',
@@ -51,7 +51,7 @@ function renderHomepage(stories = []) {
   if (!homepageContainer) return;
 
   if (!stories.length) {
-    homepageContainer.innerHTML = '<div style="padding:16px 0;color:white;font-weight:700;">No live cruise stories are currently available.</div>';
+    homepageContainer.innerHTML = '<div style="padding:16px 0;color:white;font-weight:700;">No curated cruise stories are currently available.</div>';
     return;
   }
 
@@ -66,7 +66,7 @@ function renderHomepage(stories = []) {
           </span>
 
           <span style="color:rgba(255,255,255,.62);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;">
-            ${story.source}
+            ${(story.sources || []).slice(0,2).join(' • ')}
           </span>
         </div>
 
@@ -106,7 +106,7 @@ function storyCard(story) {
           </span>
 
           <span style="font-size:11px;font-weight:800;color:rgba(255,255,255,.62);text-transform:uppercase;letter-spacing:.05em;">
-            ${story.source}
+            ${(story.sources || []).join(' • ')}
           </span>
         </div>
 
@@ -121,8 +121,8 @@ function storyCard(story) {
         ${story.title}
       </h3>
 
-      <p style="line-height:1.55;color:rgba(255,255,255,.76);margin-bottom:16px;font-size:15px;">
-        ${story.description || ''}
+      <p style="line-height:1.7;color:rgba(255,255,255,.82);margin-bottom:16px;font-size:15px;">
+        ${story.summary || story.description || ''}
       </p>
 
       <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
@@ -165,19 +165,19 @@ function renderNewsPage(stories = []) {
   renderedCount = 0;
 
   if (!stories.length) {
-    fullNewsFeed.innerHTML = '<div class="report-box" style="padding:18px;border-radius:18px;background:rgba(255,255,255,0.10);backdrop-filter:blur(10px);color:white;">No live cruise stories available.</div>';
+    fullNewsFeed.innerHTML = '<div class="report-box" style="padding:18px;border-radius:18px;background:rgba(255,255,255,0.10);backdrop-filter:blur(10px);color:white;">No curated cruise stories available.</div>';
     return;
   }
 
   fullNewsFeed.innerHTML = `
     <div style="margin-bottom:22px;display:flex;justify-content:space-between;gap:12px;align-items:flex-end;flex-wrap:wrap;">
       <div>
-        <p style="color:#5dff9a;font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px;">Live Cruise Intelligence</p>
+        <p style="color:#5dff9a;font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px;">Curated Cruise Intelligence</p>
         <h1 style="color:white;font-size:42px;line-height:1.1;margin:0;">Cruise News & Travel Pulse</h1>
       </div>
 
       <div style="color:rgba(255,255,255,.62);font-weight:700;">
-        ${stories.length} stories loaded
+        ${stories.length} unique stories loaded
       </div>
     </div>
 
@@ -217,7 +217,7 @@ function renderNewsPage(stories = []) {
 
 async function initNews() {
   try {
-    const response = await fetch('/api/cruise-news');
+    const response = await fetch('/api/news-feed');
     const data = await response.json();
 
     renderHomepage(Array.isArray(data.homepage) ? data.homepage : []);
@@ -228,7 +228,7 @@ async function initNews() {
     if (fullNewsFeed) {
       fullNewsFeed.innerHTML = `
         <div style="padding:22px;border-radius:22px;background:rgba(255,255,255,.08);color:white;">
-          Live cruise news is temporarily unavailable. Please refresh shortly.
+          Curated cruise news is temporarily unavailable. Please refresh shortly.
         </div>
       `;
     }
