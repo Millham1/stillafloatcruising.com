@@ -1,6 +1,487 @@
 {
   "approvalEmail": "stillafloatcruising@gmail.com",
-  "generatedAt": null,
+  "generatedAt": "2026-05-15T22:21:21.614Z",
   "maxCandidates": 20,
-  "stories": []
+  "stories": [
+    {
+      "id": "weather-galveston",
+      "title": "Weather watch issued for Galveston cruise operations",
+      "summary": "Galveston is showing elevated weather risk over the next several days that could impact cruise embarkation schedules, flight operations, or itinerary stability. Travelers should monitor updates closely as cruise lines may begin operational adjustments if conditions intensify.",
+      "source": "Configured Weather API",
+      "link": "https://open-meteo.com/",
+      "image": "",
+      "publishedAt": "2026-05-15T22:21:20.612Z",
+      "category": "Operational Impact",
+      "tier": "impact",
+      "impactScore": 96,
+      "featured": true,
+      "status": "candidate",
+      "clusterId": "could-cruise-elevated-galveston-galveston-issued-operations-several-showing-watch-weather-weather",
+      "sources": [
+        "Configured Weather API"
+      ],
+      "sourceLinks": [
+        {
+          "source": "Configured Weather API",
+          "url": "https://open-meteo.com/"
+        }
+      ]
+    },
+    {
+      "id": "weather-tampa",
+      "title": "Weather watch issued for Tampa cruise operations",
+      "summary": "Tampa is showing elevated weather risk over the next several days that could impact cruise embarkation schedules, flight operations, or itinerary stability. Travelers should monitor updates closely as cruise lines may begin operational adjustments if conditions intensify.",
+      "source": "Configured Weather API",
+      "link": "https://open-meteo.com/",
+      "image": "",
+      "publishedAt": "2026-05-15T22:21:20.718Z",
+      "category": "Operational Impact",
+      "tier": "impact",
+      "impactScore": 96,
+      "featured": true,
+      "status": "candidate",
+      "clusterId": "could-cruise-elevated-issued-operations-several-showing-tampa-tampa-watch-weather-weather",
+      "sources": [
+        "Configured Weather API"
+      ],
+      "sourceLinks": [
+        {
+          "source": "Configured Weather API",
+          "url": "https://open-meteo.com/"
+        }
+      ]
+    },
+    {
+      "id": "weather-san-juan",
+      "title": "Weather watch issued for San Juan cruise operations",
+      "summary": "San Juan is showing elevated weather risk over the next several days that could impact cruise embarkation schedules, flight operations, or itinerary stability. Travelers should monitor updates closely as cruise lines may begin operational adjustments if conditions intensify.",
+      "source": "Configured Weather API",
+      "link": "https://open-meteo.com/",
+      "image": "",
+      "publishedAt": "2026-05-15T22:21:20.931Z",
+      "category": "Operational Impact",
+      "tier": "impact",
+      "impactScore": 96,
+      "featured": true,
+      "status": "candidate",
+      "clusterId": "could-cruise-cruise-elevated-impact-issued-operations-several-showing-watch-weather-weather",
+      "sources": [
+        "Configured Weather API"
+      ],
+      "sourceLinks": [
+        {
+          "source": "Configured Weather API",
+          "url": "https://open-meteo.com/"
+        }
+      ]
+    },
+    {
+      "id": "weather-cozumel",
+      "title": "Weather watch issued for Cozumel cruise operations",
+      "summary": "Cozumel is showing elevated weather risk over the next several days that could impact cruise embarkation schedules, flight operations, or itinerary stability. Travelers should monitor updates closely as cruise lines may begin operational adjustments if conditions intensify.",
+      "source": "Configured Weather API",
+      "link": "https://open-meteo.com/",
+      "image": "",
+      "publishedAt": "2026-05-15T22:21:21.143Z",
+      "category": "Operational Impact",
+      "tier": "impact",
+      "impactScore": 96,
+      "featured": true,
+      "status": "candidate",
+      "clusterId": "could-cozumel-cozumel-cruise-elevated-issued-operations-several-showing-watch-weather-weather",
+      "sources": [
+        "Configured Weather API"
+      ],
+      "sourceLinks": [
+        {
+          "source": "Configured Weather API",
+          "url": "https://open-meteo.com/"
+        }
+      ]
+    },
+    {
+      "id": "weather-bermuda",
+      "title": "Weather watch issued for Bermuda cruise operations",
+      "summary": "Bermuda is showing elevated weather risk over the next several days that could impact cruise embarkation schedules, flight operations, or itinerary stability. Travelers should monitor updates closely as cruise lines may begin operational adjustments if conditions intensify.",
+      "source": "Configured Weather API",
+      "link": "https://open-meteo.com/",
+      "image": "",
+      "publishedAt": "2026-05-15T22:21:21.247Z",
+      "category": "Operational Impact",
+      "tier": "impact",
+      "impactScore": 96,
+      "featured": true,
+      "status": "candidate",
+      "clusterId": "bermuda-bermuda-could-cruise-elevated-issued-operations-several-showing-watch-weather-weather",
+      "sources": [
+        "Configured Weather API"
+      ],
+      "sourceLinks": [
+        {
+          "source": "Configured Weather API",
+          "url": "https://open-meteo.com/"
+        }
+      ]
+    },
+    {
+      "id": "centerpoint-energy-conducts-full-scale-emergency-exercise-in-preparation-for-2026-hurrican",
+      "title": "CenterPoint Energy conducts full-scale emergency exercise in preparation for 2026 hurricane season",
+      "summary": "Emergency exercise, building on CenterPoint's year-round emergency preparedness activities and drills, simulated a response to a major hurricane to strengthen future preparedness, coordination with local emergency agencies and first responders, as well as pub…",
+      "source": "PRNewswire",
+      "link": "https://www.prnewswire.com/news-releases/centerpoint-energy-conducts-full-scale-emergency-exercise-in-preparation-for-2026-hurricane-season-302772952.html",
+      "image": "https://mma.prnewswire.com/media/95201/centerpoint_energy_logo.jpg?p=facebook",
+      "publishedAt": "2026-05-14T22:02:00Z",
+      "category": "Operational Impact",
+      "tier": "impact",
+      "impactScore": 92,
+      "featured": false,
+      "status": "candidate",
+      "clusterId": "building-centerpoint-conducts-emergency-emergency-energy-exercise-exercise-fullscale-hurricane-preparation-season",
+      "sources": [
+        "PRNewswire"
+      ],
+      "sourceLinks": [
+        {
+          "source": "PRNewswire",
+          "url": "https://www.prnewswire.com/news-releases/centerpoint-energy-conducts-full-scale-emergency-exercise-in-preparation-for-2026-hurricane-season-302772952.html"
+        }
+      ]
+    },
+    {
+      "id": "the-real-reason-your-flight-gets-canceled-has-nothing-to-do-with-weather-on-the-ground-it-",
+      "title": "The real reason your flight gets canceled has nothing to do with weather on the ground — it starts 150 million kilometres away",
+      "summary": "When a flight gets cancelled, the explanation passengers receive is usually some variation of the same short list. Weather. Air traffic congestion. A mechanical issue with the aircraft. An operational problem at the origin airport. These are real causes. They…",
+      "source": "Space Daily",
+      "link": "https://spacedaily.com/n-the-real-reason-your-flight-gets-canceled-has-nothing-to-do-with-weather-on-the-ground-it-starts-150-million-kilometres-away/",
+      "image": "https://spacedaily.com/wp-content/uploads/2026/05/cancelled-flight.png",
+      "publishedAt": "2026-05-14T22:00:24Z",
+      "category": "Operational Impact",
+      "tier": "impact",
+      "impactScore": 92,
+      "featured": false,
+      "status": "candidate",
+      "clusterId": "canceled-cancelled-explanation-flight-flight-ground-kilometres-million-nothing-reason-starts-weather",
+      "sources": [
+        "Space Daily"
+      ],
+      "sourceLinks": [
+        {
+          "source": "Space Daily",
+          "url": "https://spacedaily.com/n-the-real-reason-your-flight-gets-canceled-has-nothing-to-do-with-weather-on-the-ground-it-starts-150-million-kilometres-away/"
+        }
+      ]
+    },
+    {
+      "id": "small-plane-crashes-into-ohio-home-killing-2-on-board-igniting-blaze-in-residential-area",
+      "title": "Small plane crashes into Ohio home killing 2 on board, igniting blaze in residential area",
+      "summary": "A small plane crashed into a home in Akron, Ohio, killing two people on board and sparking a large fire. The FAA and NTSB are now investigating the cause.",
+      "source": "Fox News",
+      "link": "https://www.foxnews.com/us/small-plane-crashes-ohio-home-killing-2-board-igniting-blaze-residential-area",
+      "image": "https://static.foxnews.com/foxnews.com/content/uploads/2026/05/2-dead-after-a-plane-crashes-into-Ohio-home.jpeg",
+      "publishedAt": "2026-05-14T21:27:11Z",
+      "category": "Operational Impact",
+      "tier": "impact",
+      "impactScore": 92,
+      "featured": false,
+      "status": "candidate",
+      "clusterId": "akron-blaze-board-crashed-crashes-igniting-killing-plane-plane-residential-small-small",
+      "sources": [
+        "Fox News"
+      ],
+      "sourceLinks": [
+        {
+          "source": "Fox News",
+          "url": "https://www.foxnews.com/us/small-plane-crashes-ohio-home-killing-2-board-igniting-blaze-residential-area"
+        }
+      ]
+    },
+    {
+      "id": "telangana-s-2nd-warangal-airport-2-5-km-runway-smart-terminal-for-850-passengers-self-chec",
+      "title": "Telangana's 2nd Warangal Airport: 2.5-km Runway, Smart Terminal For 850 Passengers, Self Check-In",
+      "summary": "Telangana’s proposed second airport in Warangal has moved a step closer to reality as AAI began the environmental clearance process for the ambitious aviation project",
+      "source": "News18",
+      "link": "https://www.news18.com/cities/hyderabad-news/telanganas-2nd-warangal-airport-2-5-km-runway-smart-terminal-for-850-passengers-self-check-in-ws-l-10090646.html",
+      "image": "https://images.news18.com/ibnlive/uploads/2026/01/Warangal-Airport-2026-01-f66f6fd777c1d20ebddc2f7634f0e5e0-16x9.png",
+      "publishedAt": "2026-05-15T10:15:58Z",
+      "category": "Operational Impact",
+      "tier": "impact",
+      "impactScore": 92,
+      "featured": false,
+      "status": "candidate",
+      "clusterId": "airport-airport-checkin-passengers-proposed-runway-second-smart-telanganas-telanganas-terminal-warangal",
+      "sources": [
+        "News18"
+      ],
+      "sourceLinks": [
+        {
+          "source": "News18",
+          "url": "https://www.news18.com/cities/hyderabad-news/telanganas-2nd-warangal-airport-2-5-km-runway-smart-terminal-for-850-passengers-self-check-in-ws-l-10090646.html"
+        }
+      ]
+    },
+    {
+      "id": "hyderabad-airport-vs-warangal-airport-which-one-saves-you-more-time-and-money-explained",
+      "title": "Hyderabad Airport vs Warangal Airport: Which One Saves You More Time And Money? | Explained",
+      "summary": "Will Warangal airport save Telangana travellers time and money? Here’s how the upcoming airport compares with Hyderabad airport on travel time, connectivity, flight options and convenience.",
+      "source": "News18",
+      "link": "https://www.news18.com/cities/hyderabad-news/hyderabad-airport-vs-warangal-airport-which-one-saves-you-more-time-and-money-explained-ws-l-10093146.html",
+      "image": "https://images.news18.com/ibnlive/uploads/2026/05/warangal-airport-hyderabad-airport-comparison-2026-05-ea401b21b53e0f954295dcc38c26d39d-1200x675.png",
+      "publishedAt": "2026-05-15T10:14:49Z",
+      "category": "Operational Impact",
+      "tier": "impact",
+      "impactScore": 92,
+      "featured": false,
+      "status": "candidate",
+      "clusterId": "airport-airport-airport-explained-hyderabad-money-saves-telangana-travellers-warangal-warangal-which",
+      "sources": [
+        "News18"
+      ],
+      "sourceLinks": [
+        {
+          "source": "News18",
+          "url": "https://www.news18.com/cities/hyderabad-news/hyderabad-airport-vs-warangal-airport-which-one-saves-you-more-time-and-money-explained-ws-l-10093146.html"
+        }
+      ]
+    },
+    {
+      "id": "indian-arrested-at-sri-lanka-airport-with-cocaine-worth-lkr-108-million",
+      "title": "Indian arrested at Sri Lanka airport with cocaine worth LKR 108 million",
+      "summary": "COLOMBO, May 15: A 60-year-old Indian national was arrested on Friday with cocaine worth 108 million Sri Lankan rupees at the Colombo airport, officials said. The suspect, a geologist by profession, arrived from Uganda via Doha on a Qatar Airways flight, said airport narcotics officials. He was concealing more than 2 kilograms of drugs in his luggage. “During a thorough examination of the checked baggage of the passenger, customs officers uncovered approximately 2.15 kilograms of cocaine, meticulously concealed inside the […]",
+      "source": "Daily Excelsior",
+      "link": "https://www.dailyexcelsior.com/indian-arrested-at-sri-lanka-airport-with-cocaine-worth-lkr-108-million/",
+      "image": "https://www.dailyexcelsior.com/wp-content/uploads/2026/05/1200-675-26699791-165-26699791-1778837336305.jpg",
+      "publishedAt": "2026-05-15T10:14:02Z",
+      "category": "Operational Impact",
+      "tier": "impact",
+      "impactScore": 92,
+      "featured": false,
+      "status": "candidate",
+      "clusterId": "60yearold-airport-arrested-arrested-cocaine-colombo-indian-indian-lanka-million-national-worth",
+      "sources": [
+        "Daily Excelsior"
+      ],
+      "sourceLinks": [
+        {
+          "source": "Daily Excelsior",
+          "url": "https://www.dailyexcelsior.com/indian-arrested-at-sri-lanka-airport-with-cocaine-worth-lkr-108-million/"
+        }
+      ]
+    },
+    {
+      "id": "hurricane-season-starts-in-eastern-pacific-as-el-nin-o-worries-grow",
+      "title": "Hurricane season starts in Eastern Pacific as El Niño worries grow",
+      "summary": "The formation of an El Niño and an abundance of warm water make conditions especially friendly for potential storm systems.",
+      "source": "USA TODAY",
+      "link": "https://www.usatoday.com/story/news/nation/2026/05/15/hurricane-season-starts-in-eastern-pacific-as-el-nino/90056875007/",
+      "image": "https://www.usatoday.com/gcdn/authoring/authoring-images/2026/05/12/USAT/90040142007-nmme-ensemble-tmpsfc-season-1.png?crop=799,450,x0,y30&width=799&height=450&format=pjpg&auto=webp",
+      "publishedAt": "2026-05-15T10:04:53Z",
+      "category": "Operational Impact",
+      "tier": "impact",
+      "impactScore": 92,
+      "featured": false,
+      "status": "candidate",
+      "clusterId": "abundance-conditions-eastern-especially-formation-friendly-hurricane-pacific-season-starts-water-worries",
+      "sources": [
+        "USA TODAY"
+      ],
+      "sourceLinks": [
+        {
+          "source": "USA TODAY",
+          "url": "https://www.usatoday.com/story/news/nation/2026/05/15/hurricane-season-starts-in-eastern-pacific-as-el-nino/90056875007/"
+        }
+      ]
+    },
+    {
+      "id": "pair-caught-hiding-monkeys-in-underwear-at-airport-as-one-suffocates-inside-sweaty-crotch",
+      "title": "Pair caught hiding monkeys in underwear at airport as one suffocates inside sweaty crotch",
+      "summary": "WARNING, DISTRESSING CONTENT: A couple were allegedly caught trying to smuggle monkeys in their underwear at Rafael Nunez International Airport in Cartagena, Colombia",
+      "source": "The daily Star",
+      "link": "https://www.dailystar.co.uk/news/latest-news/pair-caught-hiding-monkeys-underwear-37159995",
+      "image": "https://i2-prod.dailystar.co.uk/article37160048.ece/ALTERNATES/s1200d/0_VIDEO-Couple-busted-smuggling-monkeys-in-underwear-with-one-primate-suffocating-to-death.jpg",
+      "publishedAt": "2026-05-15T09:58:39Z",
+      "category": "Operational Impact",
+      "tier": "impact",
+      "impactScore": 92,
+      "featured": false,
+      "status": "candidate",
+      "clusterId": "airport-caught-content-crotch-distressing-hiding-inside-monkeys-suffocates-sweaty-underwear-warning",
+      "sources": [
+        "The daily Star"
+      ],
+      "sourceLinks": [
+        {
+          "source": "The daily Star",
+          "url": "https://www.dailystar.co.uk/news/latest-news/pair-caught-hiding-monkeys-underwear-37159995"
+        }
+      ]
+    },
+    {
+      "id": "authorities-leaders-urge-public-to-make-ludhiana-s-halwara-airport-a-success",
+      "title": "Authorities, leaders urge public to make Ludhiana's Halwara Airport a success",
+      "summary": "Initially, Air India will operate two daily flights between Delhi and Halwara using an Airbus A320 aircraft.",
+      "source": "The Tribune",
+      "link": "https://www.tribuneindia.com/news/ludhiana/authorities-leaders-urge-public-to-make-ludhianas-halwara-airport-a-success/",
+      "image": "https://www.tribuneindia.com/sortd-service/imaginary/v22-01/jpg/large/high?url=dGhldHJpYnVuZS1zb3J0ZC1wcm8tcHJvZC1zb3J0ZC9tZWRpYWJkM2Y4MTkwLTUwNDQtMTFmMS05NWQzLWFiMTg3NjE5Y2M0NS5qcGc=",
+      "publishedAt": "2026-05-15T09:56:56Z",
+      "category": "Operational Impact",
+      "tier": "impact",
+      "impactScore": 92,
+      "featured": false,
+      "status": "candidate",
+      "clusterId": "airport-authorities-daily-flights-halwara-india-initially-leaders-ludhianas-operate-public-success",
+      "sources": [
+        "The Tribune"
+      ],
+      "sourceLinks": [
+        {
+          "source": "The Tribune",
+          "url": "https://www.tribuneindia.com/news/ludhiana/authorities-leaders-urge-public-to-make-ludhianas-halwara-airport-a-success/"
+        }
+      ]
+    },
+    {
+      "id": "maharashtra-cuts-vat-on-jet-fuel-from-18-to-7-amid-rising-aviation-costs",
+      "title": "Maharashtra cuts VAT on jet fuel from 18% to 7% amid rising aviation costs",
+      "summary": "Fuel is one of the biggest expenses for airlines and accounts for nearly 35-40% of an airline’s operating costs. The tax reduction is expected to lower refuelling costs at Mumbai airport, which is India’s second-busiest airport after Delhi and handles around 15% of the country’s air traffic.",
+      "source": "India Today",
+      "link": "https://www.indiatoday.in/business/story/maharashtra-cuts-jet-fuel-vat-to-7-percent-amid-rising-aviation-costs-2912262-2026-05-15",
+      "image": "https://akm-img-a-in.tosshub.com/indiatoday/images/story/202605/atf-cost-increase-india-061909526-16x9_1.png?VersionId=Gvc0NA5cG8cetmddSq2LHPOKNuBBcDXf",
+      "publishedAt": "2026-05-15T09:56:50Z",
+      "category": "Operational Impact",
+      "tier": "impact",
+      "impactScore": 92,
+      "featured": false,
+      "status": "candidate",
+      "clusterId": "accounts-airlines-airlines-aviation-biggest-costs-costs-expenses-maharashtra-nearly-operating-rising",
+      "sources": [
+        "India Today"
+      ],
+      "sourceLinks": [
+        {
+          "source": "India Today",
+          "url": "https://www.indiatoday.in/business/story/maharashtra-cuts-jet-fuel-vat-to-7-percent-amid-rising-aviation-costs-2912262-2026-05-15"
+        }
+      ]
+    },
+    {
+      "id": "hantavirus-a-cruise-ship-a-deer-mouse-and-the-fictional-line-between-human-and-animal-heal",
+      "title": "Hantavirus: A Cruise Ship, A Deer Mouse, And The Fictional Line Between Human And Animal Health",
+      "summary": "(MENAFN - The Conversation) In February 2025, the classical pianist Betsy Arakawa died in her New Mexico home from a virus most people had",
+      "source": "MENAFN.COM",
+      "link": "https://menafn.com/1111118408/Hantavirus-A-Cruise-Ship-A-Deer-Mouse-And-The-Fictional-Line-Between-Human-And-Animal-Health",
+      "image": "https://menafn.com/updates/pr/2026-05/14/TC_9bba2image_story.jpg",
+      "publishedAt": "2026-05-14T22:00:18Z",
+      "category": "Cruise Industry",
+      "tier": "industry",
+      "impactScore": 78,
+      "featured": false,
+      "status": "candidate",
+      "clusterId": "animal-between-classical-conversation-cruise-february-fictional-hantavirus-health-human-menafn-mouse",
+      "sources": [
+        "MENAFN.COM"
+      ],
+      "sourceLinks": [
+        {
+          "source": "MENAFN.COM",
+          "url": "https://menafn.com/1111118408/Hantavirus-A-Cruise-Ship-A-Deer-Mouse-And-The-Fictional-Line-Between-Human-And-Animal-Health"
+        }
+      ]
+    },
+    {
+      "id": "1989-buick-electra-estate-wagon-at-no-reserve",
+      "title": "1989 Buick Electra Estate Wagon at No Reserve",
+      "summary": "This 1989 Buick Electra Estate Wagon is an eight-passenger station wagon that is said to have remained with its original owner in Colorado until 2016, when the car had 56k miles and ownership was transferred to the original owner's neighbor, who retained the …",
+      "source": "Bringatrailer.com",
+      "link": "https://bringatrailer.com/listing/1989-buick-estate-3/",
+      "image": "https://bringatrailer.com/wp-content/uploads/2026/05/1989_buick_estate_buickestate-10-79377.jpg",
+      "publishedAt": "2026-05-14T21:58:49Z",
+      "category": "Cruise Industry",
+      "tier": "industry",
+      "impactScore": 78,
+      "featured": false,
+      "status": "candidate",
+      "clusterId": "buick-buick-eightpassenger-electra-electra-estate-estate-reserve-station-wagon-wagon-wagon",
+      "sources": [
+        "Bringatrailer.com"
+      ],
+      "sourceLinks": [
+        {
+          "source": "Bringatrailer.com",
+          "url": "https://bringatrailer.com/listing/1989-buick-estate-3/"
+        }
+      ]
+    },
+    {
+      "id": "a-lackluster-ode-to-sparkly-l-a-culture",
+      "title": "A Lackluster Ode to Sparkly L.A. Culture",
+      "summary": "Dior’s cruise show showcased lots of celebrity, not as much substance from designer Jonathan Anderson.",
+      "source": "The Cut",
+      "link": "http://www.thecut.com/article/dior-cruise-show-review-cathy-horyn.html",
+      "image": "https://pyxis.nymag.com/v1/imgs/946/660/c2a790954d5f8f4d1b6f3dc5dd75d5f977-dior-lede-2.1x.rsocial.w1200.jpg",
+      "publishedAt": "2026-05-14T21:57:05Z",
+      "category": "Cruise Industry",
+      "tier": "industry",
+      "impactScore": 78,
+      "featured": false,
+      "status": "candidate",
+      "clusterId": "anderson-celebrity-cruise-culture-designer-diors-jonathan-lackluster-showcased-sparkly-substance",
+      "sources": [
+        "The Cut"
+      ],
+      "sourceLinks": [
+        {
+          "source": "The Cut",
+          "url": "http://www.thecut.com/article/dior-cruise-show-review-cathy-horyn.html"
+        }
+      ]
+    },
+    {
+      "id": "2016-land-rover-range-rover-sport-hse-at-no-reserve",
+      "title": "2016 Land Rover Range Rover Sport HSE at No Reserve",
+      "summary": "This 2016 Land Rover Range Rover Sport HSE is finished in Santorini Black Metallic over Ebony leather, and it is powered by a supercharged 3.0-liter V6 that drives all four wheels through an eight-speed automatic transmission. Equipment includes a panoramic f…",
+      "source": "Bringatrailer.com",
+      "link": "https://bringatrailer.com/listing/2016-land-rover-range-rover-sport-66/",
+      "image": "https://bringatrailer.com/wp-content/uploads/2026/04/2016_land-rover_range-rover_img_6018-90384.jpg",
+      "publishedAt": "2026-05-14T21:48:00Z",
+      "category": "Cruise Industry",
+      "tier": "industry",
+      "impactScore": 78,
+      "featured": false,
+      "status": "candidate",
+      "clusterId": "black-finished-range-range-reserve-rover-rover-rover-rover-santorini-sport-sport",
+      "sources": [
+        "Bringatrailer.com"
+      ],
+      "sourceLinks": [
+        {
+          "source": "Bringatrailer.com",
+          "url": "https://bringatrailer.com/listing/2016-land-rover-range-rover-sport-66/"
+        }
+      ]
+    },
+    {
+      "id": "woods-back-in-florida-after-seeking-treatment-in-wake-of-dui-arrest",
+      "title": "Woods back in Florida after seeking treatment in wake of DUI arrest",
+      "summary": "Golf superstar Tiger Woods has reportedly returned to Florida six weeks after a judge granted him permission to seek treatment overseas in the wake of his arrest on suspicion of driving under the influence. Celebrity news site TMZ photographed the 50-year-old…",
+      "source": "Japan Today",
+      "link": "https://japantoday.com/category/sports/woods-back-in-florida-after-seeking-treatment-in-wake-of-dui-arrest-report",
+      "image": "",
+      "publishedAt": "2026-05-14T21:42:29Z",
+      "category": "Cruise Industry",
+      "tier": "industry",
+      "impactScore": 78,
+      "featured": false,
+      "status": "candidate",
+      "clusterId": "after-arrest-florida-florida-reportedly-returned-seeking-superstar-tiger-treatment-woods-woods",
+      "sources": [
+        "Japan Today"
+      ],
+      "sourceLinks": [
+        {
+          "source": "Japan Today",
+          "url": "https://japantoday.com/category/sports/woods-back-in-florida-after-seeking-treatment-in-wake-of-dui-arrest-report"
+        }
+      ]
+    }
+  ]
 }
