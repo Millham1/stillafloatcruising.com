@@ -1,0 +1,123 @@
+/* Homepage atmospheric blend overrides
+   Loaded after styles.css to unify section transitions without rewriting the main stylesheet. */
+
+body{
+  background:
+    radial-gradient(circle at top right, rgba(79,195,255,.10), transparent 24%),
+    radial-gradient(circle at bottom left, rgba(93,255,154,.05), transparent 22%),
+    linear-gradient(180deg,#06172d 0%,#08264a 22%,#04101f 55%,#06172d 78%,#04101f 100%);
+}
+
+.hero{
+  background:
+    linear-gradient(to bottom, rgba(255,255,255,0.76) 0%, rgba(255,255,255,0.28) 34%, rgba(8,32,61,0.22) 72%, rgba(8,32,61,0.92) 100%),
+    url('../assets/images/Tropical beach with palm trees and ship.png') center/cover no-repeat;
+  padding-bottom:170px;
+}
+
+.hero::after{
+  bottom:-1px;
+  height:220px;
+  background:linear-gradient(to bottom, rgba(8,32,61,0) 0%, rgba(8,32,61,0.50) 42%, #06172d 100%);
+}
+
+.vibe-section{
+  background:
+    linear-gradient(to bottom, rgba(6,23,45,.70) 0%, rgba(4,16,31,.84) 100%),
+    url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e') center/cover no-repeat;
+  padding-top:140px;
+  padding-bottom:150px;
+}
+
+.vibe-section::before{
+  background:linear-gradient(135deg, rgba(0,36,62,0.58) 0%, rgba(0,36,62,0.42) 45%, rgba(0,36,62,0.28) 75%, rgba(0,36,62,0.16) 100%);
+}
+
+.vibe-section::after{
+  bottom:-1px;
+  height:180px;
+  background:linear-gradient(to bottom, rgba(4,16,31,0) 0%, rgba(4,16,31,.64) 48%, #08264a 100%);
+}
+
+.report-section{
+  background:
+    linear-gradient(to bottom, rgba(8,38,74,.82) 0%, rgba(4,16,31,.78) 100%),
+    url('../assets/images/Tropical beach with palm trees and ship.png') center/cover no-repeat;
+  padding-top:130px;
+  padding-bottom:150px;
+}
+
+.report-section:before{
+  background:rgba(0,0,0,.18);
+}
+
+.report-section::after{
+  bottom:-1px;
+  height:180px;
+  background:linear-gradient(to bottom, rgba(4,16,31,0) 0%, rgba(4,16,31,.60) 48%, #06172d 100%);
+}
+
+.card-section{
+  background:
+    radial-gradient(circle at top center, rgba(0,180,216,0.12), transparent 34%),
+    linear-gradient(180deg,#06172d 0%,#08264a 44%,#04101f 100%);
+  padding-top:90px;
+  padding-bottom:120px;
+}
+
+.card-section::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:-1px;
+  height:190px;
+  pointer-events:none;
+  background:linear-gradient(to bottom, rgba(4,16,31,0) 0%, rgba(222,244,253,.54) 76%, #e9f8ff 100%);
+}
+
+.mark-section{
+  background:
+    linear-gradient(to bottom, #e9f8ff 0%, #e7f7ff 68%, #d9f1fb 100%);
+  padding-top:120px;
+  padding-bottom:120px;
+}
+
+.mark-section::before{
+  content:"";
+  position:absolute;
+  top:-1px;
+  left:0;
+  right:0;
+  height:180px;
+  pointer-events:none;
+  background:linear-gradient(to bottom, rgba(4,16,31,.72) 0%, rgba(4,16,31,.24) 42%, rgba(233,248,255,0) 100%);
+}
+
+.meet-mark-text{
+  background:rgba(255,255,255,0.54);
+  border:1px solid rgba(255,255,255,.42);
+  box-shadow:0 18px 44px rgba(0,0,0,.12);
+}
+
+.youtube-section{
+  background:
+    linear-gradient(to bottom, #d9f1fb 0%, #cfeef9 42%, #08264a 100%);
+  padding-top:120px;
+  padding-bottom:130px;
+}
+
+.youtube-section::before{
+  content:"";
+  position:absolute;
+  top:-1px;
+  left:0;
+  right:0;
+  height:160px;
+  pointer-events:none;
+  background:linear-gradient(to bottom, rgba(217,241,251,0) 0%, rgba(207,238,249,.84) 100%);
+}
+
+footer{
+  background:linear-gradient(180deg,#08264a 0%,#04101f 100%);
+}
