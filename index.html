@@ -39,3 +39,60 @@
 <section id="mark" class="section mark-section"><div class="wrap meet-mark"><img class="bio-img" src="./assets/images/Bio shot.JPG" alt="Mark Millham"><div class="meet-mark-text"><p class="section-kicker">Meet Mark</p><h2>Experience,<br><span class="saltwater-line">with a little saltwater behind it.</span></h2><p>I’m Mark Millham — retired IT senior manager, veteran, former liveaboard sailor, and longtime cruiser.</p><p><strong>Still Afloat</strong> is where I break things down the way I actually think about them: what matters, what does not, where people waste money or spend wisely, and how to enjoy the trip without drowning in options.</p><p class="tagline">Cruise smarter. Laugh more. Stay Afloat.</p></div><img class="parrots-accent" src="./assets/images/parrots.JPG" alt="Mark with parrots"></div></section>
 <section id="watch" class="section youtube-section"><div class="wrap two-col"><div><p class="section-kicker">YouTube coming soon</p><h2>The channel is being built around the trip, not a studio script.</h2></div><div class="video-placeholder"><i class="fa-brands fa-youtube"></i><h3>First videos coming soon</h3><p>Planning episodes, ship selection, cruise prep, onboard lessons, travel-day decisions, and honest post-cruise takeaways.</p></div></div></section>
 </main>
+  <footer>
+  © 2026 Still Afloat LLC — Cruise smarter. Laugh more. Stay Afloat.
+</footer>
+
+<script src="/components/navbar.js?v=2"></script>
+
+<script>
+fetch('/components/navbar.html')
+  .then(r=>r.text())
+  .then(html=>{
+    const nav=document.getElementById('navbar-container');
+    if(nav) nav.innerHTML=html;
+  });
+
+async function loadNews(){
+  try{
+    const container=document.getElementById('news-container');
+    if(!container) return;
+
+    container.innerHTML=`
+      <div style="padding:12px 0;color:white;">Cruise news feed loading...</div>
+    `;
+  }catch(e){
+    console.error(e);
+  }
+}
+
+async function loadWeather(){
+  try{
+    const container=document.getElementById('weather-container');
+    if(!container) return;
+
+    const ports=[
+      {name:'Miami',emoji:'☀️',temp:'84°'},
+      {name:'Cozumel',emoji:'🌴',temp:'86°'},
+      {name:'Nassau',emoji:'⛅',temp:'82°'},
+      {name:'Barcelona',emoji:'🌤️',temp:'74°'}
+    ];
+
+    container.innerHTML=ports.map(p=>`
+      <a class="home-weather-tile" href="weather.html">
+        <div class="home-weather-emoji">${p.emoji}</div>
+        <div class="home-weather-location">${p.name}</div>
+        <div class="home-weather-temp">${p.temp}</div>
+      </a>
+    `).join('');
+  }catch(e){
+    console.error(e);
+  }
+}
+
+loadNews();
+loadWeather();
+</script>
+
+</body>
+</html>
