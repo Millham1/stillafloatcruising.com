@@ -5,6 +5,7 @@ const SITE_URL = (process.env.SITE_URL || process.env.VERCEL_URL || '').replace(
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '';
 const RESEND_API_KEY = process.env.RESEND_API_KEY || '';
 const AGENT_APPROVAL_TOKEN = process.env.AGENT_APPROVAL_TOKEN || '';
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY || '';
 
 const NEWS_API_KEY = process.env.newsapi || '';
 const GNEWS_API_KEY = process.env.GNEWS_API_KEY || '';
@@ -36,6 +37,21 @@ function slugify(value = '') {
 
 function clean(value = '') {
   return String(value).replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
+function escapeHtml(value = '') {
+  return clean(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
+}
+
+function siteOrigin() {
+  if (!SITE_URL) return '';
+  return SITE_URL.startsWith('http') ? SITE_URL : `https://${SITE_URL}`;
+}
+
+function actionUrl(action, id) {
+  const origin = siteOrigin();
+  const token = AGENT_APPROVAL_TOKEN ? `&token=${encodeURIComponent(AGENT_APPROVAL_TOKEN)}` : '';
+  return `${origin}/api/agent-action?action=${encodeURIComponent(action)}&id=${encodeURIComponent(id)}${token}`;
 }
 
 function classify(text='') {
@@ -107,9 +123,37 @@ async function fetchWeatherSignals() {
   return signals;
 }
 
+async function synthesizeSummaries(stories = []) {
+  if (!OPENAI_API_KEY || !stories.length) return stories;
+  try {
+    const payload = stories.map(story => ({ id: story.id, title: story.title, category: story.category, sources: story.sources, sourceLinks: story.sourceLinks, rawSummary: story.summary }));
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: { authorization: `Bearer ${OPENAI_API_KEY}`, 'content-type': 'application/json' },
+      body: JSON.stringify({
+        model: process.env.OPENAI_MODEL || 'gpt-4o-mini',
+        temperature: 0.25,
+        messages: [
+          { role: 'system', content: 'You write Still Afloat cruise intelligence summaries. Return JSON only. Each summary must be 1 or 2 paragraphs, not bullets, not a copied lead, and must explain why the story matters to cruisers or air travelers.' },
+          { role: 'user', content: JSON.stringify(payload) }
+        ]
+      })
+    });
+    if (!response.ok) return stories;
+    const content = (await response.json()).choices?.[0]?.message?.content || '[]';
+    const parsed = JSON.parse(content.replace(/^```json\s*/i, '').replace(/```$/i, '').trim());
+    const summaries = new Map(parsed.map(item => [item.id, item.summary]));
+    return stories.map(story => ({ ...story, summary: clean(summaries.get(story.id) || story.summary), aiSummary: Boolean(summaries.get(story.id)) }));
+  } catch (error) {
+    console.error('AI summary synthesis failed', error);
+    return stories;
+  }
+}
+
 async function buildCandidateFeed() {
   const [newsApi, gnews, weather] = await Promise.all([fetchNewsApiStories(), fetchGNewsStories(), fetchWeatherSignals()]);
-  return deduplicate([...weather, ...newsApi, ...gnews]);
+  const deduped = deduplicate([...weather, ...newsApi, ...gnews]);
+  return synthesizeSummaries(deduped);
 }
 
 async function fetchRepoJson(filePath) {
@@ -149,7 +193,11 @@ function archiveOldApproved(approved, archive) {
 }
 
 function buildDigestHtml(stories) {
-  return `<html><body><h1>Still Afloat Intelligence Briefing</h1><p>Review these ${stories.length} candidate stories in the approval dashboard.</p>${stories.map((story, index) => `<hr><h2>${index + 1}. ${clean(story.title)}</h2><p><strong>${clean(story.category)}</strong> | Impact ${story.impactScore}/100 | ${clean((story.sources || []).join(', '))}</p><p>${clean(story.summary)}</p><p>ID: ${story.id}</p>`).join('')}</body></html>`;
+  const rows = stories.map((story, index) => {
+    const buttons = ['approve', 'reject', 'defer', 'pin'].map(action => `<a href="${actionUrl(action, story.id)}" style="display:inline-block;margin:4px 6px 4px 0;padding:10px 14px;border-radius:999px;background:#073763;color:white;text-decoration:none;font-weight:700;">${action.toUpperCase()}</a>`).join('');
+    return `<section style="border:1px solid #d9e8f2;border-radius:18px;padding:18px;margin:16px 0;background:white;"><h2 style="margin:0 0 8px;color:#07183f;">${index + 1}. ${escapeHtml(story.title)}</h2><p style="color:#506b80;font-weight:700;">${escapeHtml(story.category)} | Impact ${story.impactScore}/100 | ${escapeHtml((story.sources || []).join(', '))}</p><p style="line-height:1.6;color:#1f3344;">${escapeHtml(story.summary)}</p>${buttons}</section>`;
+  }).join('');
+  return `<html><body style="font-family:Arial,sans-serif;background:#f3f8fb;padding:24px;"><h1 style="color:#07183f;">Still Afloat Intelligence Briefing</h1><p>Review these ${stories.length} deduplicated candidate stories.</p>${rows}</body></html>`;
 }
 
 async function sendDigestEmail(stories) {
@@ -163,4 +211,4 @@ async function sendDigestEmail(stories) {
   return { sent: true, result: await response.json() };
 }
 
-module.exports = { DATA_PATHS, NEWS_API_KEY, GNEWS_API_KEY, WEATHER_API_KEY, PEXELS_API_KEY, APPROVAL_EMAIL, SITE_URL, buildCandidateFeed, deduplicate, slugify, fetchRepoJson, writeRepoJson, authorize, archiveOldApproved, sendDigestEmail };
+module.exports = { DATA_PATHS, NEWS_API_KEY, GNEWS_API_KEY, WEATHER_API_KEY, PEXELS_API_KEY, APPROVAL_EMAIL, SITE_URL, buildCandidateFeed, deduplicate, slugify, fetchRepoJson, writeRepoJson, authorize, archiveOldApproved, sendDigestEmail, synthesizeSummaries };
