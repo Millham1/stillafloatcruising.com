@@ -6,105 +6,102 @@ const {
   archiveOldApproved
 } = require('./_news-agent-utils');
 
+function normalizeAction(value = '') {
+  return String(value).toLowerCase().trim();
+}
+
 module.exports = async function handler(req, res) {
   try {
     if (!authorize(req)) {
-      return res.status(401).json({ success: false, error: 'Unauthorized' });
+      return res.status(401).send('Unauthorized');
     }
 
-    const action = String(req.query.action || '').toLowerCase();
-    const storyId = String(req.query.id || '');
+    const action = normalizeAction(req.query.action || '');
+    const id = String(req.query.id || '').trim();
 
-    if (!action || !storyId) {
-      return res.status(400).json({ success: false, error: 'Missing action or id' });
+    if (!action || !id) {
+      return res.status(400).send('Missing action or story id');
     }
 
     const candidates = await fetchRepoJson(DATA_PATHS.candidates);
     const approved = await fetchRepoJson(DATA_PATHS.approved);
     const archive = await fetchRepoJson(DATA_PATHS.archive);
 
-    const story = (candidates.json.stories || []).find(item => item.id === storyId);
+    const stories = candidates.json?.stories || [];
+    const story = stories.find(item => item.id === id);
 
     if (!story) {
-      return res.status(404).json({ success: false, error: 'Story not found' });
-    }
-
-    if (action === 'approve' || action === 'pin') {
-      const approvedStory = {
-        ...story,
-        approved: true,
-        pinned: action === 'pin',
-        featured: true,
-        approvedAt: new Date().toISOString(),
-        status: 'published'
-      };
-
-      approved.json.stories = [
-        approvedStory,
-        ...(approved.json.stories || []).filter(item => item.id !== storyId)
-      ];
-
-      const archived = archiveOldApproved(approved.json, archive.json);
-
-      await writeRepoJson(
-        DATA_PATHS.approved,
-        archived.approved,
-        `Publish approved story ${storyId}`
-      );
-
-      await writeRepoJson(
-        DATA_PATHS.archive,
-        archived.archive,
-        `Archive overflow stories after publishing ${storyId}`
-      );
+      return res.status(404).send('Story not found');
     }
 
     if (action === 'reject') {
-      archive.json.stories = [
-        {
-          ...story,
-          rejectedAt: new Date().toISOString(),
-          status: 'rejected'
-        },
-        ...(archive.json.stories || [])
-      ];
-
-      await writeRepoJson(
-        DATA_PATHS.archive,
-        archive.json,
-        `Archive rejected story ${storyId}`
-      );
-    }
-
-    if (action === 'defer') {
-      candidates.json.stories = (candidates.json.stories || []).map(item => {
-        if (item.id !== storyId) return item;
-
-        return {
-          ...item,
-          deferredAt: new Date().toISOString(),
-          status: 'deferred'
-        };
-      });
+      const updatedCandidates = {
+        ...candidates.json,
+        stories: stories.filter(item => item.id !== id),
+        rejectedStories: [
+          ...(candidates.json.rejectedStories || []),
+          {
+            ...story,
+            rejectedAt: new Date().toISOString(),
+            rejectionReason: 'Manual editorial rejection'
+          }
+        ]
+      };
 
       await writeRepoJson(
         DATA_PATHS.candidates,
-        candidates.json,
-        `Defer candidate story ${storyId}`
+        updatedCandidates,
+        `Reject editorial candidate ${story.title}`
       );
+
+      return res.status(200).send('Story rejected successfully');
     }
 
-    return res.status(200).json({
-      success: true,
-      action,
-      storyId
-    });
+    const approvedStory = {
+      ...story,
+      status: 'approved',
+      approvedAt: new Date().toISOString(),
+      featured: action === 'pin' ? true : Boolean(story.featured)
+    };
+
+    const existingApproved = approved.json?.stories || [];
+
+    const updatedApproved = {
+      ...approved.json,
+      stories: [
+        approvedStory,
+        ...existingApproved.filter(item => item.id !== id)
+      ]
+    };
+
+    const updatedCandidates = {
+      ...candidates.json,
+      stories: stories.filter(item => item.id !== id)
+    };
+
+    const archived = archiveOldApproved(updatedApproved, archive.json || { stories: [] });
+
+    await writeRepoJson(
+      DATA_PATHS.approved,
+      archived.approved,
+      `Approve editorial story ${story.title}`
+    );
+
+    await writeRepoJson(
+      DATA_PATHS.archive,
+      archived.archive,
+      `Archive editorial rollover after ${story.title}`
+    );
+
+    await writeRepoJson(
+      DATA_PATHS.candidates,
+      updatedCandidates,
+      `Remove approved editorial candidate ${story.title}`
+    );
+
+    return res.status(200).send(`Story ${action} completed successfully`);
   } catch (error) {
     console.error(error);
-
-    return res.status(500).json({
-      success: false,
-      error: error.message
-    });
+    return res.status(500).send(error.message);
   }
 };
