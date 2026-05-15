@@ -1,9 +1,12 @@
 const directive = require('./editorial-directive');
+const { preprocessStories } = require('./preprocess-stories');
 
 async function runEditorialAgent({ stories = [], openai }) {
   if (!openai) {
     throw new Error('OpenAI client not configured');
   }
+
+  const processedStories = preprocessStories(stories);
 
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
@@ -24,8 +27,17 @@ async function runEditorialAgent({ stories = [], openai }) {
           role: 'user',
           content: JSON.stringify({
             timestamp: new Date().toISOString(),
-            candidateStoryCount: stories.length,
-            stories
+            candidateStoryCount: processedStories.length,
+            stories: processedStories,
+            editorialInstructions: {
+              prioritizeCruiseImpact: true,
+              prioritizeTravelerRelevance: true,
+              avoidWeatherSpam: true,
+              avoidDuplicateOperationalStories: true,
+              rejectWeakAirportStories: true,
+              homepageLimit: 5,
+              digestLimit: 20
+            }
           })
         }
       ]
