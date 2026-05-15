@@ -7,7 +7,11 @@
   background:linear-gradient(90deg,#ffca4f 0%,#ffd76a 32%,#8fe4ff 70%,#4fc3ff 100%);
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
-  filter:drop-shadow(0 6px 10px rgba(0,0,0,.28));
+  -webkit-text-stroke:1.4px #07183f;
+  text-shadow:
+    0 2px 0 rgba(7,24,63,.95),
+    0 4px 10px rgba(7,24,63,.45),
+    0 0 18px rgba(0,119,182,.18);
   letter-spacing:.02em;
   display:inline-block;
   white-space:nowrap;
