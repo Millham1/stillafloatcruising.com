@@ -8,6 +8,7 @@ The Still Afloat AI News Agent is designed to:
 - synthesize CliffNotes-style summaries
 - request human approval before publishing
 - automatically populate homepage/news/story pages after approval
+- maintain a rolling operational archive
 
 The system is NOT autonomous publishing.
 
@@ -38,6 +39,40 @@ Avoid:
 
 ---
 
+# Story Limits
+## Homepage
+Maximum visible stories:
+5
+
+## news.html
+Maximum active visible stories:
+20
+
+The website should remain:
+- clean
+- curated
+- high-signal
+
+The site is NOT intended to become an infinite news feed.
+
+---
+
+# Digest Workflow
+The system sends:
+- ONE digest email
+- every 48 hours
+- to stillafloatcruising@gmail.com
+
+The digest contains:
+- top 20 candidate operational events
+- already deduplicated
+- already clustered
+- ranked by traveler impact
+
+The system should NOT send one email per story.
+
+---
+
 # News Source Hierarchy
 
 ## Tier 1 — Operational Impact Sources
@@ -48,6 +83,7 @@ Examples:
 - National Hurricane Center
 - FAA
 - airport advisories
+- weather API feeds
 - port authority notices
 - cruise line operational alerts
 
@@ -104,6 +140,31 @@ These should not dominate the feed.
 
 ---
 
+# Approval Actions
+Each digest story supports:
+- Approve
+- Reject
+- Defer
+- Merge
+- Pin
+
+## Approve
+Publish story.
+
+## Reject
+Suppress similar stories temporarily.
+
+## Defer
+Continue monitoring without publishing.
+
+## Merge
+Merge into existing operational event.
+
+## Pin
+Force homepage visibility.
+
+---
+
 # Deduplication Rules
 The feed is event-based, NOT article-based.
 
@@ -149,13 +210,34 @@ Do NOT create duplicate stories.
 
 ---
 
+# Weather Correlation
+Weather is treated as:
+- operational intelligence
+- not supplemental data
+
+The system should correlate:
+- weather API data
+- operational alerts
+- cruise reporting
+- mainstream reporting
+
+Example:
+- storm alerts
+- itinerary changes
+- airport disruptions
+
+should become ONE curated operational event.
+
+---
+
 # Publishing Workflow
 
 ## Step 1 — Source Scan
 Every 48 hours:
 - fetch source feeds
 - fetch RSS
-- fetch APIs
+- gather weather intelligence
+- gather operational alerts
 - gather candidate stories
 
 ---
@@ -167,20 +249,18 @@ The agent:
 - scores traveler relevance
 - generates summaries
 - ranks stories
+- clusters overlapping reports
 
 ---
 
-## Step 3 — Approval Email
-An approval email is sent to Mark.
+## Step 3 — Editorial Digest
+One digest email is sent to:
+stillafloatcruising@gmail.com
 
-Each story includes:
-- title
-- category
-- source list
-- generated summary
-- traveler impact score
-- approve button
-- reject button
+Containing:
+- top 20 candidate stories
+- grouped by category
+- ranked by impact
 
 ---
 
@@ -192,6 +272,7 @@ Approve button:
 
 Reject button:
 - archives/discards candidate story
+- suppresses regeneration temporarily
 
 ---
 
@@ -227,21 +308,42 @@ Preferred format:
 
 ---
 
+# Archive System
+The system maintains:
+- hidden archive datastore
+- not publicly visible on website
+
+Archive retention:
+180 days
+
+Purpose:
+- duplicate prevention
+- trend analysis
+- event continuity
+- operational memory
+
+Archived stories preserve:
+- headline
+- links
+- timestamps
+- categories
+- summaries
+- source lists
+- cluster metadata
+
+Archive should be append-only.
+
+---
+
 # Data Architecture
-Approved stories are stored in:
+## Candidate Stories
+/data/news/candidate-stories.json
+
+## Approved Stories
 /data/news/approved-stories.json
 
-Structure:
-{
-  "id": "story-id",
-  "title": "",
-  "category": "",
-  "tier": "impact",
-  "summary": "",
-  "sources": [],
-  "featured": true,
-  "publishedAt": ""
-}
+## Archive
+/data/news/archive-stories.json
 
 ---
 
@@ -253,7 +355,7 @@ Display:
 
 ## news.html
 Display:
-- full approved feed
+- maximum 20 active stories
 - no duplicates
 - categorized stories
 
