@@ -1,12 +1,18 @@
 const directive = require('./editorial-directive');
 const { preprocessStories } = require('./preprocess-stories');
+const { enrichStoriesWithArticles } = require('./article-extractor');
+const { buildEditorialMemory, buildReinforcementPrompt } = require('./editorial-memory');
 
-async function runEditorialAgent({ stories = [], openai }) {
+async function runEditorialAgent({ stories = [], openai, editorialMemory = {} }) {
   if (!openai) {
     throw new Error('OpenAI client not configured');
   }
 
   const processedStories = preprocessStories(stories);
+  const enrichedStories = await enrichStoriesWithArticles(processedStories);
+
+  const memory = buildEditorialMemory(editorialMemory);
+  const reinforcement = buildReinforcementPrompt(memory);
 
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
@@ -27,8 +33,8 @@ async function runEditorialAgent({ stories = [], openai }) {
           role: 'user',
           content: JSON.stringify({
             timestamp: new Date().toISOString(),
-            candidateStoryCount: processedStories.length,
-            stories: processedStories,
+            candidateStoryCount: enrichedStories.length,
+            stories: enrichedStories,
             editorialInstructions: {
               prioritizeCruiseImpact: true,
               prioritizeTravelerRelevance: true,
@@ -37,7 +43,8 @@ async function runEditorialAgent({ stories = [], openai }) {
               rejectWeakAirportStories: true,
               homepageLimit: 5,
               digestLimit: 20
-            }
+            },
+            reinforcement
           })
         }
       ]
