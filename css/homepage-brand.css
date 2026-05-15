@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+.script,
+.brand-script{
+  font-family:'Pacifico', cursive;
+  font-weight:400;
+  background:linear-gradient(90deg,#ffca4f 0%,#ffd76a 32%,#8fe4ff 70%,#4fc3ff 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 6px 10px rgba(0,0,0,.28));
+  letter-spacing:.02em;
+  display:inline-block;
+  white-space:nowrap;
+}
+
+.hero-text .script,
+.hero-text .brand-script{
+  font-size:1.12em;
+  padding:0 .05em .08em;
+}
+
+.meet-mark-text .script,
+.meet-mark-text .brand-script,
+footer .script,
+footer .brand-script{
+  font-size:1.04em;
+}
