@@ -1,8 +1,9 @@
-const fs = require('fs');
-const path = require('path');
 const {
   buildCandidateFeed,
-  APPROVAL_EMAIL
+  APPROVAL_EMAIL,
+  DATA_PATHS,
+  writeRepoJson,
+  sendDigestEmail
 } = require('./_news-agent-utils');
 
 module.exports = async function handler(req, res) {
@@ -16,17 +17,19 @@ module.exports = async function handler(req, res) {
       stories
     };
 
-    const target = path.join(process.cwd(), 'data/news/candidate-stories.json');
-
-    fs.writeFileSync(
-      target,
-      JSON.stringify(payload, null, 2)
+    await writeRepoJson(
+      DATA_PATHS.candidates,
+      payload,
+      'Update AI news candidate digest'
     );
+
+    const emailResult = await sendDigestEmail(stories);
 
     return res.status(200).json({
       success: true,
       generatedAt: payload.generatedAt,
       storyCount: stories.length,
+      email: emailResult,
       topStories: stories.slice(0, 5).map(story => ({
         title: story.title,
         category: story.category,
