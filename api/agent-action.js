@@ -6,6 +6,8 @@ const {
   archiveOldApproved
 } = require('./_news-agent-utils');
 
+const { buildPublishingBundle } = require('../agent-service/src/publishing-output');
+
 function normalizeAction(value = '') {
   return String(value).toLowerCase().trim();
 }
@@ -97,6 +99,29 @@ module.exports = async function handler(req, res) {
       DATA_PATHS.candidates,
       updatedCandidates,
       `Remove approved editorial candidate ${story.title}`
+    );
+
+    const publishing = buildPublishingBundle({
+      approvedStories: archived.approved.stories || [],
+      homepageTop5: candidates.json?.homepageTop5 || []
+    });
+
+    await writeRepoJson(
+      'data/news/homepage-feed.json',
+      publishing.homepage,
+      `Update homepage publishing feed after ${story.title}`
+    );
+
+    await writeRepoJson(
+      'data/news/news-index.json',
+      publishing.newsIndex,
+      `Update news index after ${story.title}`
+    );
+
+    await writeRepoJson(
+      'data/news/story-details.json',
+      publishing.storyDetails,
+      `Update story detail output after ${story.title}`
     );
 
     return res.status(200).send(`Story ${action} completed successfully`);
