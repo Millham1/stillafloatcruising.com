@@ -121,3 +121,46 @@ body{
 footer{
   background:linear-gradient(180deg,#08264a 0%,#04101f 100%);
 }
+.hero-text{
+  background:rgba(255,255,255,.74);
+  border:1px solid rgba(255,255,255,.42);
+  box-shadow:0 24px 60px rgba(0,0,0,.18);
+}
+
+.hero-text p{
+  font-family:'Trebuchet MS','Avenir Next',sans-serif;
+  font-size:22px;
+  line-height:1.7;
+  letter-spacing:.01em;
+  color:#08264a;
+}
+
+.hero-text h1{
+  font-family:'Bree Serif',serif;
+  font-size:76px;
+  line-height:.98;
+  letter-spacing:-1.8px;
+  color:#061b46;
+  text-shadow:0 3px 12px rgba(255,255,255,.25);
+}
+
+.hero-text h1 span:last-child{
+  display:block;
+}
+.brand-stillafloat,
+.brand-stayafloat{
+  display:inline-block;
+  font-family:'Bree Serif',serif;
+  font-weight:900;
+  background:linear-gradient(
+    180deg,
+    #ffd94a 0%,
+    #ffae1f 34%,
+    #74dcff 62%,
+    #4fc3ff 100%
+  );
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  text-shadow:0 3px 12px rgba(0,119,182,.20);
+  letter-spacing:-0.5px;
+}
