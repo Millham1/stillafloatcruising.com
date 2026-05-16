@@ -1,3 +1,6 @@
+const { buildContentOpportunities } = require('./content-opportunities');
+const { buildEditorialAnalytics } = require('./editorial-analytics');
+
 function buildHomepageOutput({ approvedStories = [], homepageTop5 = [] }) {
   const pinned = approvedStories.filter(story => story.pinned || story.featured);
   const homepageIds = new Set(homepageTop5.map(story => story.id));
@@ -80,11 +83,13 @@ function buildStoryDetailOutput({ approvedStories = [] }) {
   };
 }
 
-function buildPublishingBundle({ approvedStories = [], homepageTop5 = [] }) {
+function buildPublishingBundle({ approvedStories = [], homepageTop5 = [], candidateStories = [], rejectedStories = [], groupedDevelopments = [] }) {
   return {
     homepage: buildHomepageOutput({ approvedStories, homepageTop5 }),
     newsIndex: buildNewsIndexOutput({ approvedStories }),
-    storyDetails: buildStoryDetailOutput({ approvedStories })
+    storyDetails: buildStoryDetailOutput({ approvedStories }),
+    contentOpportunities: buildContentOpportunities({ approvedStories, candidateStories }),
+    analytics: buildEditorialAnalytics({ approvedStories, rejectedStories, groupedDevelopments })
   };
 }
 
