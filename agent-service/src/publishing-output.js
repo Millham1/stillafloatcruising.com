@@ -1,5 +1,7 @@
 const { buildContentOpportunities } = require('./content-opportunities');
 const { buildEditorialAnalytics } = require('./editorial-analytics');
+const { buildOperationalAlerts } = require('./alert-prioritization');
+const { buildSchedulingMetadata } = require('./autonomous-scheduling');
 
 function buildHomepageOutput({ approvedStories = [], homepageTop5 = [] }) {
   const pinned = approvedStories.filter(story => story.pinned || story.featured);
@@ -84,12 +86,19 @@ function buildStoryDetailOutput({ approvedStories = [] }) {
 }
 
 function buildPublishingBundle({ approvedStories = [], homepageTop5 = [], candidateStories = [], rejectedStories = [], groupedDevelopments = [] }) {
+  const alerts = buildOperationalAlerts(approvedStories);
+
   return {
     homepage: buildHomepageOutput({ approvedStories, homepageTop5 }),
     newsIndex: buildNewsIndexOutput({ approvedStories }),
     storyDetails: buildStoryDetailOutput({ approvedStories }),
     contentOpportunities: buildContentOpportunities({ approvedStories, candidateStories }),
-    analytics: buildEditorialAnalytics({ approvedStories, rejectedStories, groupedDevelopments })
+    analytics: buildEditorialAnalytics({ approvedStories, rejectedStories, groupedDevelopments }),
+    operationalAlerts: alerts,
+    scheduling: buildSchedulingMetadata({
+      alerts,
+      approvedStories
+    })
   };
 }
 
