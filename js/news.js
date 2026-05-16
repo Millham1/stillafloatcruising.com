@@ -1,12 +1,41 @@
 const homepageContainer = document.getElementById('news-container');
 const fullNewsFeed = document.getElementById('full-news-feed');
 
+const AGENT_BASE_URL = 'https://stillafloat-agent.vercel.app';
+
 let allStories = [];
 let renderedCount = 0;
 const STORIES_PER_BATCH = 10;
 
+function normalizeStory(story = {}) {
+  return {
+    id: story.id || '',
+    title: story.title || 'Untitled Story',
+    source: Array.isArray(story.sources)
+      ? story.sources[0]
+      : story.source || 'Still Afloat AI',
+    description:
+      story.summary ||
+      story.travelerImpact ||
+      story.editorialReasoning ||
+      '',
+    link: story.originalLink || story.link || '',
+    image: story.image || '',
+    category: story.category || 'Cruise News',
+    impactLevel: story.impactLevel || 'standard',
+    travelerImpact: story.travelerImpact || '',
+    publishedAt: story.approvedAt || story.generatedAt || '',
+    tier:
+      story.featured ||
+      String(story.impactLevel || '').toLowerCase().includes('high')
+        ? 'impact'
+        : 'industry'
+  };
+}
+
 function storyUrl(story) {
   const params = new URLSearchParams({
+    id: story.id || '',
     title: story.title || '',
     source: story.source || '',
     description: story.description || '',
@@ -217,11 +246,24 @@ function renderNewsPage(stories = []) {
 
 async function initNews() {
   try {
-    const response = await fetch('/api/cruise-news');
-    const data = await response.json();
+    const [homepageResponse, newsResponse] = await Promise.all([
+      fetch(`${AGENT_BASE_URL}/api/homepage-feed`),
+      fetch(`${AGENT_BASE_URL}/api/news-feed`)
+    ]);
 
-    renderHomepage(Array.isArray(data.homepage) ? data.homepage : []);
-    renderNewsPage(Array.isArray(data.stories) ? data.stories : []);
+    const homepageData = await homepageResponse.json();
+    const newsData = await newsResponse.json();
+
+    const homepageStories = Array.isArray(homepageData.stories)
+      ? homepageData.stories.map(normalizeStory)
+      : [];
+
+    const newsStories = Array.isArray(newsData.stories)
+      ? newsData.stories.map(normalizeStory)
+      : [];
+
+    renderHomepage(homepageStories);
+    renderNewsPage(newsStories);
   } catch (error) {
     console.error('News feed failed', error);
 
